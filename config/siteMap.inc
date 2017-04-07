@@ -134,6 +134,203 @@ $default->siteMap->addPage("browseAdministration", "/presentation/lookAndFeel/kn
 
 $default->siteMap->addPage("docLinkManagement", "/presentation/lookAndFeel/knowledgeTree/administration/doclinkmanagement/listLinkTypesBL.php", "Administration", SysAdmin, _("Link Type Management"), true, 16);
 
+//==================>>>>> Archivos anexados para el Dynamic List ==============>>>>>>
+
+$default->siteMap->addPage("getCities", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getCities.php", "Manage Documents", User, _("GetCities"));
+$default->siteMap->addPage("GetLugaresList", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/GetLugaresList.php", "Manage Documents", User, _("GetLugaresList"));
+$default->siteMap->addPage("getEstados", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getEstados.php", "Manage Documents", User, _("GetEstados"));
+$default->siteMap->addPage("getLugares", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getLugares.php", "Manage Documents", User, _("GetLugares"));
+$default->siteMap->addPage("getconsulta", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getconsulta.php", "Manage Documents", User, _("Getconsulta"));
+
+$default->siteMap->addPage("get4", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/get4.php", "Manage Documents", User, _("Get4"));
+
+$default->siteMap->addPage("getup1", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getup1.php", "Manage Documents", User, _("getup1"));
+
+$default->siteMap->addPage("getuphtml", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getuphtml.php", "Manage Documents", User, _("getuphtml"));
+
+$default->siteMap->addPage("getlista", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlista.php", "Manage Documents", User, _("GetLista"));
+$default->siteMap->addPage("getinserta", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getinserta.php", "Manage Documents", User, _("GetInseta"));
+$default->siteMap->addPage("getficha", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getficha.php", "Manage Documents", User, _("Getficha"));
+
+$default->siteMap->addPage("fetchedit", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/fetchedit.php", "Manage Documents", User, _("fetchedit"));
+
+//=======================>>>> AREA ARCHIVOS PUSH.PHP =============>>>>
+$default->siteMap->addPage("pushafrica", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushafrica.php", "Manage Documents", User, _("pushafrica"));
+$default->siteMap->addPage("pushegypt", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushegypt.php", "Manage Documents", User, _("pushegypt"));
+
+$default->siteMap->addPage("pushasia", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushasia.php", "Manage Documents", User, _("pushasia"));
+
+$default->siteMap->addPage("pushsac", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushsac.php", "Manage Documents", User, _("pushsac"));
+
+$default->siteMap->addPage("pusheurope", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pusheurope.php", "Manage Documents", User, _("pusheurope"));
+$default->siteMap->addPage("pushsustainability", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushsustainability.php", "Manage Documents", User, _("pushsustainability"));
+
+$default->siteMap->addPage("pushtechnology", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushtechnology.php", "Manage Documents", User, _("pushtechnology"));
+
+$default->siteMap->addPage("pushcorporate", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushcorporate.php", "Manage Documents", User, _("pushcorporate"));
+
+$default->siteMap->addPage("pushantitrust", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushantitrust.php", "Manage Documents", User, _("pushantitrust"));
+
+$default->siteMap->addPage("pushantitrustother", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushantitrustother.php", "Manage Documents", User, _("pushantitrustother"));
+
+$default->siteMap->addPage("pushnoam", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushnoam.php", "Manage Documents", User, _("pushnoam"));
+
+$default->siteMap->addPage("pushtotal", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushtotal.php", "Manage Documents", User, _("pushtotal"));
+
+$default->siteMap->addPage("pushgcorporate", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushgcorporate.php", "Manage Documents", User, _("pushgcorporate"));
+
+$default->siteMap->addPage("pushmexicobm", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/pushmexicobm.php", "Manage Documents", User, _("pushmexicobm"));
+//<<<<======================= TERMINA AREA PUSH.PHP <<<<=====================
+//<<<<=======================  AREA SYSADM <<<<=====================
+$default->siteMap->addPage("backzopes156", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/backzopes156.php", "Manage Documents", User, _("backzopes156"));
+//<<<<=======================  Termina AREA SYSADM <<<<=====================
+
+$default->siteMap->addPage("getword", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getword.php", "Manage Documents", User, _("getword"));
+$default->siteMap->addPage("getwordsummwidg", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getwordsummwidg.php", "Manage Documents", User, _("getwordsummwidg"));
+
+$default->siteMap->addPage("html2doc", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/html2doc.php", "Manage Documents", User, _("html2doc"));
+$default->siteMap->addPage("dynlist", "/ajax-dynamic-list.php", "Manage Documents", User, _("Dynlist"));
+//==============<<< Termina archivos anexados para el dynamic list <<<<=================
+$default->siteMap->addPage("getindivevento", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getindivevento.php", "Manage Documents", User, _("getindivevento"));
+
+$default->siteMap->addPage("getfev_w", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfev_w.php", "Manage Documents", User, _("getfev_w"));
+
+$default->siteMap->addPage("getlistevent", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistevent.php", "Manage Documents", User, _("getlistevent"));
+
+$default->siteMap->addPage("getlisteventpesc", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlisteventpesc.php", "Manage Documents", User, _("getlisteventpesc"));
+
+$default->siteMap->addPage("getfeventpesc_inst", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventpesc_inst.php", "Manage Documents", User, _("getfeventpesc_inst"));
+
+$default->siteMap->addPage("getfeventpesc_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventpesc_indv.php", "Manage Documents", User, _("getfeventpesc_indv"));
+
+$default->siteMap->addPage("getlistdomic", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistdomic.php", "Manage Documents", User, _("getlistdomic"));
+$default->siteMap->addPage("getlistlug", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistlug.php", "Manage Documents", User, _("getlistlug"));
+$default->siteMap->addPage("getfLug", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfLug.php", "Manage Documents", User, _("getfLug"));
+
+$default->siteMap->addPage("getlistprefe", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistprefe.php", "Manage Documents", User, _("getlistprefe"));
+
+$default->siteMap->addPage("getfeventpesc", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventpesc.php", "Manage Documents", User, _("getfeventpesc"));
+
+$default->siteMap->addPage("getfeventb2b", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventb2b.php", "Manage Documents", User, _("getfeventb2b"));
+
+$default->siteMap->addPage("getfeventb2b_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventb2b_indv.php", "Manage Documents", User, _("getfeventb2b_indv"));
+ $default->siteMap->addPage("getfeventb2b_inst", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventb2b_inst.php", "Manage Documents", User, _("getfeventb2b_inst"));
+
+
+$default->siteMap->addPage("getleb2b2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getleb2b2.php", "Manage Documents", User, _("getleb2b2"));
+$default->siteMap->addPage("getleindiv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getleindiv.php", "Manage Documents", User, _("getleindiv"));
+$default->siteMap->addPage("getrss1", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getrss1.php", "Manage Documents", User, _("getrss1"));
+
+$default->siteMap->addPage("getrss2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getrss2.php", "Manage Documents", User, _("getrss2"));
+
+$default->siteMap->addPage("gethtml1", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/gethtml1.php", "Manage Documents", User, _("gethtml1"));
+
+
+$default->siteMap->addPage("gethtml2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/gethtml2.php", "Manage Documents", User, _("gethtml2"));
+
+
+$default->siteMap->addPage("getsiuc", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getsiuc.php", "Manage Documents", User, _("getsiuc"));
+
+$default->siteMap->addPage("getsiuc2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getsiuc2.php", "Manage Documents", User, _("getsiuc2"));
+
+
+
+$default->siteMap->addPage("getquince", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getquince.php", "Manage Documents", User, _("getquince"));
+
+$default->siteMap->addPage("getquince2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getquince2.php", "Manage Documents", User, _("getquince2"));
+
+
+$default->siteMap->addPage("getdomq", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getdomq.php", "Manage Documents", User, _("getdomq"));
+
+$default->siteMap->addPage("getdomq2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getdomq2.php", "Manage Documents", User, _("getdomq2"));
+
+$default->siteMap->addPage("getpernod", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getpernod.php", "Manage Documents", User, _("getpernod"));
+
+$default->siteMap->addPage("getpernodl", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getpernodl.php", "Manage Documents", User, _("getpernodl"));
+
+$default->siteMap->addPage("getpernodf", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getpernodf.php", "Manage Documents", User, _("getpernodf"));
+
+
+
+$default->siteMap->addPage("getpernod2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getpernod2.php", "Manage Documents", User, _("getpernod2"));
+
+$default->siteMap->addPage("getipadpesc", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getipadpesc.php", "Manage Documents", User, _("getipadpesc"));
+
+$default->siteMap->addPage("getipadpescl", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getipadpescl.php", "Manage Documents", User, _("getipadpescl"));
+
+$default->siteMap->addPage("getipadpescf", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getipadpescf.php", "Manage Documents", User, _("getipadpescf"));
+
+
+
+$default->siteMap->addPage("getipadpesc2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getipadpesc2.php", "Manage Documents", User, _("getipadpesc2"));
+
+
+$default->siteMap->addPage("getsium", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getsium.php", "Manage Documents", User, _("getsium"));
+
+$default->siteMap->addPage("getsium2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getsium2.php", "Manage Documents", User, _("getsium2"));
+
+$default->siteMap->addPage("getleb2bmod", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getleb2bmod.php", "Manage Documents", User, _("getleb2bmod"));
+
+
+$default->siteMap->addPage("getleb2bcsv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getleb2bcsv.php", "Manage Documents", User, _("getleb2bcsv"));
+
+$default->siteMap->addPage("getleb2bcsv2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getleb2bcsv2.php", "Manage Documents", User, _("getleb2bcsv2"));
+
+$default->siteMap->addPage("getfindv_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfindv_indv.php", "Manage Documents", User, _("getfindv_indv"));
+
+$default->siteMap->addPage("getftray_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getftray_indv.php", "Manage Documents", User, _("getftray_indv"));
+
+$default->siteMap->addPage("getfevent_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfevent_indv.php", "Manage Documents", User, _("getfevent_indv"));
+
+$default->siteMap->addPage("getfpref_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfpref_indv.php", "Manage Documents", User, _("getfpref_indv"));
+
+$default->siteMap->addPage("getlisteventb2b", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlisteventb2b.php", "Manage Documents", User, _("getlisteventb2b"));
+
+
+$default->siteMap->addPage("mindmaps", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/mindmaps.php", "Manage Documents", User, _("mindmaps"));
+
+$default->siteMap->addPage("modifymindmap", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/modifyMindMap.php", "Manage Documents", User, _("modifymindmap"));
+
+$default->siteMap->addPage("getmultimedia", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getmultimedia.php", "Manage Documents", User, _("getmultimedia"));
+
+
+$default->siteMap->addPage("getfprod", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfprod.php", "Manage Documents", User, _("getfprod"));
+
+$default->siteMap->addPage("getlistprod", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistprod.php", "Manage Documents", User, _("getlistprod"));
+
+$default->siteMap->addPage("getfinst", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfinst.php", "Manage Documents", User, _("getfinst"));
+
+$default->siteMap->addPage("getfinst2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfinst2.php", "Manage Documents", User, _("getfinst"));
+
+$default->siteMap->addPage("getfindv_domic", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfindv_domic.php", "Manage Documents", User, _("getfindv_domic"));
+
+$default->siteMap->addPage("getfeventem_indv", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfeventem_indv.php", "Manage Documents", User, _("getfeventem_indv"));
+
+$default->siteMap->addPage("getlistfin", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistfin.php", "Manage Documents", User, _("getlistfin"));
+
+$default->siteMap->addPage("getfinanzas", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfinanzas.php", "Manage Documents", User, _("getfinanzas"));
+
+$default->siteMap->addPage("getlistInst", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistInst.php", "Manage Documents", User, _("getlistInst"));
+$default->siteMap->addPage("getlistInst2", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistInst2.php", "Manage Documents", User, _("getlistInst2"));
+$default->siteMap->addPage("getlistmult", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getlistmult.php", "Manage Documents", User, _("getlistmult"));
+$default->siteMap->addPage("getfmult", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfmult.php", "Manage Documents", User, _("getfmult"));
+
+$default->siteMap->addPage("getfprefe", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfprefe.php", "Manage Documents", User, _("getfprefe"));
+
+$default->siteMap->addPage("getfevento", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfevento.php", "Manage Documents", User, _("getfevento"));
+$default->siteMap->addPage("getfDomic", "/presentation/lookAndFeel/knowledgeTree/documentmanagement/getfDomic.php", "Manage Documents", User, _("getfDomic"));
+//==================>>>>> se dio de alta reporte para sidem ==============>>>>>>
+$default->siteMap->addPage("reporte", "/presentation/lookAndFeel/knowledgeTree/reportes/reporte_contactos.php", "Manage Documents", User, _("reporte"));
+
+//==================>>>>> se dio de alta reporte general para sidem ==============>>>>>>
+$default->siteMap->addPage("reporteg", "/presentation/lookAndFeel/knowledgeTree/reportes/reporte_general.php", "Manage Documents", User, _("reporte"));
+
+//==================>>>>> Archivos anexados para Calendar ==============>>>>>>
+
+$default->siteMap->addPage("calendario", "/calendar/datepicker.php", "Manage Documents", User, _("Calendario"));
+
+//==============<<< Termina archivos anexados para el calendar <<<<=================
+
 $default->siteMap->addSectionColour("Administration", "th", "056DCE");
 $default->siteMap->addSectionColour("Administration", "td", "6699FF");
 

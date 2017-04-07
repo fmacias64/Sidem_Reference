@@ -42,7 +42,7 @@ function statusPage($sTitle, $sHeading, $sText = "", $sCancelAction, $sQueryStri
     $sToRender .= renderHeading($sTitle);
     $sToRender .= "<table>\n";
     $sToRender .= "<tr>\n";
-    $sToRender .= "<td><b>$sHeading</b></td>\n";
+    $sToRender .= "<td><b>$sHeading1122</b></td>\n";
     $sToRender .= "</tr>\n";
     $sToRender .= "<tr><td>$sText</td></tr>\n";
     $sToRender .= "<tr><td align=\"right\">" . generateControllerLink($sCancelAction, $sQueryString, "<img src =\"" . KTHtml::getBackButton() . "\" border=\"0\"/>") . "</td></tr>\n";

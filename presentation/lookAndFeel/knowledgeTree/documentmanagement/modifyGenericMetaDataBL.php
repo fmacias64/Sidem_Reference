@@ -40,6 +40,7 @@ if (checkSession()) {
 	require_once("$default->fileSystemRoot/lib/foldermanagement/Folder.inc");	
 	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternEditableTableSqlQuery.inc");
 	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");					
+	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData2.inc");
 	require_once("$default->fileSystemRoot/presentation/Html.inc");
 	require_once("documentUI.inc");
 	require_once("modifyGenericMetaDataUI.inc");

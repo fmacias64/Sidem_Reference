@@ -28,8 +28,11 @@ $default->sessions_table = "active_sessions";
 $default->data_types_table ="data_types";
 // document type fields
 $default->document_fields_table = "document_fields";
-// links document
-$default->document_fields_link_table = "document_fields_link";
+
+//---------------------
+// links document abajo se cambio por la tabla de documentos
+$default->document_fields_link_table = "documents";
+
 // document subscriptions
 $default->document_subscriptions_table = "document_subscriptions";
 // document transaction types
@@ -111,6 +114,10 @@ $default->time_unit_lookup_table = "time_unit_lookup";
 $default->archive_restoration_table = "archive_restoration_request";
 $default->status_table = "status_lookup";
 $default->search_permissions_table = "search_document_user_link";
-$default->document_link_types_table = "document_link_types";
+
+//----------------------------
+//Abajo otra modificacion que unifica tablas con enlaces, un enlace es una tabla
+
+$default->document_link_types_table = "document_types_lookup";
 $default->upgrades_table = "upgrades";
 ?>

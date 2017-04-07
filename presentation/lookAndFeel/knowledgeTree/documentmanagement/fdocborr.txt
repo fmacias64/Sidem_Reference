@@ -1,0 +1,18 @@
+addDocumentLinkBL.php:KTUtil::extractGPC('fDocumentID', 'fForStore', 'fTargetDocumentID', 'fLinkTypeID', 'fFolderID', 'fDocumentTypeID', 'fDependantDocumentID');
+addDocumentLinkBL.php:			$oDocumentLink = & new DocumentLink($fDocumentID, $fTargetDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkBL.php:	$oDocumentLink2 = & new DocumentLink ( $fTargetDocumentID, $fDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkBL.php:$oDocument2= Document::get($fTargetDocumentID);
+addDocumentLinkBL.php:	$oDocumentLink3 = & new DocumentLink ( $oDocument->getID(), $fTargetDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkBL.php~:KTUtil::extractGPC('fDocumentID', 'fForStore', 'fTargetDocumentID', 'fLinkTypeID', 'fFolderID', 'fDocumentTypeID', 'fDependantDocumentID');
+addDocumentLinkBL.php~:			$oDocumentLink = & new DocumentLink($fDocumentID, $fTargetDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkBL.php~:	$oDocumentLink2 = & new DocumentLink ( $fTargetDocumentID, $fDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkBL.php~:$oDocument2= Document::get($fTargetDocumentID);
+addDocumentLinkBL.php~:	$oDocumentLink3 = & new DocumentLink ( $oDocument->getID(), $fTargetDocumentID, $fLinkTypeID, $fFolderID, $fDocumentTypeID, $fDependantDocumentID);
+addDocumentLinkUI.inc:	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
+addDocumentLinkUI.inc~:	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
+addDocumentLinkUI.inc.bk070308:	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
+createDependantDocumentBL.php:KTUtil::extractGPC('fDocumentID', 'fDocumentTitle', 'fForStore', 'fTargetDocumentID', 'fTemplateDocument', 'fUnitID', 'fUserID');
+createDependantDocumentBL.php:		$oDependantDocument = & new DependantDocumentInstance($fDocumentTitle, $fUserID, $fTargetDocumentID, $fDocumentID);		
+createDependantDocumentBL.php:	            $oTemplateDocument = & Document::get($fTargetDocumentID);	            
+createDependantDocumentUI.inc:	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
+templateDocumentBrowseBL.php:    $sToRender .= "\t\ttarget.window.document.MainForm.fTargetDocumentID.value = documentID;\n";

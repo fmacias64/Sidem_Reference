@@ -1,0 +1,42 @@
+ $sToRender .="<style type=\"text/css\">\n";
+	
+
+	
+	
+  $sToRender .=	"/* Big box with list of options */ \n";
+  $sToRender .=	"#ajax_listOfOptions{\n";
+  $sToRender .="		position:absolute;	/* Never change this one */\n";
+  $sToRender .=		"width:175px;	/* Width of box */\n";
+  $sToRender .=		"height:250px;	/* Height of box */\n";
+  $sToRender .=		"overflow:auto;	/* Scrolling features */\n";
+  $sToRender .=		"border:1px solid #317082;	/* Dark green border */\n";
+  $sToRender .=		"background-color:#FFF;	/* White background color */\n";
+  $sToRender .=		"text-align:left;\n";
+  $sToRender .=		"font-size:0.9em;\n";
+  $sToRender .=		"z-index:100;\n";
+  $sToRender .=	"}\n";
+  $sToRender .=	"#ajax_listOfOptions div{	/* General rule for both .optionDiv and .optionDivSelected */\n";
+  $sToRender .=		"margin:1px;\n";		
+  $sToRender .=		"padding:1px;\n";
+  $sToRender .=		"cursor:pointer;\n";
+  $sToRender .=		"font-size:0.9em;\n";
+  $sToRender .=	"}\n";
+  $sToRender .=	"#ajax_listOfOptions .optionDiv{	/* Div for each item in list */\n";
+		
+  $sToRender .=	"}\n";
+  $sToRender .=	"#ajax_listOfOptions .optionDivSelected{ /* Selected item in the list */\n";
+  $sToRender .=		"background-color:#317082;\n";
+  $sToRender .=		"color:#FFF;\n";
+  $sToRender .=	"}\n";
+  $sToRender .=	"#ajax_listOfOptions_iframe{\n";
+  $sToRender .=		"background-color:#F00;\n";
+  $sToRender .=		"position:absolute;\n";
+  $sToRender .=		"z-index:5;\n";
+  $sToRender .=	"}\n";
+	
+  $sToRender .=	"form{\n";
+  $sToRender .=		"display:inline;\n";
+  $sToRender .=	"}\n";
+	
+  $sToRender .="</style>\n";
+**/

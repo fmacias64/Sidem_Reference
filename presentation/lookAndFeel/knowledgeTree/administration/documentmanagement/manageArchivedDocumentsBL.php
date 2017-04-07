@@ -1,5 +1,6 @@
-<?php
+<?php   
 /**
+
  * $Id: manageArchivedDocumentsBL.php,v 1.19 2005/06/10 23:18:42 nbm Exp $
  *
  * Business logic for searching archived documents

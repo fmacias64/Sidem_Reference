@@ -22,6 +22,7 @@
  *
  * @version $Revision: 1.1 $
  * @author Neil Blakey-Milner, Jam Warehouse (Pty) Ltd, South Africa
+ * Este documento es el del panel de administracion, el encargado de los Links
  */
 
 function getLinkTypes() {

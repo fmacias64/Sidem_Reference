@@ -81,7 +81,12 @@ class DocumentTransaction {
 		if ($oDocument) {
 			$this->sVersion = $oDocument->getMajorVersionNumber() . "." . $oDocument->getMinorVersionNumber();
 			$oFolder = Folder::get($oDocument->iFolderID);
-			$this->sFileName = addslashes($oFolder->sFullPath . "/" . $oFolder->getName() . "/" . $oDocument->getName());			
+			//$this->sFileName = addslashes($oFolder->sFullPath . "/" . $oFolder->getName() . "/" . $oDocument->getName());			
+			$ffullppath=$oFolder->sFullPath ;
+			$ddocumento= $oDocument->getName();
+			$nname= $oFolder->sName;
+			$ttempor = addslashes($ffullppath. "/" .$nname. "/" . $ddocumento);
+			$this->sFileName = $ttempor;
 		}
 		$this->iUserID = $_SESSION["userID"];
 		$this->dDateTime = getCurrentDateTime();		

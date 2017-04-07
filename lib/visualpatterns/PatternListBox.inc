@@ -141,7 +141,7 @@ class PatternListBox {
 	        if (isset($this->sCompositeDisplayColumnName)) {
 	            $sQuery .= "$this->sCompositeDisplayColumnName";
 	        } else {
-	            $sQuery .= "DISTINCT ST." . $this->sDisplayColumn;
+	            $sQuery .= "DISTINCT " . $this->sDisplayColumn;
 	        }
 	        $sQuery .=  " AS display, ST." .  $this->sValueColumn . " AS value FROM $this->sTableName AS ST ";
 			if (isset($this->sFromClause)) {
@@ -150,8 +150,15 @@ class PatternListBox {
 			if (isset($this->sWhereClause)) {
 				$sQuery .= "WHERE " . $this->sWhereClause . " ";
 			}
-			$sQuery .= "ORDER BY ST.$this->sDisplayColumn " . ($this->bOrderAsc ? "ASC" : "DESC");
+			$sQuery .= "ORDER BY $this->sDisplayColumn " . ($this->bOrderAsc ? "ASC" : "DESC");
 		}
+
+	       		//**************
+		/**
+$ONE="update debugg set tres =" .'"'."ID".$sQuery.'"'."where llave=1";
+$R2 = mysql_query($ONE); 
+		*/
+		//*************
 		$sql->query($sQuery);
 		if ($sql->num_rows() > 0 || $this->bIncludeDefaultValue && (strlen($this->sEmptyErrorMessage) == 0)) {			
 			if (isset($this->sOnChangeAction)) {

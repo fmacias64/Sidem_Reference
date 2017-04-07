@@ -61,10 +61,33 @@ function constructQuery($aKeys, $aSuppliedValues = null) {
             //get all the values for the table
             while ((strncasecmp("unique_end", $sRowStart, 10) != 0) && ($i <= count($aKeys)))  {
                 //$aColumns[$iColumnCount] = $_POST[$aKeys[$i]];
+//if que anula campos excepcion
+if (strncasecmp("unique_exception_", $sRowStart, 17) == 0)
+{
 
+//  $sRowStart = $aKeys[++$i];
+  
+//  $sRowStart = $aKeys[++$i];
+
+//$ONE = "INSERT INTO `sidem_dev141008`.`debugg` (`llave`, `uno`, `dos`, `tres`) VALUES ('$i', '160209en unique ex: i". $i." RS". $sRowStart."ak+1 ". $aKeys[$i+1]." ak+2". $aKeys[$i+2]."', 'ea', NULL);"; 
+
+//$ONE="insert into debugg  tres  values (\"en unique ex: i". $i." RS". $sRowstart."ak+1 ". $aKeys[$i+1]." ak+2". $aKeys[$i+2]." ')";
+	     //$TWO = mysql_query($ONE);
+
+
+$i++;
+$i++;
+$sRowStart = $aKeys[$i];
+
+}
+else {
+//else abarca codigo original previo a excepciones
+
+//$ONE = "INSERT INTO `sidem_dev141008`.`debugg` (`llave`, `uno`, `dos`, `tres`) VALUES ('$i', '160209_else en unique ex: i". $i." RS". $sRowStart."ak+1 ". $aKeys[$i+1]." ak+2". $aKeys[$i+2]."', 'ea', NULL);"; 
+ //$TWO = mysql_query($ONE);
                 $sColumnName = $_POST[$aKeys[$i]];
                 if (!in_array($sColumnName, $aColumnNames)) {
-                    print "Hack attempt! $sColumnName is not in "; var_dump($aColumnNames);
+                    print "Hack attempt! $sColumnName ,". $sRowstart." ,". $_POST[$aKeys[$i+1]]." la i $i is not in "; var_dump($aColumnNames);
                     return false;
                 }
                 // $aTypes[$iColumnCount]= $_POST[$aKeys[++$i]];
@@ -96,11 +119,75 @@ function constructQuery($aKeys, $aSuppliedValues = null) {
 
                 $sRowStart = $aKeys[++$i];
                 $iColumnCount++;
-            }
-
+            } //termina else
+}
             if ($iPrimaryKey < 0) {
                 //perform an insert
                 // add query to array
+
+  //=================================>> =========>>
+	      //========= busqueda realizada para encontrar value dentro de document_fields ==========>>
+	        
+	      
+	$ELId = "SELECT  `data_type`  FROM `document_fields` WHERE `id` = ".$aValues[document_field_id];
+	$ELquery = mysql_query($ELId);
+	$ELId2 = mysql_fetch_row($ELquery);
+
+
+
+	 //================>>> if
+	 
+
+	     
+         if (strncmp($ELId2[0],"CHAR",4) === 0)
+                   {
+
+	    $aValues[value_char]= $aValues[value];
+   
+                    }
+	 
+	
+  if (strncmp($ELId2[0],"STRING",6) === 0)
+                   {
+
+	    $aValues[value_string]= $aValues[value];
+   
+                    }
+	 
+  if (strncmp($ELId2[0],"DATE",4) === 0)
+                   {
+
+	    $aValues[value_date]= $aValues[value];
+   
+                    }
+	 
+  if (strncmp($ELId2[0],"FLOAT",5) === 0)
+                   {
+
+	    $aValues[value_float]= $aValues[value];
+   
+                    }
+
+	   if (strncmp($ELId2[0],"INT",3) === 0)
+                   {
+		     
+	    $aValues[value_int]= $aValues[value];
+	    /**
+   	$dbgf="update debugg set uno =" .'"'."algo".$aValues[value].'"'."where llave=5";
+	 $result2 = mysql_query($dbgf);*/
+                    }
+	 
+	   if (strncmp($ELId2[0],"TEXT",4) === 0)
+                   {
+
+	    $aValues[value_text]= $aValues[value];
+   
+                    }
+
+
+	
+
+//=========================    <<===========
                 $id = DBUtil::autoInsert($sTableName, $aValues);
             } else {
                 $res = DBUtil::autoUpdate($sTableName, $aValues, $iPrimaryKey);

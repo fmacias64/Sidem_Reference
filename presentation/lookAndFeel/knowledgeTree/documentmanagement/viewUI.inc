@@ -38,7 +38,7 @@ function renderDocumentPath($oDocument, $bDisplayActions = false) {
 	} else {
 		$sDocumentPath .= $oDocument->getFileName();
 	}    
-	return "<table border=\"0\" cellpadding=\"5\" width=\"610\"><tr bgcolor=\"$sTDBGColour\"><td width=\"87%\">" . $sDocumentPath . "</td>" . ($bDisplayActions ? "<td width=\"15%\" align=\"center\" valign=\"middle\"><strong>Actions</strong></td>" : "") . "</tr></table>\n";
+	return "<table border=\"0\" cellpadding=\"5\" width=\"610\"><tr bgcolor=\"$sTDBGColour\"><td width=\"87%\">" . $sDocumentPath . "</td>" . ($bDisplayActions ? "<td width=\"15%\" align=\"center\" valign=\"middle\"><strong>Opciones</strong></td>" : "") . "</tr></table>\n";
 }
 
 function renderDocumentData($oDocument, $bEditable, $sStatusMessage = "") {
@@ -111,26 +111,62 @@ function renderGenericMetaData($oDocument, $bEditable) {
 function renderTypeSpecificMetaData($oDocument, $bEditable) {
 	global $default;
 	
-    /*ok*/ $sQuery = array("SELECT DF.name AS name, DFL.value AS value " .
+    /*ok*/ $sQuery = array("SELECT DF.name AS name, DFL.value AS value, DTL.name AS names " .
               "FROM $default->documents_table AS D INNER JOIN document_fields_link AS DFL ON D.id = DFL.document_id " .
               "INNER JOIN $default->document_fields_table AS DF ON DF.ID = DFL.document_field_id " .
-              "WHERE D.id = ? " .
+             "INNER JOIN $default->document_types_table AS DTL ON DTL.id = D.document_type_id " .
+	      "WHERE D.id = ? " .
               "AND DF.name NOT LIKE 'Category' " .
               "AND DF.is_generic = 0", $oDocument->getID());
     $aColumns = array("name", "value");
     $aColumnHeaders = array("Tag", "Value");
     $aColumnTypes = array(1,1);
-    $oPatternTableSqlQuery = & new PatternTableSqlQuery($sQuery, $aColumns, $aColumnTypes, $aColumnHeaders, "500");
-    $oPatternTableSqlQuery->setTableHeading(_("Type Specific Meta Data"));
-	$oPatternTableSqlQuery->setEmptyTableMessage(_("No Type Specific Meta Data"));
+    $oPatternTableSqlQuery = & new PatternTableSqlQuery2($sQuery, $aColumns, $aColumnTypes, $aColumnHeaders, "500");
+    $oPatternTableSqlQuery->setTableHeading(_("Datos Generales "));
+	$oPatternTableSqlQuery->setEmptyTableMessage(_("No se tienen datos generales"));
     
     $sToRender .= "\t<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n";	
     $sToRender .= "\t<tr>\n";
+//felipe-
+//Aqui ubicar foto
+
+$es_prom = lookupName($default->document_types_table,$oDocument->getDocumentTypeID());
+//===========>>> imagen solo para individuos ===========>>>>
+ if (strncmp($es_prom,"Individuo",8) === 0 )
+{
+$docs="img/".$oDocument->getFileName();
+   // echo $docs;
+  $tama=filesize($docs);
+
+
+   
+ if ($tama >= 10)
+	{
+$es_prom = lookupName($default->document_types_table,$oDocument->getDocumentTypeID());
+ if (strncmp($es_prom,"Individuo",8) === 0 )
+		{
+
+ $sToRender .= "\t\t<tr>  <img style=".'"'." width: 119px; height: 150px;".'"'." alt= ".'"'.$oDocument->getName().'"'." src= ".'"'.$default->rootUrl."/Documents". $oDocument->generateFullFolderPath($oDocument->getFolderID())."/".$oDocument->getFileName().'"'." > "."</tr>\n";
+   }
+	}
+else{
+$es_prom = lookupName($default->document_types_table,$oDocument->getDocumentTypeID());
+ if (strncmp($es_prom,"Individuo",8) === 0 )
+		{
+ 
+$sToRender .= "\t\t<tr>  <img style=".'"'." width: 119px; height: 150px;".'"'." alt= ".'"'.$oDocument->getName().'"'." src= ".'"'."img/nofoto.jpg".'"'." > "."</tr>\n";
+		}
+}
+}
+//felipe-f
+
+
+
     $sToRender .= "\t\t<td>" . $oPatternTableSqlQuery->render() . "</td>\n";    
     $sToRender .= "\t</tr>\n";
     if ($bEditable) {
 		$sToRender .= "\t<tr>\n";
-	    $sToRender .= "<td><a href=\"$default->rootUrl/control.php?action=modifyDocumentTypeMetaData&fDocumentID=" . $oDocument->getID() . "\"><img src=\"" . KTHtml::getEditButton() . "\" border=\"0\"></a></td>\n";
+	   // $sToRender .= "<td><a href=\"$default->rootUrl/control.php?action=modifyDocumentTypeMetaData&fDocumentID=" . $oDocument->getID() . "\"><img src=\"" . KTHtml::getEditButton() . "\" border=\"0\"></a></td>\n";
 		$sToRender .= "\t</tr>\n";
     }
     $sToRender .= "\t</table>\n";
@@ -304,14 +340,14 @@ function renderEditableLinkedDocuments($oDocument) {
 			  "WHERE DL.parent_document_id = ?", $oDocument->getID());
 	
 	$aColumns = array("name", "link_type", "unlink");
-    $aColumnHeaders = array(_("Document"), _("Document Link Type"));
+    $aColumnHeaders = array(_("Identificaci&oacute;n"), _("Tipo de relaci&oacute;n"));
     $aColumnTypes = array(3,3,3);
     $aDBColumnArray = array("parent_document_id", "child_document_id","document_link_id", "child_document_id");
     $aQueryStringVariableNames = array("fParentDocumentID","fChildDocumentID", "fDocumentLinkID", "fDocumentID");
     $aLinkURLs = array(0=>"$default->rootUrl/control.php?action=viewDocument", 2=>"$default->rootUrl/control.php?action=removeDocumentLink");
 
     $oPatternTableSqlQuery = & new PatternTableSqlQuery($sQuery, $aColumns, $aColumnTypes, $aColumnHeaders, "500", $aLinkURLs, $aDBColumnArray, $aQueryStringVariableNames);
-    $oPatternTableSqlQuery->setTableHeading(_("Linked documents"));
+    $oPatternTableSqlQuery->setTableHeading(_("Relaciones"));
     $oPatternTableSqlQuery->setDisplayColumnHeadings(true);    
     
     $sToRender .= "\t<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n";    
@@ -319,7 +355,7 @@ function renderEditableLinkedDocuments($oDocument) {
     $sToRender .= "\t\t<td>" . $oPatternTableSqlQuery->render() . "</td>\n";
     $sToRender .= "\t</tr>";
     $sToRender .= "\t<tr>\n";
-    $sToRender .= "<td><a href=\"$default->rootUrl/control.php?action=addDocumentLink&fDocumentID=" . $oDocument->getID() ."\"><img src=\"" . KTHtml::getAddButton() . "\" border=\"0\"/></a></td>\n";
+   // $sToRender .= "<td><a href=\"$default->rootUrl/control.php?action=addDocumentLink&fDocumentID=" . $oDocument->getID() ."\"><img src=\"" . KTHtml::getAddButton() . "\" border=\"0\"/></a></td>\n";
     $sToRender .= "\t</tr>";     
 	$sToRender .= "\t</table>\n";
     return $sToRender;
@@ -441,9 +477,51 @@ function displayButton($sAction, $sQueryString, $sImageName, $sDisabledText = ""
 	}
 }
 
+
+//===== MIKE =====//
+
+function displayButton2($elframe, $sAction, $sQueryString, $sImageName, $sDisabledText = "", $sJS = "") {
+	global $default;
+        global $aImageNameToLabel;
+	// the active is active if there is no disabled text
+	$bActive = !strlen($sDisabledText) > 0;
+        if ($default->useTextButtons === false) {
+            $sImage = "<img border=\"0\" src=\"$default->graphicsUrl/widgets/docactions/";
+            if ($bActive) {
+                $sImage .= "$sImageName.gif\"";
+            } else {
+                $sImage .= "disabled-$sImageName.gif\" title=\"$sDisabledText\"";
+            }
+            $sImage .= "/>";
+        } else {
+            if (array_key_exists($sImageName, $aImageNameToLabel)) {
+                $sLabel = $aImageNameToLabel[$sImageName];
+            } else {
+                $sLabel = $sImageName;
+            }
+            $sTranslatedWords = _(ucwords($sLabel));
+            $sLabel = strtoupper($sTranslatedWords);
+            if ($bActive) {
+                    $sClass = "button";
+                    $sJS = $sJS . " onMouseOver=\"javascript:this.style.backgroundColor='#EEEEEE';\" onMouseOut=\"javascript:this.style.backgroundColor='#FFFFFF';\"";
+            } else {
+                    $sClass = "disabledbutton";
+            }
+            $sImage = "<span class=\"$sClass\" $sJS>$sLabel</span>";
+        }
+	if ($bActive) {
+		return generateControllerLink2($elframe,$sAction, $sQueryString, $sImage);
+	} else {
+		return $sImage;
+	}
+}
+
+
+
+
 function displayViewButton($oDocument, $bEdit) {
     $sQueryString = "fDocumentID=" . $oDocument->getID();
-	$sViewAlert = _("This will download a copy of the document and is not the same as Checking Out a document.  Changes to this downloaded file will not be managed in the DMS.");
+$sViewAlert = _("This will download a copy of the document and is not the same as Checking Out a document.  Changes to this downloaded file will not be managed in the DMS.");
     $sJS = "onClick=\"alert('$sViewAlert '); return true;\"";
     return displayButton("downloadDocument", $sQueryString, "view", $sDisabledText, $sJS);
 
@@ -506,7 +584,8 @@ function displayMoveButton($oDocument, $bEdit) {
 		}
 		if (DocumentCollaboration::documentCollaborationStarted($oDocument->getID()) &&
 		    !DocumentCollaboration::documentCollaborationDone($oDocument->getID())) {
-			$sDisabledText = _("The document is in collaboration and cannot be moved.");
+			$sDisabledText = _("The document is in collaboration and cannot be moved.");$dbg="update debugg set tres =" .'"'."ID".$oDocument[0].'"'."where llave=5";
+$r2 = mysql_query($dbg);
 		}
     } else {
      	$sDisabledText = _("You do not have write access to this document");
@@ -529,7 +608,7 @@ function displaySubscriptionButton($oDocument) {
 
 function displayDiscussionButton($oDocument, $bEdit) {
 	global $default;
-    return displayButton("viewDiscussion", "fDocumentID=" . $oDocument->getID() . "&fForDiscussion=1", "discussion");
+    return displayButton("viewDiscussion", "fDocumentID=" . $oDocument->getID() . "&fForDiscussion=1", "Who Meets Who");
 }
 	
 function displayArchiveButton($oDocument, $bEdit) {
@@ -587,22 +666,642 @@ function displayPublishButton($oDocument, $bEdit) {
 	return displayButton("viewDocument", "fDocumentID=" . $oDocument->getID() . "&fForPublish=1", "publish", $sDisabledText);
 }
 
+/*
+ *
+ * Codigo para botones de agregar mas documentos del mismo tipo y mas documentos de cierto tipo desde el tipo iniciativa
+ *
+ *
+ */
+
+
+//=======>>> Boton que agrega mas de un documento en el mismo folder =======>>>
+
+function displayBotonDeMas($oDocument, $bEdit) {
+	global $default;
+
+
+//	return "<td align=\"left\"><a href=\"" . generateControllerLink("addDocument", "fFolderID=" . $oDocument->getFolderID()) . "\"><img src=\"$default->graphicsUrl/widgets/docactions/add.gif\" border=\"0\" /></a></td>\n";
+
+
+
+ return displayButton("addDocument", "fFolderID=" . $oDocument->getFolderID()."&arch=".$oDocument->getDocumentTypeID()."&botview=101", "Agregar");
+     }
+
+//==============>>>> Inicia Boton Agregar Finanzas   ========================>>>>
+function displayBotonFinanzas($oDocument, $bEdit) {
+	global $default;
+
+
+//	return "<td align=\"left\"><a href=\"" . generateControllerLink("addDocument", "fFolderID=" . $oDocument->getFolderID()) . "\"><img src=\"$default->graphicsUrl/widgets/docactions/add.gif\" border=\"0\" /></a></td>\n";
+
+
+
+/**
+1.- select en doctypelookup te doy Finanzas me regresas el id del tipo Finanzas. $tipodocaagregar
+En un futuro poner select para no depender del numero en el codigo
+
+	$UNO =" SELECT a.`id`,a.`name` FROM `document_types_lookup` AS a,`folders` AS b  WHERE b.`id`=".$oDocument->getFolderID();
+	$DOS = mysql_query($UNO);
+	$tipodocaagregar = mysql_fetch_row($DOS);
+
+	  
+	 */
+ //2.-aqui hacer select de tipo de enlace donde id doctype = 14 .$oDocument->getDocumentTypeID() 
+
+	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Finanzas'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+	/**$dbg="update debugg set tres =" .'"'."TipoEnl ".$oDocument->getDocumentTypeID().'"'."where llave=5";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=13&arch=14&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Finanzas");
+}
+//=================>>>>  Termina Boton Agregar Finanzas  <<<<=========================
+//==============>>>> Inicia Boton Agregar Individuo   ========================>>>>
+function displayBotonIndividuoA($oDocument, $bEdit) {
+	global $default;
+
+
+
+
+//	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Individuo'" ;
+	//$TWO = mysql_query($ONE);
+	$tipoenlace ="20";
+
+
+ return displayButton("addDocument", "fFolderID=15&arch=18&botview=101&tipoen=".$tipoenlace."&docqllama=".$oDocument->getID(), "Agregar Individuo Asociado");
+}
+//=================>>>>  Termina Boton Agregar Finanzas  <<<<=========================
+
+//==============>>>> Inicia Boton Agregar Individuo desde evento  ========================>>>>
+function displayBotonInddesdeEvento($oDocument, $bEdit) {
+	global $default;
+
+
+
+
+//	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Individuo'" ;
+	//$TWO = mysql_query($ONE);
+	$tipoenlace ="5";
+
+
+ return displayButton("addDocument", "fFolderID=15&arch=18&botview=101&tipoen=".$tipoenlace."&docqllama=".$oDocument->getID(), "Relacionar Individuo");
+}
+//=================>>>>  Termina Boton Agregar Ind. desde evento  <<<<=========================
+
+//==============>>>> Inicia Boton Agregar Domicilio   ========================>>>>
+
+function displayBotonDomicilio($oDocument, $bEdit) {
+	global $default;
+        
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+	$ONE= "SELECT B.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE B.`enlazadoB`=A.`id` AND B.`enlazadoA`=".$oDocument->getDocumentTypeID()."  AND A.`name` LIKE 'Domicilios'" ;
+
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+	
+/**
+	$dbg="update debugg set uno =" .'"'."TipoEnlDOM ".$tipoenlace[0].'"'."where llave=0";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=10&arch=9&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Domicilio");
+     }
+
+//=================>>>>  Termina Boton Agregar Domicilio  <<<<=========================
+//==============>>>> Inicia Boton Agregar Eventos   ========================>>>>
+
+function displayBotonEventos($oDocument, $bEdit) {
+	global $default;
+
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+
+	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Eventos'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+	/**$dbg="update debugg set tres =" .'"'."TipoEnl ".$oDocument->getDocumentTypeID().'"'."where llave=5";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=9&arch=2&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Eventos");
+     }
+
+//=================>>>>  Termina Boton Agregar Eventos  <<<<=========================
+//==============>>>> Inicia Boton Agregar Preferencias   ========================>>>>
+
+function displayBotonPreferencias($oDocument, $bEdit) {
+	global $default;
+
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+
+	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Preferencias'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+	/**$dbg="update debugg set tres =" .'"'."TipoEnl ".$oDocument->getDocumentTypeID().'"'."where llave=5";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=14&arch=16&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Preferencias");
+     }
+
+//=================>>>>  Termina Boton Agregar Preferencias  <<<<=========================
+//==============>>>> Inicia Boton Agregar Inst/Organizacion   ========================>>>>
+
+function displayBotonInst_Org($oDocument, $bEdit) {
+	global $default;
+
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+
+	$ONE= "SELECT B.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE B.`enlazadoB`=A.`id` AND B.`enlazadoA`=".$oDocument->getDocumentTypeID()."  AND A.`name` LIKE 'Instituto/Organizacion'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+	/**$dbg="update debugg set tres =" .'"'."TipoEnl ".$oDocument->getDocumentTypeID().'"'."where llave=5";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=16&arch=22&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Inst/Org");
+     }
+
+//=================>>>>  Termina Boton Agregar Inst/Organizacion  <<<<=========================
+//==============>>>> Inicia Boton Agregar Multimedia   ========================>>>>
+
+function displayBotonMultimedia($oDocument, $bEdit) {
+	global $default;
+        global $tipoenlace;
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+	$ONE= "SELECT B.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE B.`enlazadoB`=A.`id` AND B.`enlazadoA`=".$oDocument->getDocumentTypeID()."  AND A.`name` LIKE 'Multimedia'" ;
+
+	//$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE B.`enlazadoA`=A.`id` AND B.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND A.`name` LIKE 'Multimedia'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+	/**$dbg="update debugg set tres =" .'"'."TipoEnl ".$oDocument->getDocumentTypeID().'"'."where llave=5";
+$r2 = mysql_query($dbg);
+	*/
+ return displayButton("addDocument", "fFolderID=37&arch=33&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "+ Multimedia");
+     }
+
+//=================>>>>  Termina Boton Agregar Multimedia  <<<<=========================
+
+//==============>>>> Inicia Boton Editar Individuo   ========================>>>>
+ function displayBotonEditarInd($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+ return displayButton("modifyDocumentTypeMetaData","fDocumentID=". $oDocument->getID(), "Editar Individuo");
+  
+  }
+
+//=================>>>>  Termina Boton Editar Individuo  <<<<=========================
+//==============>>>> Inicia Boton Agregar Relacion (link)   ========================>>>>
+
+function displayBotonRelac($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=0", "Agregar Relacion");
+   
+  }
+function displayBotonRelacInd($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuo&fTipo=20&folderdest=15&tipocrear=18&tipoenlacep=20&opagregar=1", "Relacionar Individuo");
+   
+  }
+
+//==============>>>> Inicia Boton Eventos   ========================>>>>
+function displayBotonRelacEventos($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Eventos&fTipo=5&folderdest=9&tipocrear=2&tipoenlacep=5&opagregar=1", "Relacionar Eventos");
+   
+  }
+
+//==============>>>> Inicia Boton Individuo desde Eventos   ========================>>>>
+function displayBotonRelacInddesdeEventos($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=5&folderdest=15&tipocrear=18&tipoenlacep=5&opagregar=1", "Relacionar Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Instituto desde Eventos   ========================>>>>
+function displayBotonRelacInstdesdeEventos($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Instituto&fTipo=45&folderdest=16&tipocrear=22&tipoenlacep=45&opagregar=1", "Instituto");
+   
+  }
+//===================================>>>>
+//==============>>>> Inicia Boton Multimedia desde Eventos   ========================>>>>
+function displayBotonRelacMultdesdeEventos($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Multimedia&fTipo=50&folderdest=53&tipocrear=33&tipoenlacep=50&opagregar=1", "Multimedia");
+   
+  }
+//===================================>>>>
+//==============>>>> Inicia Boton Multimedia desde EventosB2B   ========================>>>>
+function displayBotonRelacMultdesdeEventosb2b($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Multimedia&fTipo=51&folderdest=37&tipocrear=33&tipoenlacep=51&opagregar=1", "Multimedia");
+   
+  }
+//===================================>>>>
+
+
+//==============>>>> Inicia Boton Individuo desde Eventosb2b   ========================>>>>
+function displayBotonRelacIndesdeEventb2b($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=43&folderdest=15&tipocrear=18&tipoenlacep=43&opagregar=1", "Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Individuo desde EventosPESC   ========================>>>>
+function displayBotonRelacInddesdeEventpesc($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=56&folderdest=15&tipocrear=18&tipoenlacep=56&opagregar=1", "Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Institucion desde EventosPESC   ========================>>>>
+function displayBotonRelacInstdesdeEventpesc($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Institucion&fTipo=57&folderdest=16&tipocrear=22&tipoenlacep=57&opagregar=1", "Institucion");
+   
+  }
+
+
+//==============>>>> Inicia Boton Institucion desde Institucion   ========================>>>>
+function displayBotonRelacInstdesdeInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Institucion&fTipo=46&folderdest=16&tipocrear=22&tipoenlacep=46&opagregar=1", "Relacionar Institucion");
+   
+  }
+
+//==============>>>> Inicia Boton Institucion desde Eventosb2b (efecto)   ========================>>>>
+function displayBotonRelacInstdesdeEventb2b($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Institucion&fTipo=41&folderdest=16&tipocrear=22&tipoenlacep=41&opagregar=1", "Institucion");
+   
+  }
+
+//==============>>>> Inicia Boton Eventos desde Institucion   ========================>>>>
+function displayBotonRelacEventdesdeInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Evento&fTipo=45&folderdest=48&tipocrear=2&tipoenlacep=45&opagregar=1", "Eventos");
+   
+  }
+
+
+//==============>>>> Inicia Boton Eventosb2b desde Eventosb2b (Reacciones)   ========================>>>>
+function displayBotonRelacEvendesdeEventb2reac($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Reacciones&fTipo=44&folderdest=46&tipocrear=38&tipoenlacep=44&opagregar=1", "Reacciones");
+   
+  }
+
+//==============>>>> Inicia Boton Eventosb2b desde Individuo   ========================>>>>
+function displayBotonRelacEvendesdeInd($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Evento Emp&fTipo=43&folderdest=46&tipocrear=38&tipoenlacep=43&opagregar=1", "Evento Emp");
+   
+  }
+
+//==============>>>> Inicia Boton Eventosb2b desde Institucion   ========================>>>>
+function displayBotonRelacEvendesdeInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Evento Emp&fTipo=41&folderdest=46&tipocrear=38&tipoenlacep=41&opagregar=1", "Evento Emp");
+   
+  }
+
+//==============>>>> Inicia Boton Eventosb2b(efecto) desde Institucion   ========================>>>>
+function displayBotonRelacEvenefdesdeInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Efecto&fTipo=42&folderdest=46&tipocrear=38&tipoenlacep=42&opagregar=1", "Efecto");
+   
+  }
+//==============>>>> Inicia Boton Institucion desde Productos   ========================>>>>
+function displayBotonRelacInstesdeProd($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Institucion&fTipo=40&folderdest=16&tipocrear=22&tipoenlacep=40&opagregar=1", "Institucion");
+   
+  }
+//==============>>>> Inicia Boton Productos desde Institucion   ========================>>>>
+function displayBotonRelacProdesdeInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Productos&fTipo=40&folderdest=47&tipocrear=39&tipoenlacep=40&opagregar=1", "Productos");
+   
+  }
+//==============>>>> Inicia Boton Individuo desde Domicilios   ========================>>>>
+function displayBotonRelacInddesDomic($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=19&folderdest=15&tipocrear=18&tipoenlacep=19&opagregar=1", "Relacionar Individuos");
+   
+  }
+//==============>>>> Inicia Boton Individuo desde Preferencias   ========================>>>>
+function displayBotonRelacInddesPref($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=17&folderdest=15&tipocrear=18&tipoenlacep=17&opagregar=1", "Relacionar Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Individuo desde Instituto/Org   ========================>>>>
+function displayBotonRelacInddesInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=4&folderdest=15&tipocrear=18&tipoenlacep=4&opagregar=1", "Relacionar Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Individuo desde Finanzas   ========================>>>>
+function displayBotonRelacInddesFin($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=15&folderdest=15&tipocrear=18&tipoenlacep=15&opagregar=1", "Relacionar Individuos");
+   
+  }
+//==============>>>> Inicia Boton Individuo desde Multimedia  ========================>>>>
+function displayBotonRelacInddesmult($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Individuos&fTipo=34&folderdest=15&tipocrear=18&tipoenlacep=34&opagregar=1", "Individuos");
+   
+  }
+
+//==============>>>> Inicia Boton Instituto desde Multimedia  ========================>>>>
+function displayBotonRelacInstdesmult($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Instituto&fTipo=49&folderdest=16&tipocrear=22&tipoenlacep=49&opagregar=1", "Instituto");
+   
+  }
+//==============>>>> Inicia Boton Multimedia desde Instituto ========================>>>>
+function displayBotonRelacmultdesInst($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Multimedia&fTipo=49&folderdest=37&tipocrear=33&tipoenlacep=49&opagregar=1", "Multimedia");
+   
+  }
+//==============>>>> Inicia Boton Preferencias   ========================>>>>
+function displayBotonRelacPref($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Preferencias&fTipo=17&folderdest=14&tipocrear=16&tipoenlacep=17&opagregar=1", "Relacionar Preferencias");
+   
+  }
+
+//==============>>>> Inicia Boton Domicilio   ========================>>>>
+
+function displayBotonRelacDomic($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Domicilios&fTipo=19&folderdest=10&tipocrear=9&tipoenlacep=19&opagregar=1", "Relacionar Domicilio");
+   
+  }
+
+//==============>>>> Inicia Boton Finanzas desde Domicilio   ========================>>>>
+function displayBotonRelacFindesDomic($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Finanzas&fTipo=37&folderdest=13&tipocrear=9&tipoenlacep=37&opagregar=1", "Relacionar Finanzas");
+   
+  }
+//==============>>>> Inicia Boton Finanzas   ========================>>>>
+function displayBotonRelacFin($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Finanzas&fTipo=15&folderdest=13&tipocrear=14&tipoenlacep=15&opagregar=1", "Relacionar Finanzas");
+   
+  }
+//==============>>>> Inicia Boton Domicilio desde Finanzas   ========================>>>>
+function displayBotonRelacDomicdesFin($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Domicilios&fTipo=37&folderdest=10&tipocrear=9&tipoenlacep=37&opagregar=1", "Relacionar Domicilio");
+   
+  }
+//==============>>>> Inicia Boton Trayectoria   ========================>>>>
+function displayBotonRelacTray($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Trayectoria&fTipo=4&folderdest=16&tipocrear=22&tipoenlacep=4&opagregar=1", "Relacionar Trayectoria");
+   
+  }
+
+//==============>>>> Inicia Boton Multimedia   ========================>>>>
+function displayBotonRelacMult($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Multimedia&fTipo=34&folderdest=37&tipocrear=33&tipoenlacep=34&opagregar=1", "Relacionar Multimedia");
+   
+  }
+
+//==============>>>> Inicia Boton Multimedia desde Individuo  ========================>>>>
+function displayBotonRelacMultdesdInd($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID()."&fOtro=1&fQue=Multimedia&fTipo=34&folderdest=37&tipocrear=33&tipoenlacep=34&opagregar=1", "Multimedia");
+   
+  }
+
+
+//=================>>>>  Termina Boton Agregar Relacion (link)  <<<<=========================
+//==============>>>> Inicia Boton Editar   ========================>>>>
+ function displayBotonEditar($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+ return displayButton("modifyDocumentTypeMetaData","fDocumentID=". $oDocument->getID(), "Editar");
+  
+  }
+
+//=================>>>>  Termina Boton Editar   <<<<=========================
+//==============>>>> Inicia Boton Agregar Relacion2 (link)   ========================>>>>
+
+function displayBotonRel($oDocument, $bEdit) {
+	global $default;
+
+      $idprov = $oDocument->getId();
+                                                 
+						  
+return displayButton("addDocumentLink","fDocumentID=" . $oDocument->getID(), "Agregar Relacion");
+   
+  }
+
+//=================>>>>  Termina Boton Agregar Relacion2 (link)  <<<<=========================
+
+
+
+	
+    return $sToRender;
+
+
+
+//========>>>> Termina BotondeMas <<<<=======
+
 /**
  * Displays document action buttons
  */
 function displayActionButtons($oDocument, $bEdit) {
-    $sToRender .= displayViewButton($oDocument, $bEdit);
-    $sToRender .= displayEmailButton($oDocument);
-    $sToRender .= displayCheckInOutButton($oDocument, $bEdit);
-    $sToRender .= displayDeleteButton($oDocument, $bEdit);
-    $sToRender .= displayHistoryButton($oDocument);
-	$sToRender .= displayMoveButton($oDocument, $bEdit);    	
-	$sToRender .= displaySubscriptionButton($oDocument);
-	$sToRender .= displayDiscussionButton($oDocument, $bEdit);
-    $sToRender .= displayArchiveButton($oDocument, $bEdit);
-	$sToRender .= displayDependantDocumentButton($oDocument, $bEdit);
-	$sToRender .= displayPublishButton($oDocument, $bEdit);
-	
+  //  $sToRender .= displayViewButton($oDocument, $bEdit);
+  // $sToRender .= displayEmailButton($oDocument);
+   // $sToRender .= displayCheckInOutButton($oDocument, $bEdit);
+   // $sToRender .= displayDeleteButton($oDocument, $bEdit);
+  //  $sToRender .= displayHistoryButton($oDocument);
+//	$sToRender .= displayMoveButton($oDocument, $bEdit);    	
+//	$sToRender .= displaySubscriptionButton($oDocument);
+//	$sToRender .= displayDiscussionButton($oDocument, $bEdit);
+//    $sToRender .= displayArchiveButton($oDocument, $bEdit);
+//	$sToRender .= displayDependantDocumentButton($oDocument, $bEdit);
+//	$sToRender .= displayPublishButton($oDocument, $bEdit);
+
+$es_Individuo = lookupName("document_types_lookup", $oDocument->getDocumentTypeID());
+if (strncmp($es_Individuo,"Individuo",9) === 0 )  {
+  
+//$sToRender .= displayBotonDomicilio($oDocument, $bEdit);
+  //  $sToRender .= displayBotonFinanzas($oDocument, $bEdit);
+ //$sToRender .= displayBotonEventos($oDocument, $bEdit);
+//$sToRender .= displayBotonPreferencias($oDocument, $bEdit);
+//$sToRender .= displayBotonInst_Org($oDocument, $bEdit);
+//$sToRender .= displayBotonMultimedia($oDocument, $bEdit);
+//$sToRender .= displayBotonEditarInd($oDocument, $bEdit);
+//$sToRender .= displayBotonRelac($oDocument, $bEdit);
+  
+    }
+else{	
+  //$sToRender .= displayBotonEditar($oDocument, $bEdit);
+  //$sToRender .= displayBotonRel($oDocument, $bEdit);
+ }
+
+// $sToRender .= displayBotonDeMas($oDocument, $bEdit);
+
+      
+
+
+
+
+
     return $sToRender;
 }
 
@@ -623,8 +1322,8 @@ function renderDocumentSection($sSectionName, $sHeadingText, $bDisplayLink, $iDo
 function getPage($oDocument, $bEdit, $sStatusMessage = "") {
     global $default;
    	  		
-    $sToRender .= renderHeading(_("Document Detail"));
-    $sToRender .= renderDocumentPath($oDocument, true) . "\n\n";
+    // $sToRender .= renderHeading(_("Document Detail"));
+    //$sToRender .= renderDocumentPath($oDocument, true) . "\n\n";
 	$sToRender .= "<table cellspacing=\"0\" cellpadding=\"0\" id=\"headingTable\">";
 	$sToRender .= "<tr><td valign=\"top\">";	
 	$sToRender .= "<table border=\"0\" width=\"530\">";
@@ -634,12 +1333,13 @@ function getPage($oDocument, $bEdit, $sStatusMessage = "") {
 	// ie. effectively removes statusMessage on next click
 	$bDisplayLink = ($sStatusMessage) ? true : false;
 
-	$sToRender .= renderDocumentSection("documentData", _("Document Data"), $bDisplayLink, $oDocument->getID());	
-	$sToRender .= renderDocumentSection("genericMetaData", _("Generic Meta Data"), $bDisplayLink, $oDocument->getID());
-	$sToRender .= renderDocumentSection("typeSpecificMetaData", _("Type Specific Meta Data"), $bDisplayLink, $oDocument->getID());
-	$sToRender .= renderDocumentSection("archiveSettings", _("Archive Settings"), $bDisplayLink, $oDocument->getID());
-	$sToRender .= renderDocumentSection("documentRouting", _("Document Routing"), $bDisplayLink, $oDocument->getID());
-	$sToRender .= renderDocumentSection("linkedDocuments", _("Linked Documents"), $bDisplayLink, $oDocument->getID());
+	$sToRender .= renderDocumentSection("typeSpecificMetaData", _(" "), $bDisplayLink, $oDocument->getID());
+   //    	$sToRender .= renderDocumentSection("documentData", _("Document Data"), $bDisplayLink, $oDocument->getID());	
+//	$sToRender .= renderDocumentSection("genericMetaData", _("Generic Meta Data"), $bDisplayLink, $oDocument->getID());
+		//$sToRender .= renderDocumentSection("typeSpecificMetaData", _("Type Specific Meta Data"), $bDisplayLink, $oDocument->getID());
+//	$sToRender .= renderDocumentSection("archiveSettings", _("Archive Settings"), $bDisplayLink, $oDocument->getID());
+//	$sToRender .= renderDocumentSection("documentRouting", _("Document Routing"), $bDisplayLink, $oDocument->getID());
+	//$sToRender .= renderDocumentSection("linkedDocuments", _("Relaciones"), $bDisplayLink, $oDocument->getID());
 
 	$sToRender .= "</td></tr>";
         $sToRender .= "</table>";
@@ -658,7 +1358,9 @@ function getPage($oDocument, $bEdit, $sStatusMessage = "") {
     $sToRender .= renderSectionDiv("archiveSettings", renderDocumentArchiveSettings($oDocument, $bEdit));
     if ($bEdit) {       
     	$sToRender .= renderSectionDiv("documentRouting", renderEditableDocumentRouting($oDocument));
-    	$sToRender .= renderSectionDiv("linkedDocuments", renderEditableLinkedDocuments($oDocument) . renderDependantDocuments($oDocument, $bEdit));
+    	//$sToRender .= renderSectionDiv("linkedDocuments", renderEditableLinkedDocuments($oDocument) . renderDependantDocuments($oDocument, $bEdit));
+//Abajo linea cambiada por felipe, modificada de la linea comentada arriba, se quitaron documentos dependientes
+	$sToRender .= renderSectionDiv("linkedDocuments", renderEditableLinkedDocuments($oDocument));
     } else {
     	$sToRender .= renderSectionDiv("documentRouting", renderNonEditableDocumentRouting($oDocument));
     	$sToRender .= renderSectionDiv("linkedDocuments", renderNonEditableLinkedDocuments($oDocument, $bEdit) . renderDependantDocuments($oDocument, $bEdit));
@@ -695,7 +1397,7 @@ function getStatusPage($oDocument, $sStatusMessage) {
 	// ie. effectively removes statusMessage on next click
 	$bDisplayLink = ($sStatusMessage) ? true : false;
 
-	$sToRender .= renderDocumentSection("documentData", _("Document Data"), $bDisplayLink, $oDocument->getID());	
+//	$sToRender .= renderDocumentSection("documentData", _("Document Data"), $bDisplayLink, $oDocument->getID());	
 	$sToRender .= renderDocumentSection("genericMetaData", _("Generic Meta Data"), $bDisplayLink, $oDocument->getID());
 	$sToRender .= renderDocumentSection("typeSpecificMetaData", _("Type Specific Meta Data"), $bDisplayLink, $oDocument->getID());
 	$sToRender .= renderDocumentSection("archiveSettings", _("Archive Settings"), $bDisplayLink, $oDocument->getID());

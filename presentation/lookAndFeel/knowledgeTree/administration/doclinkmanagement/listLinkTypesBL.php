@@ -45,4 +45,6 @@ if (checkSession()) {
 	$main->setFormAction($_SERVER['PHP_SELF']);	
     $main->render();	
 }
+
+
 ?>

@@ -31,13 +31,13 @@
 //
 // Leave commented to have it automatically detected.
 // 
-//$default->fileSystemRoot  = "";
+// $default->fileSystemRoot  = "";
 
 // Webserver name (host name)
 //
 // Leave commented to have it automatically detected.
 // 
-// $default->serverName = "";
+ $default->serverName = "proveedores.intelect.com.mx";
 
 // Whether ssl is enabled or not
 //
@@ -50,7 +50,7 @@
 //
 // Leave commented to have it automatically detected.
 //
-$default->rootUrl  = "/FichasBD/trunk/";
+$default->rootUrl  = "/FichasBD/branches/SY";
 
 // ----------------------------------------------------------------
 // At a minimum, you may need to change some of settings in this
@@ -62,8 +62,8 @@ $default->rootUrl  = "/FichasBD/trunk/";
 $default->dbType = "mysql";
 
 // Database login details
-$default->dbHost           = "localhost";
-$default->dbName           = "dms060807";
+$default->dbHost           = "";
+$default->dbName           = "SY050417";
 $default->dbUser           = "dms";
 $default->dbPass           = "";
 
@@ -82,8 +82,8 @@ $default->authenticationClass = "DBAuthenticator";
 $default->folderHidingFlag = 1;
 
 // Default language for the interface
-$default->defaultLanguage = "en";
-$default->useAcceptLanguageHeader = true;
+$default->defaultLanguage = "es_ES";
+$default->useAcceptLanguageHeader = false;
 
 // hack to set org to use for dashboard greeting
 $default->organisationID = 1;

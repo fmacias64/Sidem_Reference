@@ -1,0 +1,247 @@
+
+
+	require_once("$default->fileSystemRoot/lib/security/Permission.inc");
+        require_once("$default->fileSystemRoot/lib/documentmanagement/LinkType.inc");
+	require_once("documentUI.inc");
+	require_once("addDocumentLinkUI.inc");
+
+
+$fDocumentLLID = $oDocument->getID();
+$fTargetDocumentLLID= $docllama;
+$fdocumentTypeID=$arch;
+$LinkTypeID=
+
+	$oDocumentLL = DocumentLL::get($fDocumentLLID);
+	if (Permission::userHasDocumentLLWritePermission($oDocumentLL)) {
+		//user has permission to link this documentLL to another
+		if (isset($fForStore)) {
+			//create a new documentLL link
+			$oDocumentLLLink = & new DocumentLLLink($fDocumentLLID, $fTargetDocumentLLID, $fLinkTypeID, $fFolderID, $fDocumentLLTypeID);
+	$oDocumentLLLink2 = & new DocumentLLLink ( $fTargetDocumentLLID, $fDocumentLLID, $fLinkTypeID, $fFolderID, $fDocumentLLTypeID);
+
+
+
+	//$oDocumentLLLink2->getID()
+
+//de aqui ******************************//
+
+
+$UNO= "SELECT `id` FROM `folders` WHERE `name` LIKE 'e".$fLinkTypeID."%'";
+$Query=mysql_query($UNO);
+$DOS= mysql_fetch_row($Query);
+
+/**
+$dbg="update debugg set dos =" .'"'."HOLA  ".$oDocumentLLLink->getID().'"'."where llave=0";
+$r2 = mysql_query($dbg); 
+*/
+
+$fFolderID=$DOS[0];
+
+
+$oFolder = Folder::get($fFolderID);
+
+//reemplazar por el tipo de link
+
+$fDocumentLLTypeID=$fLinkTypeID;
+
+//concatenar valor name,y tipo de link de documentLLs que se relacionan esto sale en parte del recorrido del post
+
+$oDocumentLL1= DocumentLL::get($fDocumentLLID);
+$oDocumentLL2= DocumentLL::get($fTargetDocumentLLID);
+	
+
+   $fName1=$oDocumentLL1->getName();
+   $fName2=$oDocumentLL2->getName();
+   $fName3=$fName1."_".$fName2;
+   
+		
+//**************************************************
+// Sql que nos diga cual es el ultimo id de documentLLos//*************************************
+
+$elId= "SELECT MAX(`id`+ 1) FROM `documentLLs`";
+$elquery2=mysql_query($elId);
+$elId2= mysql_fetch_row($elquery2);
+$fName3=$elId2[0]."_".$fName3;
+
+
+  $_FILES['fFile']['name']=$fName3;
+  $_FILES['fFile']['size']=1;
+  $_FILES['fFile']['type']="txt";
+
+
+
+/**/
+
+
+//if the user selected a file to upload
+//create the documentLL in the database
+$oDocumentLL = & PhysicalDocumentLLManager::createDocumentLLFromUploadedFile($_FILES['fFile'], $fFolderID);
+// set the documentLL title
+
+
+
+
+
+
+
+
+//******************************************************************
+
+
+// set the documentLL type id
+$oDocumentLL->setDocumentLLTypeID($fDocumentLLTypeID);
+
+if (DocumentLL::documentLLExists($oDocumentLL->getFileName(), $oDocumentLL->getFolderID())) {
+    // documentLL already exists in folder
+    $default->log->error("addDocumentLLBL.php DocumentLL exists with name " . $oDocumentLL->getFileName() . " in folder " . Folder::getFolderPath($fFolderID) . " id=$fFolderID");                        	
+    require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+    $oPatternCustom = & new PatternCustom();
+    $oPatternCustom->setHtml(getStatusPage($fFolderID, _("A documentLL with this file name already exists in this folder") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocumentLL&fFolderID=$fFolderID&fDocumentLLTypeID=$fDocumentLLTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                            
+    $main->setCentralPayload($oPatternCustom);
+    $main->render();
+    exit(0);
+}
+
+if (!$oDocumentLL->create()) {
+    // couldn't store documentLL on fs
+    $default->log->error("addDocumentLLBL.php DB error storing documentLL in folder " . Folder::getFolderPath($fFolderID) . " id=$fFolderID");                            	
+    require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+    $oPatternCustom = & new PatternCustom();
+    $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the documentLL in the database, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocumentLL&fFolderID=$fFolderID&fDocumentLLTypeID=$fDocumentLLTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                                
+    $main->setCentralPayload($oPatternCustom);
+    $main->render();
+    exit(0);
+}
+
+/*if insertado, si es comentario seguir procedimiento alterado , si no seguir el usual */
+
+//if the documentLL was successfully created in the db, then store it on the file system
+if (!PhysicalDocumentLLManager::uploadPhysicalDocumentLL_felipe($oDocumentLL, $fFolderID, "None", $_FILES['fFile']['tmp_name'])) {
+    // couldn't store documentLL on filesystem
+    $default->log->error("addDocumentLLBL.php Filesystem error attempting to store documentLL " . $oDocumentLL->getFileName() . " in folder " . Folder::getFolderPath($fFolderID) . "; id=$fFolderID");                                	
+    require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+    // delete the documentLL from the database
+    $oDocumentLL->delete();
+    $oPatternCustom = & new PatternCustom();
+    $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the documentLL on the file system, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=browse&fFolderID=$fFolderID\"><img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"></a>"));                                    
+    $main->setCentralPayload($oPatternCustom);
+    $main->render();
+    exit(0);
+}
+
+//error expunge
+$oWebDocumentLL = & new WebDocumentLL($oDocumentLL->getID(), -1, 1, NOT_PUBLISHED, getCurrentDateTime());
+if ($oWebDocumentLL->create()) {
+    $default->log->error("addDocumentLLBL.php created web documentLL for documentLL ID=" . $oDocumentLL->getID());                                    	
+}
+
+
+
+//**********************************************//
+//************crear otros dos documentLLlink para que el archivo prueba.txt pueda contener los dos enlaces creados*******
+
+	$oDocumentLLLink3 = & new DocumentLLLink ( $oDocumentLL->getID(), $fTargetDocumentLLID, $fLinkTypeID, $fFolderID, $fDocumentLLTypeID, $fDependantDocumentLLID);
+	if (!$oDocumentLLLink3->create()) {
+			        
+				require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+				//an error occured while trying to create the documentLL link
+				$oPatternCustom = & new PatternCustom();
+				$oPatternCustom->setHtml(getPage($fDocumentLLID));
+				if ($default->bNN4) {
+					$main->setOnLoadJavaScript("disable(documentLL.MainForm.fTargetDocumentLL)");
+				}
+				$main->setCentralPayload($oPatternCustom);
+				$main->setFormAction($_SERVER["PHP_SELF"] . "?fDocumentLLID=$fDocumentLLID&fForStore=1");
+				$main->setHasRequiredFields(true);
+				$main->setErrorMessage(_("An error occured whilst attempting to link back the two documentLLs"));
+				$main->render();	
+			}
+
+	$oDocumentLLLink4 = & new DocumentLLLink ( $oDocumentLL->getID(), $fDocumentLLID, $fLinkTypeID, $fFolderID, $fDocumentLLTypeID, $fDependantDocumentLLID);
+	if (!$oDocumentLLLink4->create()) {
+			        
+				require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+				//an error occured while trying to create the documentLL link
+				$oPatternCustom = & new PatternCustom();
+				$oPatternCustom->setHtml(getPage($fDocumentLLID));
+				if ($default->bNN4) {
+					$main->setOnLoadJavaScript("disable(documentLL.MainForm.fTargetDocumentLL)");
+				}
+				$main->setCentralPayload($oPatternCustom);
+				$main->setFormAction($_SERVER["PHP_SELF"] . "?fDocumentLLID=$fDocumentLLID&fForStore=1");
+				$main->setHasRequiredFields(true);
+				$main->setErrorMessage(_("An error occured whilst attempting to link back the two documentLLs"));
+				$main->render();	
+			}
+
+
+//***************************************** hasta aca 
+
+			if ($oDocumentLLLink->create()) {
+			   $fdocid=$oDocumentLL->getID();
+
+     				if ($oDocumentLLLink2->create()) {
+				  //=========>>>Update creado para actualizar tabla de documentLLs en los campos enlace1 y enlace2 ======>>>
+
+        $aUNO="UPDATE `documentLLs` SET `parent_documentLL_id`=".$fDocumentLLID.",`child_documentLL_id`=".$fTargetDocumentLLID.", `enlace1`=".$oDocumentLLLink->getID().",`enlace2`=".$oDocumentLLLink2->getID()." WHERE `id`=".$oDocumentLL->getID();
+        $aDOS = mysql_query($aUNO);
+
+
+
+	//=========>>>>Termina UPDATE <<<<=============			     
+
+ //  controllerRedirect("viewDocumentLL", "fDocumentLLID=$fDocumentLLID&fShowSection=linkedDocumentLLs");
+                             controllerRedirect("modifyDocumentLLTypeMetaData", "fDocumentLLID=$fdocid&fShowSection=typeMetadata");
+			}
+                           else {
+				require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+				//an error occured while trying to create the documentLL link
+				$oPatternCustom = & new PatternCustom();
+				$oPatternCustom->setHtml(getPage($fDocumentLLID));
+				if ($default->bNN4) {
+					$main->setOnLoadJavaScript("disable(documentLL.MainForm.fTargetDocumentLL)");
+				}
+				$main->setCentralPayload($oPatternCustom);
+				$main->setFormAction($_SERVER["PHP_SELF"] . "?fDocumentLLID=$fDocumentLLID&fForStore=1");
+				$main->setHasRequiredFields(true);
+				$main->setErrorMessage(_("An error occured whilst attempting to link back the two documentLLs"));
+				$main->render();	
+			}
+
+
+			
+			} else {
+				require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+				//an error occured while trying to create the documentLL link
+				$oPatternCustom = & new PatternCustom();
+				$oPatternCustom->setHtml(getPage($fDocumentLLID));
+				if ($default->bNN4) {
+					$main->setOnLoadJavaScript("disable(documentLL.MainForm.fTargetDocumentLL)");
+				}
+				$main->setCentralPayload($oPatternCustom);
+				$main->setFormAction($_SERVER["PHP_SELF"] . "?fDocumentLLID=$fDocumentLLID&fForStore=1");
+				$main->setHasRequiredFields(true);
+				$main->setErrorMessage(_("An error occured whilst attempting to link the two documentLLs"));
+				$main->render();	
+			}			
+		}
+
+		 else {
+			//display the add page
+			require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");										
+						
+			$oPatternCustom = & new PatternCustom();
+			$oPatternCustom->setHtml(getPage($fDocumentLLID));
+			if ($default->bNN4) {
+				$main->setOnLoadJavaScript("disable(documentLL.MainForm.fTargetDocumentLL)");
+			}
+			$main->setCentralPayload($oPatternCustom);
+			$main->setFormAction($_SERVER["PHP_SELF"] . "?fDocumentLLID=$fDocumentLLID&fForStore=1");
+			$main->setHasRequiredFields(true);				
+			$main->render();
+		}
+	}
+}
+
+
+?>

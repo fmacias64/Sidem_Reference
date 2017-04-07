@@ -110,7 +110,7 @@ function renderPendingCollaborationDocuments($aPendingDocumentList) {
  */
 function renderCheckedOutDocuments($aCheckedOutDocumentList) {
     global $default;
-    if (count($aCheckedOutDocumentList) > 0) {
+    if (count($aCheckedOutDocumentList) > 0 && 0) {
         $sBgColor = "#9D9D7F";
     } else {
         $sBgColor = "#CECEBF";
@@ -119,7 +119,7 @@ function renderCheckedOutDocuments($aCheckedOutDocumentList) {
     $sToRender .= "\t\t\t\t<th class=\"sectionHeading\" colspan=\"2\"><font color=\"ffffff\">" . _("Checked Out Documents") . "</font></th>\n";
     $sToRender .= "\t\t\t</tr>\n";
     
-    if (count($aCheckedOutDocumentList) > 0) {
+    if (count($aCheckedOutDocumentList) > 0 && 0) {
         $sToRender .= "\t\t\t<tr>\n";
         $sToRender .= "\t\t\t\t<th align=\"left\" width=\"66%\" class=\"sectionColumns\">";
         $sToRender .= _("Title");
@@ -130,13 +130,13 @@ function renderCheckedOutDocuments($aCheckedOutDocumentList) {
         $sToRender .= "\t\t\t</tr>\n";
     }
     
-    for ($i = 0; $i < count($aCheckedOutDocumentList); $i++) {
+    /* for ($i = 0; $i < count($aCheckedOutDocumentList); $i++) {
         $oDocument = $aCheckedOutDocumentList[$i];
         $sToRender .= "\t\t\t<tr>\n";
         $sToRender .= "\t\t\t\t<td>" . generateControllerLink("viewDocument", "fDocumentID=" . $oDocument->getID(), "<img src=\"" . imgSrc("widgets/dstatus.gif") . "\" border=\"0\"/>&nbsp;" . $oDocument->getDisplayPath()) . "</td>\n";
         $sToRender .= "\t\t\t\t<td align=right>" . $oDocument->getDaysSinceLastModified() . "</td>\n";
         $sToRender .= "\t\t\t</tr>\n";
-    }
+    }*/
     return $sToRender;
 }
 

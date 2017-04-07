@@ -63,6 +63,7 @@ require_once("$default->fileSystemRoot/lib/foldermanagement/Folder.inc");
 
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternListFromQuery.inc");
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternTableSqlQuery.inc");
+require_once("$default->fileSystemRoot/lib/visualpatterns/PatternTableSqlQuery2.inc");
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternCustom.inc");
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternListFromQuery.inc");
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternTableSqlQuery.inc");
@@ -245,7 +246,14 @@ if (checkSession()) {
 	            }
 	            $main->setDHTMLScrolling(false);
 
-	            $sJavaScript = "switchDiv('" . (isset($fShowSection) ? $fShowSection : "documentData") . "', 'document');";
+
+
+		    // Abajo cambie documentdata por typespecific metadata
+
+	            $sJavaScript = "switchDiv('" . (isset($fShowSection) ? $fShowSection : "typeSpecificMetaData") . "', 'document');";
+
+
+
 	            if ($fCheckedOut) {
 	            	$sCheckOutMessage = _("You have now checked out this document. No one else can make updates to the document while you have it checked out. Save the document, make your changes and check it back in as soon as you finish working on it.");
 	            	$sJavaScript .= "redirectLink('$sCheckOutMessage', '" . generateControllerUrl("downloadDocument", "fDocumentID=$fDocumentID") . "')"; 

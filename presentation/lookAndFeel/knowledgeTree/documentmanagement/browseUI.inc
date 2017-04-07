@@ -319,7 +319,7 @@ function renderDocumentList($aResults, $sNoDocumentsMessage, $sNoPermissionMessa
             $sToRender .= "<td valign=\"bottom\">" . $aSortCriteria['category']->documentDisplay($oDocument) . "</td>";
             */
             foreach (array_values($aSortCriteria) as $oCriterion) {
-                $sToRender .= "<td valign=\"bottom\">" . $oCriterion->documentDisplay($oDocument) . "</td>";
+	      $sToRender .= "<td valign=\"bottom\">" . $oCriterion->documentDisplay($oDocument) . "</td>"; //aqui sale el valor de cada columna
             }
 
             $sToRender .= "</tr>\n";
@@ -341,9 +341,9 @@ function renderDocumentList($aResults, $sNoDocumentsMessage, $sNoPermissionMessa
 
 
     } else if ($aResults["accessDenied"]) {
-        $sToRender .= "<tr><td colspan=\"" . ($oBrowser->columns() + 1) . "\">$sNoPermissionMessage</td></tr>";
+        $sToRender .= "<tr><td colspan=\"" . ($oBrowser->columns() + 1) . "\">$sNoPermissionMessage"."</td></tr>";
     } else {
-        $sToRender .= "<tr><td colspan=\"" . ($oBrowser->columns() + 1) . "\">$sNoDocumentsMessage</td></tr>";
+        $sToRender .= "<tr><td colspan=\"" . ($oBrowser->columns() + 1) . "\">$sNoDocumentsMessage"."</td></tr>";
     }
     return $sToRender;
 }

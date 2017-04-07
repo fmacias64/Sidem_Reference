@@ -33,7 +33,7 @@
 require_once("../../../../config/dmsDefaults.php");
 
 KTUtil::extractGPC('fChildDocumentID', 'fDocumentID', 'fDocumentLinkID', 'fForDelete', 'fParentDocumentID');
-
+	$hola=$fParentDocumentID;
 if (checkSession()) {
 	require_once("$default->fileSystemRoot/lib/security/Permission.inc");
 	require_once("$default->fileSystemRoot/lib/documentmanagement/Document.inc");	
@@ -42,6 +42,7 @@ if (checkSession()) {
 	require_once("$default->fileSystemRoot/lib/foldermanagement/Folder.inc");
 	require_once("documentUI.inc");
 	require_once("removeDocumentLinkUI.inc");
+
 
 	$oDocument = Document::get($fDocumentID);
 	if (Permission::userHasDocumentWritePermission($oDocument)) {
@@ -85,7 +86,7 @@ if (checkSession()) {
 		$oPatternCustom = & new PatternCustom();
 		$oPatternCustom->setHtml("");
 		$main->setCentralPayload($oPatternCustom);
-		$main->setErrorMessage(_("You do not have permission to delete links between documents"));
+ $main->setErrorMessage(_("You ".$hola." hola  do not have permission to delete links between documents"));
 		$main->render();
 	}
 }

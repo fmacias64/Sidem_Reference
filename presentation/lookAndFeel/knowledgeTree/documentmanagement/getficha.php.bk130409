@@ -1,0 +1,1010 @@
+<?php
+
+require_once("../../../../config/dmsDefaults.php");
+
+
+
+if (checkSession()) {
+
+  //echo "hola";
+$id_docactual=$_GET[idd];
+$id_enlacesel=$_GET[cc];
+ 
+
+KTUtil::extractGPC('fDocumentID');
+require_once("../../../Html.inc");
+require_once("$default->fileSystemRoot/lib/documentmanagement/Document.inc");
+require_once("$default->fileSystemRoot/presentation/lookAndFeel/knowledgeTree/documentmanagement/viewUI.inc");
+require_once("$default->fileSystemRoot/lib/documentmanagement/DocumentCollaboration.inc");
+$letra = $_GET["letra"];
+
+//$id_docactual=256;
+//$id_enlacesel=34;
+ 
+
+
+ 
+
+//=======MIKE======//
+//== busqueda de todos aquellos individuos relacionados con el documento  y q su link sea de tipo individuo has individuo ==
+
+function displayBotonEventosF($oDocument, $bEdit) {
+	global $default;
+
+	//=======>>>>  busqueda para encontrar el tipo de enlace =========>>>>
+
+	$ONE= "SELECT A.`id` FROM `document_types_lookup` AS A, `document_types_lookup` AS B WHERE A.`enlazadoA`=B.`id` AND A.`enlazadoB`=".$oDocument->getDocumentTypeID()."  AND B.`name` LIKE 'Eventos'" ;
+	$TWO = mysql_query($ONE);
+	$tipoenlace = mysql_fetch_row($TWO);
+
+ return displayButton("addDocument", "fFolderID=9&arch=2&botview=101&tipoen=".$tipoenlace[0]."&docqllama=".$oDocument->getID(), "Agregar Eventos");
+     }
+
+
+
+
+
+   $iddoc=$letra;
+  
+ echo "<link rel=\"stylesheet\" href=\"$default->uiUrl/stylesheet.php\">\n";
+ echo "<table style='text-align: left; width:80% ; ' border='1'  cellpadding='2' cellspacing='2' ><tbody>
+
+<tr>
+    <td><table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><font size=1 face='Times'><tbody>";
+
+  
+
+
+$iddoc = $_GET["letra"];
+
+
+$oDocument = & Document::get($iddoc);
+  
+ 
+  echo "<tr><TH rowspan='1'><TH colspan='2'align='center' ><font size=1 face='Times'>Datos Personales</font></tr> <tr><td valign='top' height=40% align='center'>";
+
+  //======= se integra la imagen del individuo a los resultados de la busqueda ======
+ 
+   $docs="img/".$oDocument->getFileName();
+   
+  $tama=filesize($docs);
+
+
+   
+ if ($tama >= 10){
+ 
+ echo  "<img style=".'"'." width: 70px; height: 70px;".'"'." alt= ".'"'.$oDocument->getName().'"'." src= ".'"'."http://192.168.2.156:90/FichasBD/branches/Sidem/Documents". $oDocument->generateFullFolderPath($oDocument->getFolderID())."/".$oDocument->getFileName().'"'." > </a></td>
+
+<td >";
+    }
+ else
+   {
+ echo "<img style=".'"'." width: 70px; height: 70px;".'"'." alt= ".'"'.$oDocument->getName().'"'." src=\"$default->rootUrl/Documents/Root Folder/Default Unit/SIDEM/Individuo/nofoto.jpg\" ></td>
+
+<td >";
+   }
+
+if ($sectionName == "") {
+    $sectionName = $default->siteMap->getSectionName(substr($_SERVER["PHP_SELF"], strlen($default->rootUrl), strlen($_SERVER["PHP_SELF"])));
+}
+
+ //====== busqueda para datos de cada individuo relacionados con el doc 256 =====
+$indv_rel= "SELECT * FROM `document_fields_link` WHERE `document_field_id`<> 1  AND `document_id`=".$iddoc;
+$indv_rel1 = mysql_query($indv_rel);
+//$indv_rel2 = mysql_fetch_row($indv_rel1);
+
+ while ($indv_rel2 = mysql_fetch_row($indv_rel1))
+{
+
+ 
+
+ 
+ if ($indv_rel2[2]==8) {
+    $nam=$indv_rel2[3];
+    
+}
+ if ($indv_rel2[2]==21 ){
+   $appat=$indv_rel2[3];
+
+}
+ if ($indv_rel2[2]==22){
+   $apmat=$indv_rel2[3];
+
+}
+ if ($indv_rel2[2]==23 ){
+    $fech=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==54 ){
+    $nac=$indv_rel2[3];
+
+}
+ if ($indv_rel2[2]==55 ){
+    $inst=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==56){
+    $carg=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==57 ){
+    $tel=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==58 ){
+    $mail=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==59){
+    $dir=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==60 ){
+    $dir1=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==61 ){
+    $cpos=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==38 ){
+    $edo=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==18 ){
+    $lug=$indv_rel2[3];
+
+
+
+
+if ($lug>0){
+$onetr="SELECT `name` FROM `documents` WHERE `id` =".$lug;
+$twotr=mysql_query($onetr);
+$trestr=mysql_fetch_row($twotr);
+$Lug=explode(" ",$trestr[0]);
+} 
+else 
+   {
+$Lug=explode(" "," _N/A_ _ _ ");
+   }
+}
+
+if ($indv_rel2[2]==96 ){
+    $resum=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==63 ){
+    $rel1=$indv_rel2[3];
+
+}
+
+if ($indv_rel2[2]==64 ){
+    $rel2=$indv_rel2[3];
+
+}
+
+if ($indv_rel2[2]==65 ){
+    $rel3=$indv_rel2[3];
+
+}
+if ($indv_rel2[2]==69 ){
+    $gen=$indv_rel2[3];
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+ echo "<font size=2 face='Times'>".$appat." ".$apmat." ".$nam  ."</font>";
+echo"
+<td>".displayBotonRelacInd($oDocument, $bEdit)."
+".displayBotonRelacDomic($oDocument, $bEdit)."
+".displayBotonRelacEventos($oDocument, $bEdit)."
+".displayBotonRelacPref($oDocument, $bEdit)."
+".displayBotonRelacFin($oDocument, $bEdit)."
+".displayBotonRelacTray($oDocument, $bEdit)."
+
+".displayBotonRelacMultdesdInd($oDocument, $bEdit)."
+
+</td>"; 
+
+if ($_SESSION["userID"]==1){
+$bEdit=1;
+if(!($sectionName =="Administration")){
+echo"
+<td>".displayBotonEditar($oDocument, $bEdit)."
+".displayCheckInOutButton($oDocument, $bEdit)."
+</td>"; 
+
+	
+				}	
+		}
+if ($_SESSION["userID"]==5){
+$bEdit=1;
+if(!($sectionName =="Administration")){
+echo"
+<td>".displayBotonEditar($oDocument, $bEdit)."
+".displayCheckInOutButton($oDocument, $bEdit)."</td>";
+
+	
+				}	
+		}
+
+//===============
+/**
+if ($_SESSION["groupID"]==1){
+$bEdit=1;
+if(!($sectionName =="Administration")){
+echo"
+<td>".displayBotonEditar($oDocument, $bEdit)."
+".displayCheckInOutButton($oDocument, $bEdit)."</td>";
+
+
+	
+				}	
+		}
+*/
+//==============
+
+echo "
+<tr><td><font size=2 face='Times' color='blue'>Fecha de Nacimiento</font></td>
+<td ><font size=2 face='Times' >".$fech ."</font></td>
+
+
+</tr>
+<tr><td><font size=2 face='Times' color='blue'>Nacionalidad</font></td>
+<td ><font size=2 face='Times'>".$nac ."</font></td>
+</tr>
+
+<tr>
+<td><font size=2 face='Times' color='blue'>Telefono</font></td>
+<td ><font size=2 face='Times'>".$tel ."</font></td>
+
+</tr>
+
+<tr>
+<td><font size=2 face='Times' color='blue'>E-mail</font></td>
+<td><font size=2 face='Times'>".$mail ."</font></td>
+
+</tr>
+
+<tr>
+<td><font size=2 face='Times' color='blue'>Lugar de Nacimiento</font></td>
+<td  colspan='2'><font size=2 face='Times'> ".$Lug[1] ." ".$Lug[2] ." ".$Lug[3] ." ".$Lug[4] ." ".$Lug[5] ." ".$Lug[6] ."</font></td>
+
+</tr>
+
+<tr>
+<td><font size=2 face='Times' color='blue'>Genero</font></td>
+<td ><font size=2 face='Times'>".$gen."</font></td>
+
+</tr>
+<tr>
+<td><font size=2 face='Times' color='blue'>Resumen Ejecutivo</font></td>
+<td colspan='2' align='justify'><font size=2 face='Times'>".$resum."</font></td>
+
+</tr>
+
+
+
+";
+ 
+
+
+echo "</td></tr></tbody></td></tr>";
+
+
+
+//===========>>> INICIA TRAYECTORIA  =============>>>>
+
+
+
+//me quede en corregir abajo
+//ids de docs tipo ind has evento, que relacionen a la ficha referenciante
+
+/*** parte comentada empieza aqui **/
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=4 and `status_id` = 1") or die("deadind1"); 
+$indicetra=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste3[] = $row[0];
+//$elrow=$row[0];
+ $indicetra++; 
+}
+ 
+
+// Si indice es mayor a 0 existe trayectoria
+if($indicetra>0)
+{
+$cuentaindiv=0;
+// foreach ($liste3 as $ID1) {
+
+// a,b,c ... todos los campos de un documento especifico
+// doc es el documento enlace y con el campo comentario
+//h es hijo o padre de doc, es de tipo evento y ea,eb e... son sus campos
+
+
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name,b.value,c.value,d.value,e.value,h.id FROM `document_fields_link` as a,`document_fields_link` as b,`document_fields_link` as d,`document_fields_link` as e,`document_fields_link` as c,`document_fields_link` as ea,`document_fields_link` as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee, `documents` as doc ,`documents` as h WHERE doc.`id` = a.`document_id` AND doc.`id` = b.`document_id` AND doc.`id` = c.`document_id`  AND doc.`id` = d.`document_id`  AND doc.`id` = e.`document_id` and a.`document_field_id`=29  AND b.`document_field_id`=78 AND c.`document_field_id`=24 AND d.`document_field_id`=50 AND e.`document_field_id`=25  AND ea.`document_id`=eb.`document_id` AND ea.`document_id`=ec.`document_id` AND ea.`document_id`=ed.`document_id`  AND ea.`document_field_id`=92 AND eb.`document_field_id`=78 AND ec.`document_field_id`=91 AND ed.`document_field_id`=18 AND ee.`document_field_id`=18 AND ee.`document_id`=ea.`document_id` AND (((h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=22) or ((h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=22))  and doc.`document_type_id`=4 and doc.`status_id` = 1 and ((doc.`parent_document_id`= $iddoc)  or ( doc.`child_document_id`= $iddoc)) order by d.value,eb.value desc ") or die("deadw"); 
+
+
+
+while($row3 =  mysql_fetch_row($result3))
+{
+  
+/**
+subindice
+0
+1       a  comentario            4
+2	ea Tipo de Evento        6
+3	eb Fecha de Registro ord 1
+4	ec Titulo de Evento      2
+5	ed Lugar                 3
+	g 
+6       h evento       
+7       ee fuente                5
+*/
+
+
+
+if ( $row3[5] =! 0 ){
+$onetr="SELECT `name` FROM `documents` WHERE `id` =".$row3[5];
+$twotr=mysql_query($onetr);
+$trestr=mysql_fetch_row($twotr);
+$Lug=explode(" ",$trestr[0]);
+} else {$Lug=explode("_"," _N/A_ _ _ _ ");}
+
+if (($cuentaindiv!=0) AND ($tipoactual!=$row3[9])){
+
+
+echo "</tbody></table></td></tr><tr><td>";
+
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><font size=2 face='Times'  color='blue'><center>Trayectoria tipo: $row3[9]</center></font></thead><tbody>";
+echo "<tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><font size=2 face='Times'  color='blue'></font></thead><tbody>";
+
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Inicio</font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>Final</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Tipo de Trayectoria</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Cargo-Puesto</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Nombre Instituci&oacute;n</font></th>";
+
+}
+if ($cuentaindiv==0) {
+$cuentaindiv++ ;
+
+echo "</tbody></table></td></tr><tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><center><font size=2 face='Times' color='blue'>Trayectoria  tipo: $row3[9]</font></center></thead><tbody>";
+echo "<tr><td>";
+
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Inicio</font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>Final</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Tipo de Trayectoria</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Cargo-Puesto</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Nombre Instituci&oacute;n</font></th>";
+}
+$tipoactual=$row3[9];
+echo "<tr>";
+echo "<td ><font size=2 face='Times'>".$row3[7] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[8] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[10] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getftray_indv&letra=".$row3[0] ."' target='fichas2'>".$row3[9] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[1] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[11] ."' target='fichas2' >".$row3[2] ."</font></td>";
+
+
+echo "</tr>";
+
+
+} // cierre del for}
+
+
+
+
+
+
+}  // fin de indice
+
+echo "</tr></table></td></tr>";
+//===================<<<< TERMINA TRAYECTORIA <<<<===================
+
+//*** Individuos
+
+echo "<tr><td>";
+
+
+//me quede en corregir abajo
+$resulta= mysql_query("SELECT a.`id` FROM `documents` as a ,`document_fields_link` as b WHERE b.`document_id` = a.`id` AND b.`document_field_id` = 26 AND ((a.`parent_document_id`= $iddoc)  or ( a.`child_document_id`= $iddoc)) and a.`document_type_id`=20 and a.`status_id` = 1 order by b.`value`") or die("deadw1"); 
+$indiceind=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste2[] = $row[0];
+ $indiceind++; 
+}
+// Si indice es mayor a 0 existe trayectoria
+if($indiceind>0)
+{
+
+$cuentaindiv=0;
+
+//foreach ($liste2 as $ID1) {
+//if ($cuentaindiv!=0){ $tipoactual = $row3[4];}
+
+$result3= mysql_query("SELECT a.document_id, a.value, b.value, c.value, d.value, a.id, f.value, h.name,h.id, g.value FROM `document_fields_link` as a , `document_fields_link` as b , `document_fields_link` as c, `document_fields_link` as d , `document_fields_link` as f, `document_fields_link` as g  ,`documents` as doc ,`documents` as h  WHERE a.`document_id` = b.`document_id` and b.`document_id` = c.`document_id` and a.`document_id` = d.`document_id` and a.`document_id` = f.`document_id` and a.`document_id` = g.`document_id` and  a.`document_field_id` = 82 and b.`document_field_id` = 86 and c.`document_field_id` = 85 and d.`document_field_id` = 26  and f.`document_field_id` = 78 and g.`document_field_id` = 83 and doc.`id` = a.`document_id`  and (((h.`id` = doc.`parent_document_id`) and doc.`parent_document_id`<> $iddoc) or ((h.`id` = doc.`child_document_id`)and doc.`child_document_id`<> $iddoc))  and h.`document_type_id`=18 and a.`document_id`=doc.id  AND ((doc.`parent_document_id`= $iddoc)  or ( doc.`child_document_id`= $iddoc)) and doc.`document_type_id`=20 and doc.`status_id` = 1 order by d.value desc,h.name desc ") or die("deadw"); 
+
+while ($row3 =  mysql_fetch_row($result3))
+{
+/**
+subindice
+0	a Fuente
+1	b Estado
+2	c Direccion de la Relacion
+3	d tipo Relacion
+4	e Capacidad de Influencia
+5	f fecha registro
+6	h nombre 
+*/
+
+if (($cuentaindiv!=0) AND ($tipoactual!=$row3[4])){
+echo "</tbody></table></td></tr><tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><center><font size=2 face='Times' color='blue'>Relaci&oacute;n  tipo: $row3[4]</font></center></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Nombre</font></th>";
+
+echo "<th><font size=2 face='Times' color='blue'>Direcci&oacute;n</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha de <br> Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fuente</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Nota Completa</font></th>";
+echo "</tr>";
+}
+
+// aqui
+if ($cuentaindiv==0) {
+$cuentaindiv++ ;
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><center><font size=2 face='Times' color='blue'>Relaci&oacute;n  tipo: $row3[4] 1</font></center></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Nombre</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Direcci&oacute;n</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha de <br> Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fuente</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Nota Completa</font></th>";
+echo "</tr>";
+//aca
+}
+
+$tipoactual=$row3[4];
+echo "<tr>";
+
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getficha&letra=".$row3[8]."' target='fichas2' >".$row3[7] ."</font></a></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfindv_indv&letra=".$row3[0] ."' target='fichas2' >".$row3[3] ."</a></font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[6] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[1] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[9] ."</font></td>";
+
+
+echo "</tr>";
+
+
+
+
+
+
+
+}
+
+
+
+
+echo "</tr></table></td></tr>";
+
+
+} 
+
+//** fin individuos
+
+//===================Inicia Finanzas ===========================
+
+echo "<tr><td>";
+
+
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=15 and `status_id` = 1") or die("deadw1"); 
+$indicefin=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste1[] = $row[0];
+ $indicefin++; 
+}
+// Si indice es mayor a 0 existe trayectoria
+if($indicefin>0)
+{
+
+$cuenta=0;
+//foreach ($liste1 as $ID1) {
+
+
+
+echo "</tbody></table></td></tr><tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><center><font size=2 face='Times' color='blue'>Finanzas</font></center></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=1 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Tipo de Finanza</font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Tipo de Inmueble</font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Valor Inmueble</font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Referencia de Ubicacion</font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Comentario </font></th>";
+echo "<th><font size=1 face='Times' color='blue'>Empresa Relacionada</font></th>";
+echo "</tr>";
+
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name, ee.value,ef.value,eg.value,h.id FROM `document_fields_link` as a,`document_fields_link` as ea,`document_fields_link` as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee,`document_fields_link` as ef,`document_fields_link` as eg, `documents` as doc ,`documents` as h WHERE doc.`id` = a.`document_id` and a.`document_field_id`=78 AND ea.`document_id`=eb.`document_id` AND ea.`document_id`=ec.`document_id` AND ea.`document_id`=ed.`document_id`  AND ea.`document_field_id`=9 AND eb.`document_field_id`=80 AND ec.`document_field_id`=13 AND ed.`document_field_id`=79 AND ee.`document_field_id`=78  AND ef.`document_field_id`=12  AND eg.`document_field_id`=30 AND ee.`document_id`=ea.`document_id`AND ef.`document_id`=ea.`document_id` AND eg.`document_id`=ea.`document_id` AND (((h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=14) or ((h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=14))  and doc.`document_type_id`=15 and doc.`status_id` = 1 and ((doc.`parent_document_id`= $iddoc)  or ( doc.`child_document_id`= $iddoc)) order by eb.value desc ") or die("deadw"); 
+
+
+
+while( $row3 =  mysql_fetch_row($result3))
+{
+
+
+echo "<tr>";
+if ($row3[5]>0){
+$oneev1="SELECT `name` FROM `documents` WHERE `id` =".$row3[5];
+$twoev1=mysql_query($oneev1);
+$threev1=mysql_fetch_row($twoev1);
+
+$Lug=explode(" ",$threev1[0]);
+}
+else {$Lug=explode("_"," _N/A_ _ _ ");}
+
+if ($row3[9]>0){
+$onee="SELECT `name` FROM `documents` WHERE `id` =".$row3[9];
+$twoe=mysql_query($onee);
+$three=mysql_fetch_row($twoe);
+
+$EMP=explode(" ",$three[0]);
+}
+else {$EMP=explode("_"," _N/A_ _ _ ");}
+//echo "<td ><font size=2 face='Times'>".$row3[0] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[1] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$row3[4] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$row3[2] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$row3[3] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$Lug[1] ." ".$Lug[2] ." ".$Lug[3] ." ".$Lug[4] ."<br> ".$Lug[5] ." ".$Lug[6] ." ".$Lug[7] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$row3[8] ."</font></td>";
+
+//echo "<td ><font size=2 face='Times'>".$row3[10] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfinst&letra=".$row3[9] ."' target='fichas2' >".$EMP[1] ." ".$EMP[2] ." ".$EMP[3] ."<br> ".$EMP[4] ." ".$EMP[5] ." ".$EMP[6] ." ".$EMP[7] ."</font></td>";
+
+echo "</tr>";
+
+
+} 
+
+
+
+
+
+echo "</tbody></table></td></tr>";
+
+}  
+
+
+
+//================ Termina Finanzas ==========================
+
+
+
+
+
+
+
+
+
+
+
+//======================>>>>>> INICIA DOMICILIOS  ====================>>>>
+
+
+//me quede en corregir abajo
+//ids de docs tipo ind has evento, que relacionen a la ficha referenciante
+
+/*** parte comentada empieza aqui **/
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=19 and `status_id` = 1") or die("deadind1"); 
+$indicedom=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste3[] = $row[0];
+//$elrow=$row[0];
+ $indicedom++; 
+}
+ 
+
+if($indicedom>0)
+{
+echo "<tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><font size=2 face='Times'  color='blue'><center>Domicilios</center></font></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Comentario</font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Direcci&oacute;n</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Lugar</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha Final</font></th>";
+//echo "<th><font size=2 face='Times' color='blue'>Fuente</font></th>";
+//echo "<th><font size=2 face='Times' color='blue'>Tipo de Evento</font></th>";
+
+// foreach ($liste3 as $ID1) {
+
+// a,b,c ... todos los campos de un documento especifico
+// doc es el documento enlace y con el campo comentario
+//h es hijo o padre de doc, es de tipo evento y ea,eb e... son sus campos
+
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name, ee.value,h.id FROM `document_fields_link` as a,`document_fields_link` as ea,`document_fields_link` as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee, `documents` as doc ,`documents` as h WHERE doc.`id` = a.`document_id` and a.`document_field_id`=12 AND ea.`document_id`=eb.`document_id` AND ea.`document_id`=ec.`document_id` AND ea.`document_id`=ed.`document_id`  AND ea.`document_field_id`=18 AND eb.`document_field_id`=78 AND ec.`document_field_id`=133 AND ed.`document_field_id`=61 AND ee.`document_field_id`=25 AND ee.`document_id`=ea.`document_id` AND (((h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=9) or ((h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=9))  and doc.`document_type_id`=19 and doc.`status_id` = 1 and ((doc.`parent_document_id`= $iddoc)  or ( doc.`child_document_id`= $iddoc)) order by eb.value desc ") or die("deadw"); 
+
+
+
+
+while($row3 =  mysql_fetch_row($result3))
+{
+  
+/**
+subindice
+0
+1       a  comentario            4
+2	ea Tipo de Evento        6
+3	eb Fecha de Registro ord 1
+4	ec Titulo de Evento      2
+5	ed Lugar                 3
+	g 
+6       h domicilio       
+7       ee fuente                5
+*/
+
+
+if ($row3[2]>0){
+
+$oneev1="SELECT `name` FROM `documents` WHERE `id` =".$row3[2];
+$twoev1=mysql_query($oneev1);
+$threev1=mysql_fetch_row($twoev1);
+
+$Lug1=explode(" ",$threev1[0]);
+}
+else {$Lug=explode("_"," _N/A_ _ _ ");}
+
+echo "<tr>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfindv_domic&letra=".$row3[0] ."' target='fichas2'>".$row3[3] ."</a></font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfindv_domic&letra=".$row3[0] ."' target='fichas2'>".$row3[1] ."</font></a></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfDomic&letra=".$row3[8] ."' target='fichas2' >".$row3[4] ."<br> C.p.".$row3[5]."</font></a></td>";
+
+
+echo "<td ><font size=2 face='Times'> ".$Lug1[1] ." ".$Lug1[2] ."<br>".$Lug1[3]." ".$Lug1[4]." ".$Lug1[5]."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[7] ."</font></td>";
+
+
+
+echo "</tr>";
+
+
+} // cierre del for}
+
+
+
+
+
+echo "</tr></tbody></table></td></tr>";
+
+}  // fin de indice
+
+//=======================>>>>> TERMINA DOMICILIOS <<<<=================
+
+//*** Evento
+
+//me quede en corregir abajo
+//ids de docs tipo ind has evento, que relacionen a la ficha referenciante
+
+/*** parte comentada empieza aqui **/
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=5 and `status_id` = 1") or die("deadind1"); 
+$indiceev=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste3[] = $row[0];
+//$elrow=$row[0];
+ $indiceev++; 
+}
+ 
+
+// Si indice es mayor a 0 existe trayectoria
+if($indiceev>0)
+{
+echo "<tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><font size=2 face='Times'  color='blue'><center>Eventos</center></font></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Evento </font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Referencia de Ubicaci&oacute;n</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Comentario</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Fuente</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Tipo de Evento</font></th>";
+
+
+
+// foreach ($liste3 as $ID1) {
+
+// a,b,c ... todos los campos de un documento especifico
+// doc es el documento enlace y con el campo comentario
+//h es hijo o padre de doc, es de tipo evento y ea,eb e... son sus campos
+
+
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name, ee.value,h.id FROM `document_fields_link` as a,`document_fields_link` as ea,`document_fields_link` as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee, `documents` as doc ,`documents` as h WHERE doc.`id` = a.`document_id` and a.`document_field_id`=12 AND ea.`document_id`=eb.`document_id` AND ea.`document_id`=ec.`document_id` AND ea.`document_id`=ed.`document_id`  AND ea.`document_field_id`=70 AND eb.`document_field_id`=78 AND ec.`document_field_id`=81 AND ed.`document_field_id`=79 AND ee.`document_field_id`=82 AND ee.`document_id`=ea.`document_id` AND (((h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=2) or ((h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=2))  and doc.`document_type_id`=5 and doc.`status_id` = 1 and ((doc.`parent_document_id`= $iddoc)  or ( doc.`child_document_id`= $iddoc)) order by eb.value desc ") or die("deadw"); 
+
+
+
+while($rowevent =  mysql_fetch_row($result3))
+{
+  
+/**
+subindice
+0
+1       a  comentario            4
+2	ea Tipo de Evento        6
+3	eb Fecha de Registro ord 1
+4	ec Titulo de Evento      2
+5	ed Lugar                 3
+	g 
+6       h evento       
+7       ee fuente                5
+*/
+
+
+if ($rowevent[5]>0){
+$oneev1="SELECT `name` FROM `documents` WHERE `id` =".$rowevent[5];
+$twoev1=mysql_query($oneev1);
+$threev1=mysql_fetch_row($twoev1);
+
+$Lug=explode(" ",$threev1[0]);
+}
+else {$Lug=explode("_"," _N/A_ _ _ ");}
+echo "<tr>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfevento&letra=".$rowevent[8] ."' target='fichas2' >".$rowevent[3] ."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfevento&letra=".$rowevent[8] ."' target='fichas2' >".$rowevent[4] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$Lug[1] ." ".$Lug[2] ."<br>".$Lug[3]."</font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfevent_indv&letra=".$rowevent[0] ."' target='fichas2' >".$rowevent[1] ."</a></font></td>";
+echo "<td ><font size=2 face='Times'>".$rowevent[7] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$rowevent[2] ."</font></td>";
+echo "</tr>";
+
+
+} // cierre del for}
+
+
+
+
+
+echo "</tr></tbody></table></td></tr>";
+
+}  // fin de indice
+//** fin evento
+
+
+
+//===============>>>> INICIA EVENTOB2B ============>>>
+
+//me quede en corregir abajo
+//ids de docs tipo ind has evento, que relacionen a la ficha referenciante
+
+/*** parte comentada empieza aqui **/
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=43 and `status_id` = 1") or die("deadind1"); 
+$indiceb2b=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+//$liste3[] = $row[0];
+//$elrow=$row[0];
+ $indiceb2b++; 
+}
+ 
+
+// Si indice es mayor a 0 existe trayectoria
+if($indiceb2b>0)
+{
+echo "<tr><td>";
+echo "<table width=100% height=60%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><font size=2 face='Times'  color='blue'><center>Eventos Empresariales</center></font></thead><tbody>";
+echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Enlace</font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Evento </font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Operating Income</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Net Revenue</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Total Income</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Gross Profit</font></th>";
+
+
+
+// foreach ($liste3 as $ID1) {
+
+// a,b,c ... todos los campos de un documento especifico
+// doc es el documento enlace y con el campo comentario
+//h es hijo o padre de doc, es de tipo evento y ea,eb e... son sus campos
+/**
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name, ee.value \
+                       FROM `document_fields_link` as a,`document_fields_link` as ea,`document_fields_link` \
+                             as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee,\
+                             `documents` as doc ,`documents` as h \
+                       WHERE \
+                                 doc.`id` = a.`document_id` \
+                             and a.`document_field_id`=8 \
+                             AND ea.`document_id`=eb.`document_id`\ 
+                             AND ea.`document_id`=ec.`document_id` \
+                             AND ea.`document_id`=ed.`document_id`  \
+                             AND ea.`document_field_id`=102 \
+                             AND eb.`document_field_id`=103 \
+                             AND ec.`document_field_id`=104 \
+                             AND ed.`document_field_id`=105 \
+                             AND ee.`document_field_id`=78 \
+                             AND ee.`document_id`=ea.`document_id`\ 
+                             AND \
+                                (\
+                                  (\
+                                        (h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`)\ 
+                                    and  h.`document_type_id`=38\
+                                   ) \
+                                 or (\
+                                         (h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) \
+                                     and h.`document_type_id`=38\
+                                     )\
+                                 )  \
+                             and doc.`document_type_id`=43 \
+                             and doc.`status_id` = 1 \
+                             and \
+                                (\
+                                     (doc.`parent_document_id`= $iddoc)\  
+                                  or ( doc.`child_document_id`= $iddoc)\
+                                 )\
+                                  order by ee.value desc ") or die("deadw"); 
+*/
+$result3= mysql_query("SELECT a.document_id, a.value,ea.value,eb.value,ec.value,ed.value, h.name, ee.value,h.id  FROM `document_fields_link` as a,`document_fields_link` as ea,`document_fields_link` as eb,`document_fields_link` as ec ,`document_fields_link` as ed ,`document_fields_link` as ee,`documents` as doc ,`documents` as h   WHERE doc.`id` = a.`document_id`  and a.`document_field_id`=8    AND ea.`document_id`=eb.`document_id`  AND ea.`document_id`=ec.`document_id` AND ea.`document_id`=ed.`document_id`  AND ea.`document_field_id`=102 AND eb.`document_field_id`=103 AND ec.`document_field_id`=104  AND ed.`document_field_id`=105 AND ee.`document_field_id`=78 AND ee.`document_id`=ea.`document_id`AND (((h.`id` = doc.`parent_document_id` AND ea.`document_id`=h.`id`) and  h.`document_type_id`=38) or ((h.`id` = doc.`child_document_id` AND ea.`document_id`=h.`id`) and h.`document_type_id`=38))  and doc.`document_type_id`=43 and doc.`status_id` = 1 and ((doc.`parent_document_id`= $iddoc) or ( doc.`child_document_id`= $iddoc))order by ee.value desc ") or die("deadw"); 
+while($row3 =  mysql_fetch_row($result3))
+{
+  
+/**
+subindice
+0
+1       a  comentario            4
+2	ea Tipo de Evento        6
+3	eb Fecha de Registro ord 1
+4	ec Titulo de Evento      2
+5	ed Lugar                 3
+	g 
+6       h evento       
+7       ee fuente                5
+*/
+
+if ($row3[5]>0){
+$oneev1="SELECT `name` FROM `documents` WHERE `id` =".$row3[5];
+$twoev1=mysql_query($oneev1);
+$threev1=mysql_fetch_row($twoev1);
+
+$Lug=explode(" ",$threev1[0]);
+}
+else {$Lug=explode("_"," _N/A_ _ _ ");}
+echo "<tr>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfeventem_indv&letra=".$row3[0] ."' target='fichas2'>".$row3[7] ."</font></a></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfeventem_indv&letra=".$row3[0] ."' target='fichas2'>".$row3[0]."_".$row3[1] ."</font></a></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfeventb2b&letra=".$row3[8] ."' target='fichas2' >".$row3[6] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[4] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[5] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[2] ."</font></td>";
+echo "<td ><font size=2 face='Times'>".$row3[3] ."</font></td>";
+
+
+echo "</tr>";
+
+
+} // cierre del for}
+
+
+
+
+
+echo "</tr></tbody></table></td></tr>";
+
+}  // fin de indice
+//=============<<<< TERMINA EVENTOB2B <<<<<===================
+
+
+
+
+
+
+
+//*** Preferencias
+
+//me quede en corregir abajo
+$resulta= mysql_query("SELECT id FROM `documents` WHERE ((`parent_document_id`= $iddoc)  or ( `child_document_id`= $iddoc)) and `document_type_id`=17 and `status_id` = 1") or die("deadw1"); 
+$indicepre=0;
+while ($row =  mysql_fetch_row($resulta)) 
+{ 
+$liste4[] = $row[0];
+ $indicepre++; 
+}
+// Si indice es mayor a 0 existe trayectoria
+if($indicepre>0)
+{
+echo "<tr><td>";
+echo "<table width=100% height=70%  align='left' style='text-align: left' ; ' border='1'  cellpadding='2' cellspacing='2'><thead><center><font size=2 face='Times' color='blue' >Preferencias</font></center></thead><tbody>";
+//echo "<tr>";
+echo "<th><font size=2 face='Times' color='blue'>Fecha <br>de Registro</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Exponente <br>Favorito</font></td>";
+echo "<th><font size=2 face='Times' color='blue'>Comentario</font></th>";
+echo "<th><font size=2 face='Times' color='blue'>Actividad</font></th>";
+
+
+foreach ($liste4 as $ID1) {
+$result3= mysql_query("SELECT a.document_id, a.value, b.value, c.value, h.name,h.id FROM `document_fields_link` as a , `document_fields_link` as b , `document_fields_link` as c,`documents` as doc ,`documents` as h  WHERE a.`document_id` = b.`document_id` and b.`document_id` = c.`document_id` and a.`document_field_id` = 78 and b.`document_field_id` = 88 and c.`document_field_id` = 12 and  doc.`id` = a.`document_id`  and (((h.`id` = doc.`parent_document_id`) and h.`document_type_id`=16) or ((h.`id` = doc.`child_document_id`) and h.`document_type_id`=16)) and a.`document_id`=$ID1 order by a.value desc,h.name desc ") or die("deadw"); 
+ $row3 =  mysql_fetch_row($result3);
+
+/**
+subindice
+0	a Fecha Registro
+1	b Exponente Favorito
+2	c Comentario
+3	h Actividad
+*/
+
+//<a href='/FichasBD/branches/Sidem/control.php?action=modifyDocumentTypeMetaData&fDocumentID=".$row3[0] ."' target='fichas2'>
+//<a href='/FichasBD/branches/Sidem/control.php?action=getfevent_indv&letra=".$rowevent[0] ."' target='fichas2' >
+
+echo "<tr>";
+echo "<td ><font size=2 face='Times'>".$row3[1] ."</font></td>";
+
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfpref_indv&letra=".$row3[0] ."' target='fichas2'> ".$row3[2] ."</a></font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfpref_indv&letra=".$row3[0] ."' target='fichas2'>".$row3[3] ."</a></font></td>";
+echo "<td ><font size=2 face='Times'><a href='/FichasBD/branches/Sidem/control.php?action=getfprefe&letra=".$row3[5] ."' target='fichas2' >".$row3[4] ."</font></a></td>";
+
+
+echo "</tr>";
+
+
+}
+
+
+
+
+
+echo "</tbody></table></td></tr>";
+
+}  // fin de indice
+//** fin preferencias
+
+
+echo "</table>";
+
+
+//===========>>  Busqueda de nombres de documento de Individuo   =========>>
+//======== busqueda de todos aquellos documentos q sean de tipo individuo =======
+
+// SELECT * FROM `documents` WHERE `document_type_id`=2
+
+//===============>>  Termina busqueda  =========>>
+
+ 
+//abajo 1-hacer select name, id  from documents where tipo-doc = $tipodocs_enlazados[1]
+$linkA = "SELECT `name`, `id` FROM  `documents` WHERE `status_id`= 1 AND `document_type_id`=".$tipodocs_enlazados[1];
+$linkB = mysql_query($linkA);
+ 
+
+
+ 
+ 
+
+
+ 
+
+
+ }
+
+ ?>

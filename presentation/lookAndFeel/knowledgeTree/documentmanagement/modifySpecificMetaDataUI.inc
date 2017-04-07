@@ -31,7 +31,16 @@ function getEditableTypeSpecificMetaData($iDocumentID, $iDocumentTypeID) {
 				"FROM document_type_fields_link AS DTFL INNER JOIN document_fields AS DF ON DTFL.field_id = DF.id " .
 				"LEFT OUTER JOIN document_fields_link AS DFL ON DFL.document_field_id = DTFL.field_id AND DFL.document_id = ? " .
 				"WHERE DF.is_generic = 0 " .
-				"AND DTFL.document_type_id = ?", array($iDocumentID, $iDocumentTypeID));
+			       "AND DTFL.document_type_id = ? ORDER BY DTFL.orden ASC  ", array($iDocumentID, $iDocumentTypeID));
+
+    
+
+/**
+
+$db1="update debugg set uno =" .'"'."HOLA".$sQuery[0].'"'."where llave=2";
+$res1 = mysql_query($db1);
+ 
+    */
 
 	$aStoreColumnNames = array("document_id", "document_field_id", "value");
     $aDisplayColumnNames = array("document_id", "field_name", "value");
@@ -69,7 +78,11 @@ function getPage($iDocumentID, $iDocumentTypeID, $bFirstEdit) {
 	$sToRender .= "</td>\n";
     if (!isset($bFirstEdit)) {    
         $sToRender .= "<td>\n";
-        $sToRender .= generateControllerLink("viewDocument", "fDocumentID=$iDocumentID&fShowSection=typeSpecificMetaData", "<img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"/>");
+	if ($iDocumentTypeID==53)
+           
+
+	  {$sToRender .= generateControllerLink("mindmaps", "iddoc=$iDocumentID", "<img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"/>");}else{
+	  $sToRender .= generateControllerLink("viewDocument", "fDocumentID=$iDocumentID&fShowSection=typeSpecificMetaData", "<img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"/>");}
         $sToRender .= "</td>\n";
     }
 	$sToRender .= "</tr>\n";

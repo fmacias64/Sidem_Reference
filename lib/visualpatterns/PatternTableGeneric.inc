@@ -128,6 +128,11 @@ class PatternTableGeneric {
             $sToRender .= "</tr>\n";
         } else {
             $iColour = 0;
+
+	    
+	    
+	    //===========================
+	    
             while ($oResult = $oResultSet->next()) {
                 $sToRender .= "<tr bgcolor=\"" . getColour($iColour) . "\">\n";
                 $iColour++;
@@ -135,7 +140,14 @@ class PatternTableGeneric {
                     switch ($this->aColumnTypes[$i]) {
                         case 1:
                                 //text
-                                $sToRender .= "<td>";
+
+			  //***** MIKE ****//
+			  //************ EN ESTA PARTE SE PIENSA DESAPARECER LAS K DE LOS CAMPOS Q LOS CONTENGAN ******///
+
+			  			  if(strncmp($oResult->get( $this->aColumns[$i]),"k",1)===0)  {  $sToRender .= "<td>";
+			  }
+			  else{
+                                $sToRender .="<td>";}
                                 if (isset($this->sImageURL)) {
                                     $sToRender .= $this->generateImageURL($this->sImageURL);
                                 } else if ($this->bUseImageURLFromQuery) {
@@ -144,11 +156,11 @@ class PatternTableGeneric {
                                 if ($oResult->get($this->aColumns[$i]) != null) {
                                     if ($this->bWordWrap) {
                                         $sToRender .= wordwrap($oResult->get($this->aColumns[$i]), 25, " ", 1) . "</td>";
-                                    } else {
+                                    } else {//abajo es donde se pasa el valor de los datos, tanto el nombre de campo como el dato
                                         $sToRender .= $oResult->get($this->aColumns[$i]) . "</td>";
                                     }
                                 } else {
-                                    $sToRender .= "&nbsp;</td>";
+                                    $sToRender .= "&nbsp;c</td>";
                                 }
                                 break;
                         case 2:
@@ -197,9 +209,9 @@ class PatternTableGeneric {
                         default:
                                 break;
                     }
-                }
+                }  //aqui terminan de formarse columnas
                 $sToRender .= "</tr>\n";
-            }
+            }//aqui se terminan de formar los renglones
         }
         $sToRender .= "</table>";
         return $sToRender;

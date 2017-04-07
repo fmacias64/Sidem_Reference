@@ -29,11 +29,14 @@ require_once(KT_DIR . '/lib/ktentity.inc');
 class LinkType extends KTEntity {
 	var $sName;
 	var $sDescription;
-	
+	var $iUno;	
+//Abajo se debe poner en base a $sName 
+//el procedimiento para crear el folder donde se dara de alta el link
 	function LinkType($sName, $sDescription) {
 		$this->iId = -1;
 		$this->sName = $sName;
 		$this->sDescription = $sDescription;
+		$this->iUno= 1;
 	}
 	
 	function getDescription() {
@@ -56,6 +59,7 @@ class LinkType extends KTEntity {
         return array(
             'name' => $this->sName,
             'description' => $this->sDescription,
+	    'link' => $this->iUno,
         );
     }
     

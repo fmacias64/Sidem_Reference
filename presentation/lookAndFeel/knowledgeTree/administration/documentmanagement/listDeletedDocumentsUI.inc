@@ -42,6 +42,9 @@ function renderListDeletedDocumentsPage($aDocuments) {
 	        $sToRender .= "\t<tr>\n";
 	        $sToRender .= "\t\t<td bgcolor=\"" . getColour($i) . "\">\n";
 	        $sToRender .= "<input type=\"checkbox\" name=\"fDocumentIDs[]\" value=\"" . $aDocuments[$i]->getID() . "\"/>\n";
+
+
+
 	        // get an existing folder to restore the document to
 	        $oFolder = Folder::get($aDocuments[$i]->getFolderID());
 	        // if the folder no longer exists, use the root folder to start browsing from
@@ -49,9 +52,14 @@ function renderListDeletedDocumentsPage($aDocuments) {
 	        $sToRender .= generateControllerLink("restoreDeletedDocument", 
 	        									 "fDocumentID=" . $aDocuments[$i]->getID() . "&fFolderID=$iFolderID", 
 	        									 ($aDocuments[$i]->getFolderID() == $iFolderID) ? $aDocuments[$i]->getDisplayPath(true) : $aDocuments[$i]->getIcon() . $aDocuments[$i]->getName()) . "\n";
+
+
 	        $sToRender .= "\t\t</td>\n";
 	        $sToRender .= "\t</tr>\n";
+ 
 	    }
+
+
 	    $sToRender .= "<tr/><tr/>";
 	    $sToRender .= "<tr><td><input type=\"image\" src=\"" . KTHtml::getExpungeButton() . "\" border=\"0\"/></td></tr>\n";	    
 	} else {
@@ -61,6 +69,8 @@ function renderListDeletedDocumentsPage($aDocuments) {
 		
 	}
 	$sToRender .= "</table>";
+
     return $sToRender;	
+
 }
 ?>

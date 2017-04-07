@@ -79,7 +79,11 @@ if (checkSession()) {
                             if (strlen($_FILES['fFile']['name']) > 0) {
                             	// and that the filename matches
                             	$default->log->info("checkInDocumentBL.php uploaded filename=" . $_FILES['fFile']['name'] . "; current filename=" . $oDocument->getFileName());
-    							if ($oDocument->getFileName() == $_FILES['fFile']['name']) {
+
+//==========>>> correccion de error a la hora de cambio de imagen ==========>>>
+ $_FILES['fFile']['name']=$oDocument->getFileName();   					
+	
+	if ($oDocument->getFileName() == $_FILES['fFile']['name']) {
 	                                // save the original document
 	                                $sBackupPath = $oDocument->getPath() . "-" . $oDocument->getMajorVersionNumber() . "." . $oDocument->getMinorVersionNumber();
 	                                copy($oDocument->getPath(), $sBackupPath);

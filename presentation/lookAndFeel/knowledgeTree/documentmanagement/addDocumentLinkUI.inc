@@ -27,30 +27,121 @@
 
 function getPage($iDocumentID) {
 	global $default;
+	$opcion=$_GET["fOtro"];
+        $que=$_GET["fQue"];
+$folder_dest=$_GET["folderdest"];
+$tipo_crear=$_GET["tipocrear"];
+$tipo_enlace_p=$_GET["tipoenlacep"];
+$opagregar=$_GET["opagregar"];
+        $que_idtipo=$_GET["fTipo"];
+
 	
-	$sToRender = renderHeading(_("Document Linking"));
+        $sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/ajax.js\"></script>\n";
+	$sToRender .= "<script type=\"text/javascript\">\n";
+
+	$sToRender .= "var ajax = new Array();\n";
+//if opcion =1
+if ($opcion === "1"){
+	$sToRender .= "function getCityList(sel,nom,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var countryCode = sel;\n";
+        $sToRender .= "countryCode2 = 'us';\n";
+	$sToRender .= "	document.getElementById(nom).options.length = 0;	// Empty city select box\n";
+	$sToRender .= "	if(countryCode.length>0){\n";
+	$sToRender .= "		var index = ajax.length;\n";
+	$sToRender .= "		ajax[index] = new sack();\n";
+		
+	//	$sToRender .= "		ajax[index].requestFile = '$default->rootUrl/presentation/lookAndFeel/knowledgeTree/documentmanagement/getCities.php?countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;	// Specifying which file to get\n";
+
+	$sToRender .= "	ajax[index].requestFile = '$default->rootUrl/control.php?action=getCities&countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;\n";
+
+	$sToRender .= "		ajax[index].onCompletion = function(){ createCities(index,nom) };     \n";
+	$sToRender .= "		ajax[index].runAJAX();	       \n";
+	$sToRender .= "	}\n";
+	$sToRender .= "}\n";
+
+
+}
+else 
+{
+//else opcion
+
+	$sToRender .= "function getCityList(sel,nom,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var countryCode = sel.options[sel.selectedIndex].value;\n";
+        $sToRender .= "countryCode2 = 'us';\n";
+	$sToRender .= "	document.getElementById(nom).options.length = 0;	// Empty city select box\n";
+	$sToRender .= "	if(countryCode.length>0){\n";
+	$sToRender .= "		var index = ajax.length;\n";
+	$sToRender .= "		ajax[index] = new sack();\n";
+		
+	//	$sToRender .= "		ajax[index].requestFile = '$default->rootUrl/presentation/lookAndFeel/knowledgeTree/documentmanagement/getCities.php?countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;	// Specifying which file to get\n";
+
+	$sToRender .= "	ajax[index].requestFile = '$default->rootUrl/control.php?action=getCities&countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;\n";
+
+	$sToRender .= "		ajax[index].onCompletion = function(){ createCities(index,nom) };     \n";
+	$sToRender .= "		ajax[index].runAJAX();	       \n";
+	$sToRender .= "	}\n";
+	$sToRender .= "}\n";
+}
+//fin getcities
+
+	$sToRender .= "function createCities(index,nom)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var obj = document.getElementById(nom);\n";
+	$sToRender .= "	eval(ajax[index].response);	\n";
+	$sToRender .= "}\n";
+
+		
+	$sToRender .= "</script>\n";
+
+	$sToRender .= renderHeading(_("Document Linking"));
 	$sToRender .= displayDocumentPath($iDocumentID);	
 	$sToRender .= "<table>";
 	$sToRender .= "<tr>";
 	//had a slight problem with netscape 4.7x - it doesn't support disabled.  So I had to use
 	//javascript to set the onFocus attribute to blur 
+	$sToRender .= "<tr>";
+///otra ves el if
+if ($opcion === "1")
+{
+	$sToRender .= "<td>".getLinkTypesList2($name="fLinkTypeID","",$iDocumentID,$que_idtipo,$que,$opagregar,$folder_dest,$tipo_crear,$tipo_enlace_p)."</td>\n";
+}
+else
+{
+$sToRender .= "<td>Tipo de Enlace</td><td>".getLinkTypesList($name="fLinkTypeID","",$iDocumentID)."</td>\n";
+}
+$sToRender .= "</tr>\n";
+
 	if (!$default->bNN4) {
 		//for any other browser but netscape 4.7 do this	
-		$sToRender .= "<td>" . _("Document to link") . "</td><td><input type=\"text\" DISABLED name=\"fTargetDocument\" value=\"\" /><input type=\"button\" value=\"Browse\" onClick=\"newWindow('" . generateControllerUrl("templateBrowse") . "','window2')\"></td>\n";
+	  $sToRender .= "<td>" . _("Relacionar con:") . "</td>";
+	  /***
+         <td><select id=\"fTargetDocument\" name=\"fTargetDocumentID\">\n";
+          $sToRender .= "<option value=\"us\">---</option>\n";
+	  $sToRender .= "</select>\n";
+	  ***/
+
+$sToRender .= "<td>\n<input type=\"text\" size=\"50\" id=\"fTargetDocument\" name=\"fTargetDocument\" value=\"...\" readonly />";
+$sToRender .= "<td>\n<input type=\"hidden\" id=\"fTargetDocumentID\" name=\"fTargetDocumentID\" value=\"-1\"  />";
+//$sToRender .= "<script type=\"text/javascript\">CambiaCamp('fLinkTypeID','fTargetDocument')</script>";
+
+
+
+ //========>>> Linea comentada para q no apareciera la ventana emergente de enlaces y asi poder integrar el ajaxlist =======>>>	  
+//	$sToRender .= "<td>" . _("Document to link") . "</td><td><input type=\"text\" DISABLED name=\"fTargetDocument\" value=\"\" /><input type=\"button\" value=\"Browse\" onClick=\"newWindow('" . generateControllerUrl("templateBrowse") . "','window2')\"></td>\n";
+//========>>>> termina <<<<=======
 	} else {
 		//for netscape 4.7 do this
 		$sToRender .= "<td>" . _("Document to link") . "</td><td><input type=\"text\"  value=\"\" name=\"fTargetDocument\" onblur=\"disable(document.MainForm.fTargetDocument);\" /><input type=\"button\" value=\"Browse\" onClick=\"disable(document.MainForm.fTargetDocument);newWindow('" . generateControllerUrl("templateBrowse") . "','window2')\"></td>\n";
 	}		
-    $sToRender .= "<tr>";
-    $sToRender .= "<td>Link Type</td><td>".getLinkTypesList($name="fLinkTypeID")."</td>\n";
-    $sToRender .= "</tr>\n";
-
-	$sToRender .= "</tr>\n";
+   
+    //$sToRender .= "</tr>\n";
 	$sToRender .= "<tr>\n";	
 	$sToRender .= "<td><table><tr><td><input type=\"image\" src=\"" . KTHtml::getUpdateButton() . "\" border=\"0\"/></td><td><a href=\"" . $default->rootUrl . "/control.php?action=viewDocument&fDocumentID=$iDocumentID\"><img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"/></a></td></tr></table>\n";	
 	$sToRender .= "</tr>\n";
 	$sToRender .= "</table>\n";
-	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
+	//	$sToRender .= "<input type=\"hidden\" name=\"fTargetDocumentID\" value=\"-1\" />\n";	
 	
 	return $sToRender . "\n\n" . getValidationJavaScript() . "\n\n" . getBrowseJavaScript();
 }
@@ -59,6 +150,7 @@ function getValidationJavaScript() {
 	$sToRender .= "\n\n<script language=\"javascript\">\n<!--\n";
 	$sToRender .= "function validateForm(theForm) {\n";	
 	$sToRender .= "\tif (!(validRequired(theForm.fTargetDocument,'Document'))) {\n";
+        //$sToRender .= "\t\treturn true;\n\t}\n";
 	$sToRender .= "\t\treturn false;\n\t}\n";
 	$sToRender .= "return true;\n}\n";
 	$sToRender .= "//-->\n</script>\n\n";
@@ -74,10 +166,10 @@ function getBrowseJavaScript() {
     $sToRender .= "//--></script>\n";	
     return $sToRender;
 }
-
-function getLinkTypesList($name="", $selected="") {
-    $sToRender = "\n<select name=\"$name\">";
-    $objects = LinkType::getList("id != -1");
+//funcion cambiada
+function getLinkTypesList($name="", $selected="",$iddoc="") {
+    $sToRender = "\n<select name=\"$name\"  onchange=\"getCityList(this,'fTargetDocument',$iddoc)\">";
+    $objects = LinkType::getList("id != -1 AND link != 0"); //SE REALIZA UN CAMBIO PARA QUE SOLO APARESCAN LOS LINKS CON VALOR 1
     for ($x=0; $x<count($objects); $x++){
         $sToRender .="<option value=\"";
         $sToRender .= $objects[$x]->iId;
@@ -90,8 +182,33 @@ function getLinkTypesList($name="", $selected="") {
         $sToRender .="</option>";
     }
 
-    $sToRender .= "</select>";
+    $sToRender .= "</select> $iddoc";
     return $sToRender;
 }
 
+function getLinkTypesList2($name="", $selected="",$iddoc="",$num="",$que="",$opag="",$foldest="",$tipocrear="",$tipoep="") {
+global $default;
+  //Inclusion  de Scripts Ajax
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax.js"></script>';
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax-dynamic-list2.js"></script>';
+// Nuevo Campo sustituto de boton
+       $que_tipo=$_GET["tipocrear"];
+//$que_idtipo
+$sToRender .= "\n<input type=\"text\" size=\"50\"  name=\"ignorari\" onclick=\"clickBorra(this,'fTargetDocument');\" onkeyup=\"ajax_showOptions2(this,'action=dynlist&tipo=".$que_tipo."&getCountriesByLetters', ";
+$sToRender .= " '$default->rootUrl/control.php' ,event,'fTargetDocument','fTargetDocumentID')\" />";
+ $sToRender .= "<input type=\"hidden\" name=\"$name\" onclick=\"getCityList("."'".$num."'".",'fTargetDocument',$iddoc)\" value=\"$tipoep\"> \n";
+
+//Old
+/***
+    $sToRender .= "<input type=\"button\" onclick=\"getCityList("."'".$num."'".",'fTargetDocument',$iddoc)\" value=\"Buscar $que\"> \n";
+
+
+    $sToRender .= "<input type=\"hidden\" name=\"$name\" onclick=\"getCityList("."'".$num."'".",'fTargetDocument',$iddoc)\" value=\"$tipoep\"> \n";
+***/
+	if($opag === "1"){
+$sToRender .= displayButton("addDocument", "fFolderID=$foldest&arch=$tipocrear&botview=101&tipoen=".$tipoep."&docqllama=".$iddoc, "Agregar $que ");
+
+		}  
+	return $sToRender;
+}
 ?>

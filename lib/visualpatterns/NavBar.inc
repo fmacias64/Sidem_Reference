@@ -1,5 +1,7 @@
 <?php
 require_once("$default->fileSystemRoot/lib/visualpatterns/PatternCustom.inc");
+require_once("$default->fileSystemRoot/fecha.php");
+
 /**
  * $Id: NavBar.inc,v 1.43 2005/01/27 10:18:57 nbm Exp $
  *
@@ -244,11 +246,11 @@ class NavBar {
         }
 
         $toRender = new PatternCustom;
-
+/**
         // build the nav bar
         $bar  = "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"608\">\n";
         $bar .= "\t<tr height=\"30\">\n";
-        $bar .= "\t\t<td valign=\"top\" width=\"100%\" colspan=\"2\" bgcolor=\"#1A4383\"><img src=\"$heading\"/><img src=\"$default->graphicsUrl/logo.jpg\" width=\"30\" height=\"36\" style=\"border-right:3px solid white;\"/></td>\n";        
+              $bar .= "\t\t<td valign=\"top\" width=\"100%\" colspan=\"2\" bgcolor=\"#1A4383\"><img src=\"$heading\"/><img src=\"$default->graphicsUrl/logo.jpg\" width=\"30\" height=\"36\" style=\"border-right:3px solid white;\"/></td>\n";        
         $bar .= "\t</tr>\n";
         $bar .= "\t<tr height=\"30\">\n";
         $bar .= "\t\t<td colspan=\"2\" bgcolor=\"#1A4383\" width=\"100%\">";
@@ -270,15 +272,124 @@ class NavBar {
             $bar .= "<a href=\"#\" onClick=\"return validateStandardSearch('" . $default->rootUrl . "/control.php')\"><img align=\"absmiddle\" src=\"$default->graphicsUrl/search.gif\" border=\"0\" /></a>";
             
         }
-        $bar .= "\t\t</td>\n";
+	      $bar .= "\t\t</td>\n";
         $bar .= "\t</tr>\n";
-        /* $bar .= "<tr height=30><td ><table cellspacing=0 cellpadding=0 border=0><tr>$sTopMenu</tr>\n"; */
+        // $bar .= "<tr height=30><td ><table cellspacing=0 cellpadding=0 border=0><tr>$sTopMenu</tr>\n"; 
         $bar .= "<tr><td><table cellspacing=0 cellpadding=0 border=0><tr>$sTopMenu</tr>\n";
         $bar .= "<tr>$sColourMenu</tr></table></td></tr>\n";
         $bar .= "</table>\n";
 
         //set the bar as html to object
         $toRender->setHtml($bar);
+
+
+ */
+
+	// ************ NUEVO MENU HECHO EN FLASH *****************//
+	//======== menu creado para admin ===========>>
+/**
+if ($_SESSION["userID"]==1){
+
+$toRender = new PatternCustom;
+
+ $bar.= "<center><img src=\"$default->graphicsUrl/top.gif\" border=\"0\" height='120' width='560'/></center>";
+$bar.="<div align=right>";
+$bar.=fecha();
+$bar.="</div>";
+ $bar.="<hr>";
+$bar.="<center>";
+$bar.= "<div id=\"changecolor-round-parallelogram_id1\" onload=\"AdjustMenu('changecolor-round-parallelogram1','false',0,0)\" onresize=\"AdjustMenu('changecolor-round-parallelogram1','false',0,0)\"> >123 Flash Menu Placeholder. </div>";
+$bar.="<script type=\"text/javascript\">";
+$bar.="var fo = new FlashObject(\"$default->graphicsUrl/navbarnvo.swf\",\"changecolor-round-parallelogram1\",\"560\",\"22\",\"6\",\"#FFFFFF\");
+    fo.addParam(\"menu\",\"false\");
+    fo.addParam(\"quality\",\"best\");
+    fo.addParam(\"scale\",\"noscale\");
+    fo.addParam(\"salign\",\"LT\");
+    fo.addParam(\"wmode\", \"transparent\");
+    fo.write(\"changecolor-round-parallelogram_id1\");
+document.getElementById('changecolor-round-parallelogram1').style.width=\"560px\";
+//document.getElementById('changecolor-round-parallelogram1').style.position=\"absolute\";
+document.getElementById('changecolor-round-parallelogram1').style.zIndex=\"10\"";
+$bar.="</script>";
+$bar.="</center>";
+ $bar.="<hr>";
+
+ $bar .= "<INPUT type=\"hidden\" name=\"fForStandardSearch\" value=\"no\" />\n ";
+        //disable the search bar if we are browsing search results
+        if ((strcmp($this->sSection,"Standard Search") == 0) || (strcmp($this->sSection,"Advanced Search") == 0)) {
+            $bar .= "<INPUT type=\"hidden\" name=\"fSearchText\"/>\n ";
+        } else {
+	  // $bar .= "<INPUT type=\"text\" name=\"fSearchText\" width=\"30\" height = \"10\" onKeyPress=\"return checkKeyPressed(event, validateStandardSearch, '" . $default->rootUrl . "/control.php')\"/>\n";
+            (isset($this->iFolderID) ? $bar .= "<INPUT type=\"hidden\" name=\"fFolderID\" value=\"" . $this->iFolderID . "\"  />\n " : $bar .= "");
+            (isset($this->iDocumentID) ? $bar .= "<INPUT type=\"hidden\" name=\"fDocumentID\" value=\"" . $this->iDocumentID . "\"  />\n " : $bar .= "");
+            (isset($this->sCategoryName) ? $bar .= "<INPUT type=\"hidden\" name=\"fCategoryName\" value=\"" . $this->sCategoryName . "\"  />\n " : $bar .= "");
+            (isset($this->iDocTypeID) ? $bar .= "<INPUT type=\"hidden\" name=\"fDocTypeID\" value=\"" . $this->iDocTypeID . "\"  />\n " : $bar .= "");
+            //this next line works in IE, and Netscape 4.79 up, but NOT Netscape 4.79
+            //$bar .= "<INPUT type=\"image\" onClick=\"return validateStandardSearch('" . $default->rootUrl . "/control.php')\" src=\"$default->graphicsUrl/search.gif\" align = \"absmiddle\" border=\"0\" />\n";
+            //replaced with this line            
+	    // $bar .= "<a href=\"#\" onClick=\"return validateStandardSearch('" . $default->rootUrl . "/control.php')\"><img align=\"absmiddle\" src=\"$default->graphicsUrl/search.gif\" border=\"0\" /></a>";
+            
+	}
+}
+*/
+//============= menu creado para ususario ===========>>
+/**
+else{
+$toRender = new PatternCustom;
+
+ $bar.= "<center><img src=\"$default->graphicsUrl/top.gif\" border=\"0\" height='140' width='600'/></center>";
+$bar.="<div align=right>";
+$bar.=fecha();
+$bar.="</div>";
+ $bar.="<hr>";
+$bar.="<center>";
+$bar  .= " <div id=\"changecolor-round-parallelogram2\" onload=\"AdjustMenu('changecolor-round-parallelogram2','false',0,0)\" onresize=\"AdjustMenu('changecolor-round-parallelogram2','false',0,0)\" >123 Flash Menu Placeholder.</div>";
+$bar .= "<script type=\"text/javascript\">";
+$bar .= "var fo = new FlashObject(\"$default->graphicsUrl/navbarusuario.swf\",\"changecolor-round-parallelogram2\",\"400\",\"22\",\"6\",\"#FFFFFF\");
+    fo.addParam(\"menu\",\"false\");
+    fo.addParam(\"quality\",\"best\");
+    fo.addParam(\"scale\",\"noscale\");
+    fo.addParam(\"salign\",\"LT\");
+    fo.addParam(\"wmode\", \"transparent\");
+    fo.write(\"changecolor-round-parallelogram2\");
+document.getElementById('changecolor-round-parallelogram2').style.width=\"400px\";
+//document.getElementById('changecolor-round-parallelogram2').style.position=\"absolute\";
+document.getElementById('changecolor-round-parallelogram2').style.zIndex=\"10\"";
+$bar .= "</script>";
+$bar.="</center>";
+ $bar.="<hr>";
+}
+ $bar .= "<INPUT type=\"hidden\" name=\"fForStandardSearch\" value=\"no\" />\n ";
+        //disable the search bar if we are browsing search results
+        if ((strcmp($this->sSection,"Standard Search") == 0) || (strcmp($this->sSection,"Advanced Search") == 0)) {
+            $bar .= "<INPUT type=\"hidden\" name=\"fSearchText\"/>\n ";
+        } else {
+	  // $bar .= "<INPUT type=\"text\" name=\"fSearchText\" width=\"30\" height = \"10\" onKeyPress=\"return checkKeyPressed(event, validateStandardSearch, '" . $default->rootUrl . "/control.php')\"/>\n";
+            (isset($this->iFolderID) ? $bar .= "<INPUT type=\"hidden\" name=\"fFolderID\" value=\"" . $this->iFolderID . "\"  />\n " : $bar .= "");
+            (isset($this->iDocumentID) ? $bar .= "<INPUT type=\"hidden\" name=\"fDocumentID\" value=\"" . $this->iDocumentID . "\"  />\n " : $bar .= "");
+            (isset($this->sCategoryName) ? $bar .= "<INPUT type=\"hidden\" name=\"fCategoryName\" value=\"" . $this->sCategoryName . "\"  />\n " : $bar .= "");
+            (isset($this->iDocTypeID) ? $bar .= "<INPUT type=\"hidden\" name=\"fDocTypeID\" value=\"" . $this->iDocTypeID . "\"  />\n " : $bar .= "");
+            //this next line works in IE, and Netscape 4.79 up, but NOT Netscape 4.79
+            //$bar .= "<INPUT type=\"image\" onClick=\"return validateStandardSearch('" . $default->rootUrl . "/control.php')\" src=\"$default->graphicsUrl/search.gif\" align = \"absmiddle\" border=\"0\" />\n";
+            //replaced with this line            
+	    // $bar .= "<a href=\"#\" onClick=\"return validateStandardSearch('" . $default->rootUrl . "/control.php')\"><img align=\"absmiddle\" src=\"$default->graphicsUrl/search.gif\" border=\"0\" /></a>";
+            
+	}
+
+//=============================<<<<< Termina menu creado para usuario <<<===============
+
+
+ $toRender->setHtml($bar);
+
+*/
+
+
+
+
+                     /**aaaaaaaaaaaaaaaaaaaaaaaaaaaa  */
+
+
+
 
         //render the object
         return $this->getSearchValidationJavaScript() . $toRender->render();

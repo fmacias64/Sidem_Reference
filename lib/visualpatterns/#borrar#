@@ -1,0 +1,69 @@
+// aqui puede ir lo de k_instituto_organizacion
+//
+
+if ((!strcmp($explparam[0],"k")) && !(!strcmp($explparam[1],"zLugares")))
+ {
+
+
+
+//Abajo preparacion de unique_exception
+//$sNombreForma=explode("_",$this->sFormName);
+//$sToRender .= "\n<input type=\"hidden\" size=\"50\" name=\"unique_exception_$sNombreForma[0]\"  />"; 
+
+// Fin unique_exception
+
+//$sToRender .= "\n<input type=\"text\" size=\"50\" name=\"%s\" onkeyup=\"ajax_showOptions(this,'action=dynlist&tipo=22&getCountriesByLetters', ";
+//$sToRender .= " '$default->rootUrl/control.php' ,event)\" />"; 
+
+
+$nombreCampo=explode("_",$this->sFormName);
+$nombreCampo[1]--;
+$sNomCamp=$nombreCampo[0]."_".$nombreCampo[1];
+if ($this->sValue > 0) {
+$NombreEmpresa = "SELECT name FROM  `documents` WHERE status_id = 1 and id=".$this->sValue;
+$NombreEmpresa2 = mysql_query($NombreEmpresa);
+$NombreEmpresa3=mysql_fetch_row($NombreEmpresa2);
+}
+else
+{$NombreEmpresa3[0]="";
+}
+//$sToRender .= "\n<input type=\"text\" size=\"50\" id=\"%s\" name=\"%s\" value=\"%s\" onload=\"CambiaCamp('".$sNomCamp."_ignorar"."','".$NombreEmpresa3[0]."')\" />";
+$sToRender .= "\n<input type=\"text\" size=\"50\" id=\"%s\" name=\"%s\" value=\"%s\" readonly />$NombreEmpresa";
+$sToRender .= "<script type=\"text/javascript\">CambiaCamp('".$sNomCamp."_ignorar"."','".$NombreEmpresa3[0]."')</script>";
+
+
+
+
+return sprintf($sToRender, $this->sFormName , $this->sFormName,$this->sValue);
+}
+
+
+// aqui termina lo de ajax de instituto/organizacion
+
+//abajo de explodeparam metadata2
+
+
+
+//abajo lo de patterneditable
+
+/***** aqui poner campos unique exception ****/
+
+ if  (!(strncmp($zcampo,"zLugares",8)===0) && (strncmp($lak,"k",1)===0))
+{
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax.js"></script>';
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax-dynamic-list2.js"></script>';
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/lib/visualpatterns/validacion.js"></script>';
+
+
+$sToRender .= "<input type=\"hidden\" name=\"unique_exception_" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+$nombres1=$this->sUniqueName . "_" . $iRowCount . $i."_ignorar";
+$nombres2=$this->sUniqueName . "_" . $iRowCount . ($i+1)."_value";
+$TipoDoc = "SELECT id FROM  `document_types_lookup` WHERE name='".$zcampo."'";
+$TipoDoc2 = mysql_query($TipoDoc);
+$TipoDoc3=mysql_fetch_row($TipoDoc2);       
+
+$sToRender .= "\n<input type=\"text\" size=\"50\" id=\"$nombres1\" name=\"$nombres1\" onclick=\"clickBorra(this,'$nombres2');\" \"onkeyup=\"ajax_showOptions(this,'action=dynlist&tipo=".$TipoDoc3[0]."&getCountriesByLetters', ";
+$sToRender .= " '$default->rootUrl/control.php' ,event)\" />$TipoDoc";
+}
+
+// fin instituto organizacion , poner abajo de %partes2[1]

@@ -1,0 +1,240 @@
+41,44d40
+< 
+< //require_once("../../../../calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css");
+< //require_once("../../../../calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js");
+< 
+74c70
+< 	var $aMetaDataields;	
+---
+> 	var $aMetaDataFields;	
+179c175
+< 						case 1: 
+---
+> 						case 1:
+189,214c185
+< 								   $nombre=$sql->f($this->aDisplayColumnNames[$i]);
+< 								  $partes=explode(" ",$nombre);
+< 								}
+<  
+< 		
+< 				 //============ if insertado para desaparecer category ===========>>
+< 				//======== en esta parte se desaparece la parte Category del sistema =========>>>>>
+< 
+< 								  if  (!strcmp($partes[0],"Category")){
+< 								    $sToRender .= "\t<input type=\"hidden\" name=\"77777" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />";
+< 								  }else{
+< 
+<   //====aqui seguimos un procedimiento si dice k_ y otro para el resto <<====//
+<  //==========>> manipulacion de nombres de campos para desaparecer la "k" de los campos llave <<==================//
+< 
+< 
+<   $partes2=explode("_",$nombre);
+< 
+< 
+<   if  (strncmp($partes2[0],"k",1)===0)
+<    {
+<  $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $partes2[1]."\n"; }
+< 
+<   else{
+< 
+<     $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $sql->f($this->aDisplayColumnNames[$i])."\n"; }
+---
+> 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $sql->f($this->aDisplayColumnNames[$i])."\n";
+216,222c187
+< 							}
+< 
+< 
+< 				//=========================	<<==========
+< 
+< 						
+< 							 else {
+---
+> 							} else {
+234c199
+< 									$sToRender .= "\t<input type=\"checkbox\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"". ($sql->f($this->aStoreColumnNames[$i] ? "\" checked" : "0\"")) . " />\n";
+---
+> 									$sToRender .= "\t<input type=\"checkbox\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . ($sql->f($this->aStoreColumnNames[$i] ? "1\" checked" : "0\"")) . " />\n";
+239c204
+< 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" .$sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+---
+> 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+246,374d210
+< 
+< 						  // Codigo uno a muchos
+< 
+<  if (!strcmp($partes[0],"Count")){
+< 
+< 								    $sToRender .= "HOLA Febrero 22<br>";
+< 
+< }
+< 
+< 
+< 
+< 		      // $nombre2=$sql->f($this->aDisplayColumnNames[$i]);
+< 	 
+< 
+< 
+< 
+< 
+<   $partes2=explode("_",$nombre);
+< 
+< //=============>>> Codigo creado para ubicar ap.Paterno y generarle la lista dinamica =====>>>>
+< 
+<  $partes23=explode(" ",$nombre);
+<  if (!strcmp($partes23[1],"Paterno")){
+< 
+<  //=======repeticion del codigo para el caso 4 pero personalizado al caso de apellido paterno======>>>>
+< 
+< 
+<                             $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
+< 							//output the column type
+< 							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+< 							if ($this->aColumnsVisible[$i]) {
+< 								if ($this->aColumnsEditable[$i]) {
+< 									$oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),"Paterno");
+< 									$sToRender .= $oPattern->render("Paterno");
+< 								} else {
+< 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
+< 								}
+< 							} else {
+< 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+< 							}
+<  //arriba va el codigo de dynamic list
+< }
+<  //===============<<<< ============<<<
+< 
+<  //==============>>>> codigo para empresa matriz  <<<<========================
+<  /**
+<  if (!strcmp($partes23[1],"Matriz")){
+< 
+<  if (!strcmp($partes23[1],"Nombre")){
+<  //======= repeticion del codigo para el caso 4 pero personalizado al caso de empresa Matriz ======>>>>
+< 
+< 
+<                             $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
+< 							//output the column type
+< 							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+< 							if ($this->aColumnsVisible[$i]) {
+< 								if ($this->aColumnsEditable[$i]) {
+< 									$oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),"Nombre");
+< 									$sToRender .= $oPattern->render("Nombre");
+< 								} else {
+< 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
+< 								}
+< 							} else {
+< 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+< 							}
+<  
+< }}
+<  */
+< //=======>>> arriba esta  el codigo de dynamic list ============<<<
+< 
+< 	   elseif  (strncmp($partes2[0],"k",1)===0){
+< 
+< 	     
+< 	     //$ONE="update debugg set tres =" .'"'."bbbID".$partes2[1].'"'."where llave=0";
+< 	     //$TWO = mysql_query($ONE);
+< 	     
+< 	   
+< 
+< 	$elIddeMetadata2 = "SELECT  `id` FROM `document_types_lookup` WHERE `name` =\"$partes2[1]\"";
+<      	$elquerydeMetadata2 = mysql_query($elIddeMetadata2);
+< 	$elId201 = mysql_fetch_row($elquerydeMetadata2);
+< 	/**
+< 	$ONE1="update debugg set tres =" .'"'."IwD".$elId201[0].'"'."where llave=5";ov
+< 	   $TWO1 = mysql_query($ONE1);*/
+< 	
+< 						  
+< 	   //if para checar si el nombre trae la primer letra k, despues de un explode			
+< 	
+< 
+< 	   //$partes2[0] debe valer 'k'
+< 	   //si vale k entonces 
+< 
+< 
+< 							//output the table column name
+<                             $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
+< 							//output the column type
+< 							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+< 							if ($this->aColumnsVisible[$i]) {
+< 								if ($this->aColumnsEditable[$i]) {
+< 
+< 					  //**********************aqui hacer un if else ="" si es vacio elid201[0],***>>
+< 
+< 									$oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"nada");
+< 									$sToRender .= $oPattern->render("nada");
+< 								} else {
+< 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
+< 								}
+< 							} else {
+< 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+< 							}	
+< 	   }
+< 							//abajo ( hasta el break del case ) esta dentro de un else 
+<                                                      
+< 	   else{
+< 						
+< 							
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 						  //Fin de codigo uno a muchos
+< 
+< 
+382d217
+< 							
+385,421c220,222
+< 
+<                   		 //=============== if para category ===============>>
+< //=============>> en esta parte lo que se realiza con el if es quitar la parte de Category de la parte de AddDoc ======>>
+< 
+< 								  if (!strcmp($partes[0],"Category")){
+< 								    $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+< 						}	else{
+< 						  $oPattern = & new PatternMetaData($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]));
+< 								  $sToRender .= $oPattern->render();}
+< 
+< 	//*******************************					************************************//
+< 		/*codigo FElipe */		      
+<  //========== en esta parte se le integra al campo fecha una accion con calendario  ===========>>
+< /**	     
+< 	if (!strcmp($partes[0],"Category")){
+< 
+< 	  $sToRender .="ss". $partes[0]."HOLA";
+< 	          }            */
+< 					
+< 			 
+< 								 
+<  if (!strcmp($partes[0],"Fecha")){
+< 
+< 
+<  /**
+<  $sToRender .= "<link type='text/css' rel='stylesheet' href='$default->calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?radom=20051112 media='screen'></link>";
+< 
+< $sToRender .= "<script type='text/javascript' src='$default->calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js?random=20060118'></script>";
+<  $sToRender .= "<input type='button' value='  ' onclick='displayCalendar(document.form[0].theDate,'yyyy/mm/dd',this)>";
+< */
+< 
+< 
+<  $sToRender .= "&nbsp;&nbsp;<a href=\"javascript:show_calendar('MainForm." . $this->sUniqueName . "_" . $iRowCount . $i . "_value"  . "',null,null,'YYYY-MM-DD', false);\" onmouseover=\"window.status='Date Picker';return true;\" onmouseout=\"window.status='';return true;\"><img src=\"$default->graphicsUrl/calendar/calendar.gif\" name=\"imgCalendar\" width=\"34\" height=\"21\" border=\"0\" alt=\"\"></a>";
+< 
+< 
+< //*****************************
+< 							}}	 else {
+---
+> 									$oPattern = & new PatternMetaData($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]));
+> 									$sToRender .= $oPattern->render();
+> 								} else {
+426c227
+< 							} }							
+---
+> 							}							
+446d246
+< 		//$sToRender .= $partes2[0]

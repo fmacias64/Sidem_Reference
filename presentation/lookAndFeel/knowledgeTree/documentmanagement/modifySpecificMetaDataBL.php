@@ -35,7 +35,8 @@ if (checkSession()) {
 	require_once("$default->fileSystemRoot/lib/foldermanagement/Folder.inc");
 	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternCustom.inc");	
 	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternEditableTableSqlQuery.inc");
-	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");					
+	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");
+	require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData2.inc");					
 	require_once("$default->fileSystemRoot/presentation/Html.inc");
 	require_once("documentUI.inc");
 	require_once("modifySpecificMetaDataUI.inc");
@@ -49,11 +50,52 @@ if (checkSession()) {
 		$main->setCentralPayload($oPatternCustom);
         if (isset($fFirstEdit)) {
             $_SESSION["pageAccess"][$default->rootUrl . '/presentation/lookAndFeel/knowledgeTree/store.php'] = true;
-            $main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fReturnURL=" . urlencode("$default->rootUrl/control.php?action=viewDocument&fDocumentID=$fDocumentID"));            
-        } else {
-            $_SESSION["pageAccess"][$default->rootUrl . '/presentation/lookAndFeel/knowledgeTree/store.php'] = true;
-            $main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fReturnURL=" . urlencode("$default->rootUrl/control.php?action=viewDocument&fDocumentID=$fDocumentID&fShowSection=typeSpecificMetaData"));
-        }					
+           
+
+
+//======>>>  error en store.php cuando viene de getficha se corrigio fDocumntID ==========>>>
+	    if ($_SESSION['botview']!=102)
+	      {
+		if ($oDocument->getDocumentTypeId()=="53")
+          {
+	    $hijo="SELECT child_document_id, parent_document_id FROM `documents` WHERE `id` =".$fDocumentID;
+	    $hijoq=mysql_query($hijo);
+            $hijof=mysql_fetch_row($hijoq);
+            $estipo="SELECT document_type_id FROM `documents` WHERE `id` =".$hijof[0];
+	    $estipoq=mysql_query($estipo);
+	    $estipof=mysql_fetch_row($estipoq);
+	    if ($estipof[0]=="18"){$eldoc=$hijof[1];}else{$eldoc=$hijof[0];}
+$main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fDocumentID=$fDocumentID&fReturnURL=" . urlencode("$default->rootUrl/control.php?action=mindmaps&iddoc=$eldoc"));}
+	else{
+            $main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fDocumentID=$fDocumentID&fReturnURL=" . urlencode("$default->rootUrl/control.php?action=viewDocument&fDocumentID=$fDocumentID&fShowSection=typeSpecificMetaData"));
+	} } else {
+		$docllama=$_SESSION['docqllama'];
+  $main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fDocumentID=$fDocumentID&fReturnURL=" . urlencode("$default->rootUrl/control.php?action=getficha&letra=$docllama"));
+  $_SESSION['botview']=0;
+ $_SESSION['docqllama']=0;
+	      }       
+ }
+
+//=========>>>>> termina correccion de error <<<<==========				
+
+else
+{
+ $_SESSION["pageAccess"][$default->rootUrl . '/presentation/lookAndFeel/knowledgeTree/store.php'] = true;
+ if ($oDocument->getDocumentTypeId()=="53")
+          {
+	    $hijo="SELECT child_document_id, parent_document_id FROM `documents` WHERE `id` =".$fDocumentID;
+	    $hijoq=mysql_query($hijo);
+            $hijof=mysql_fetch_row($hijoq);
+            $estipo="SELECT document_type_id FROM `documents` WHERE `id` =".$hijof[0];
+	    $estipoq=mysql_query($estipo);
+	    $estipof=mysql_fetch_row($estipoq);
+	    if ($estipof[0]=="18"){$eldoc=$hijof[1];}else{$eldoc=$hijof[0];}
+$main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fDocumentID=$fDocumentID&fReturnURL=" . urlencode("$default->rootUrl/control.php?action=mindmaps&iddoc=$eldoc"));}
+	else{
+	  $main->setFormAction("$default->rootUrl/presentation/lookAndFeel/knowledgeTree/store.php?fDocumentID=$fDocumentID&fReturnURL=" . urlencode("$default->rootUrl/control.php?action=viewDocument&fDocumentID=$fDocumentID&fShowSection=typeSpecificMetaData"));}
+        }
+
+	//=========>>>>> termina correccion de error <<<<==========				
         $main->setHasRequiredFields(true);		
 		$main->render();
 	}

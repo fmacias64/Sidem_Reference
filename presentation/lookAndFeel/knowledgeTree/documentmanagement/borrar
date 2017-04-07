@@ -1,0 +1,318 @@
+
+
+function checaciclo($indice,$lista,$nodo,$padre)
+{
+$regreso=0;
+
+if ($indice>=1 or count($padre)>1)
+ {
+  for($a=0;$a<=count($padre);$a++)
+  {
+   if ($padre[$a]==$nodo){$regreso=1;}
+
+   }
+ for($a=1;$a<=$indice;$a++)
+  {
+   if ($lista[$a]['id']==$nodo){$regreso=1;}
+
+   }
+  }
+return $regreso;
+}
+
+ 
+function ascendencia($pfName, $nivel, &$cerradura,&$consecutivo,&$maxnivel,$extra, $fecha_org,$quien) {
+	global $default;
+
+
+if (checaciclo($consecutivo,$cerradura,$pfName,$quien))
+    {
+     // poner datos y return
+               $razonsocial1= "SELECT value  FROM `document_fields_link`"
+               ." WHERE `document_field_id`= 92  AND `document_id`=".$pfName;
+               $razonsocial11 = mysql_query($razonsocial1);
+               $razonsocial21=mysql_fetch_row($razonsocial11);
+               $consecutivo++;
+               $cerradura[$consecutivo]['id']=$pfName;
+               $cerradura[$consecutivo]['nivel']=$nivel;
+               $cerradura[$consecutivo]['nombre']=$razonsocial21[0].$extra;
+               if ($nivel > $maxnivel){$maxnivel=$nivel;}
+               return $cerradura;
+
+    } else {
+
+ if ($fecha_org != "") {$extension=" and str_to_date(fecha,'%Y-%m-%d') < str_to_date(".$fecha_org.",'%Y-%m-%d')";}
+$ONE = "INSERT INTO `sidem_dev141008`.`debugg` (`llave`, `uno`, `dos`, `tres`) VALUES ('$pfName', '100309 entre pfname". $pfName." ', 'ea', NULL);"; 
+$TWO = mysql_query($ONE);
+//obtenpap(n)
+  
+$oneeva='(SELECT * FROM `empresa_empresa` where child_id = '. $pfName  .' and (matriz = \'yes\' or matriz = \'Yes\'  or matriz = \'YES\' ) '.$extension.' )'
+       .'Union'
+       .'(SELECT * FROM `empresa_empresa` where parent_id = '. $pfName  .' and ( matriz = \'no\' or matriz = \'No\'  or matriz = \'NO\') '.$extension.' )'
+       .'order by fecha desc, jv desc';
+$twoeva=mysql_query($oneeva);
+
+
+
+
+// si hay papas
+
+if ($threeva=mysql_fetch_row($twoeva))
+{
+
+$ONE = "INSERT INTO `sidem_dev141008`.`debugg` (`llave`, `uno`, `dos`, `tres`) VALUES ('$pfName', '200409 threeva:". $threeva[0]." ".$threeva[6]." ', 'ea', NULL);"; 
+$TWO = mysql_query($ONE);
+// si jv llamar ascendencia de cada participante
+if ($threeva[6]=='Yes' || $threeva[6]=='YES'){
+             $i=0;
+            $fecha_primer_jv=$threeva[7];
+            // si el nodo dado corresponde al child 
+            // ( ya esta validado qu son registros del padre del nodo ) 
+            // --> parent es el padre de otra forma 
+            if ($pfName==$threeva[2]){$jv[$i]=$threeva[1];} 
+            else {$jv[$i]=$threeva[2];}
+            $i++;
+            while ($jointventure = mysql_fetch_row($twoeva) )
+            {
+               if ($fecha_primer_jv==$jointventure[7]  && ( $jointventure[6]=='Yes' ||  $jointventure[6]=='YES' ) ){
+                if ($pfName==$jointventure[2]){$jv[$i]=$jointventure[1];}
+                else {$jv[$i]=$jointventure[2];}
+                $i++;
+               } 
+               else break;
+      
+            }
+           //$storender="";
+           for($j=0;$j<$i;$j++){
+               
+               $quien[$nivel]=$pfName;
+               $storender=ascendencia($jv[$j],$nivel+1,$cerradura,$consecutivo,$maxnivel," <font size=1 face='Times'>en Joint Venture ($nivel)</font>",$fecha_org,$quien); }
+               $razonsocial1= "SELECT value  FROM `document_fields_link`"
+               ." WHERE `document_field_id`= 92  AND `document_id`=".$pfName;
+               $razonsocial11 = mysql_query($razonsocial1);
+               $razonsocial21=mysql_fetch_row($razonsocial11);
+               $consecutivo++;
+               $cerradura[$consecutivo]['id']=$pfName;
+               $cerradura[$consecutivo]['nivel']=$nivel;
+               $cerradura[$consecutivo]['nombre']=$razonsocial21[0].$extra;
+               if ($nivel > $maxnivel){$maxnivel=$nivel;}
+ }
+
+//solo 1 matriz
+ else if ($threeva[6]=='No' || $threeva[6]= '' || $threeva[6] == NULL  ){
+           if ($pfName==$threeva[2]){$nodo=$threeva[1];} 
+            else {$nodo=$threeva[2];}
+ $quien[$nivel]=$pfName;
+            $storender=ascendencia($nodo,$nivel+1,$cerradura,$consecutivo,$maxnivel,"",$fecha_org,$quien);
+   $razonsocial0= "SELECT value  FROM `document_fields_link`"
+           ." WHERE `document_field_id`= 92  AND `document_id`=".$pfName;
+   $razonsocial10 = mysql_query($razonsocial0);
+   $razonsocial20=mysql_fetch_row($razonsocial10);
+ $consecutivo++;
+               $cerradura[$consecutivo]['id']=$pfName;
+               $cerradura[$consecutivo]['nivel']=$nivel;
+               $cerradura[$consecutivo]['nombre']=$razonsocial20[0].$extra;
+               if ($nivel>$maxnivel){$maxnivel=$nivel;}
+           
+
+}
+//llamada recursiva
+} else  { 
+
+$razonsocial= "SELECT value  FROM `document_fields_link`"
+           ." WHERE `document_field_id`= 92  AND `document_id`=".$pfName;
+$razonsocial1 = mysql_query($razonsocial);
+$razonsocial2=mysql_fetch_row($razonsocial1);
+ $consecutivo++;
+               $cerradura[$consecutivo]['id']=$pfName;
+               $cerradura[$consecutivo]['nivel']=$nivel;
+               $cerradura[$consecutivo]['nombre']=$razonsocial2[0].$extra;
+               if ($nivel>$maxnivel){$maxnivel=$nivel;}
+ }          
+//regresa papas
+return $cerradura;
+} // else de checaciclo
+
+}
+
+//****************************
+ 
+function checahijo($pfName, $supuesto, &$padresjv, $fecha_org) {
+	global $default;
+
+$valorfuncion=0;
+
+if ($fecha_org != "") {
+$extension=" and str_to_date(fecha,'%Y-%m-%d') < str_to_date(".$fecha_org.",'%Y-%m-%d')";
+//$extension=" and fecha < ".$fecha_org;
+}
+  
+$oneeva='(SELECT * FROM `empresa_empresa` where child_id = '. $pfName  .' and (matriz = \'yes\' or matriz = \'Yes\'  or matriz = \'YES\' ) '.$extension.' )'
+       .'Union'
+       .'(SELECT * FROM `empresa_empresa` where parent_id = '. $pfName  .' and ( matriz = \'no\' or matriz = \'No\' or matriz = \'NO\' ) '.$extension.' )'
+       .'order by fecha desc, jv desc';
+$twoeva=mysql_query($oneeva);
+
+
+
+
+if ($threeva=mysql_fetch_row($twoeva))
+{
+if ($threeva[6]=='Yes' || $threeva[6]=='YES'){
+             $i=0;
+            $fecha_primer_jv=$threeva[7];
+            if ($pfName==$threeva[2]){$jv[$i]=$threeva[1];} 
+            else {$jv[$i]=$threeva[2];}
+            if ($supuesto==$threeva[2] or $supuesto==$threeva[1]){$valorfuncion=1;}
+            else {$padresjv.=$jv[$i];}
+             $i++;
+            while ($jointventure = mysql_fetch_row($twoeva) )
+            {
+
+  if ($fecha_primer_jv==$jointventure[7]  && ( $jointventure[6]=='Yes' || $jointventure[6]=='YES' ) ){
+                if ($pfName==$jointventure[2]){$jv[$i]=$jointventure[1];}
+                else {$jv[$i]=$jointventure[2];}
+ if ($supuesto==$jointventure[2] or $supuesto==$jointventure[1]){$valorfuncion=1;}
+            else{$padresjv.=$jv[$i];}
+                $i++;
+               } 
+               else break;
+      
+            }
+ }
+ else if ($threeva[6]=='No' || $threeva[6]= '' || $threeva[6] == NULL  ){
+           if ($pfName==$threeva[2]){$nodo=$threeva[1];} 
+            else {$nodo=$threeva[2];}
+           if ($supuesto==$threeva[2] or $supuesto==$threeva[1]){$valorfuncion=1;}
+            else{$padresjv.=$jv[$i];}
+        
+}
+} 
+
+
+return $valorfuncion;
+
+
+}
+
+
+
+//********************************
+
+ 
+function descendencia($pfName,&$hijoslegit,&$consecutivo,$nivel,&$maxnivel,$extra,$fecha_org,$quien) {
+	global $default;
+
+//sacar todos los hijos en array de hijos
+
+if (checaciclo($consecutivo,$hijoslegit,$pfName,$quien))
+    {
+     // poner datos y return
+                return $hijoslegit;
+
+    } else {
+
+
+
+
+if ($fecha_org != "") {
+$extension=" and str_to_date(fecha,'%Y-%m-%d') < str_to_date(".$fecha_org.",'%Y-%m-%d')";
+//$extension=" and fecha < ".$fecha_org;
+}
+//$ONE = "INSERT INTO `sidem_dev141008`.`debugg` (`llave`, `uno`, `dos`, `tres`) VALUES ('$pfName', '100309 entre pfname". $pfName." ', 'ea', NULL);"; 
+//$TWO = mysql_query($ONE);
+
+$oneeva='(SELECT * FROM `empresa_empresa` where child_id = '. $pfName  .' and (matriz = \'no\' or matriz = \'No\' or matriz = \'NO\') '.$extension.' )'
+       .'Union'
+       .'(SELECT * FROM `empresa_empresa` where parent_id = '. $pfName  .' and (matriz = \'yes\' or matriz = \'Yes\' or matriz = \'YES\' )  '.$extension.' )'
+       .'order by fecha desc, jv desc';
+$twoeva=mysql_query($oneeva);
+
+     while ($hijos = mysql_fetch_row($twoeva) )
+            {
+  if ($pfName==$hijos[2]){$hijo=$hijos[1];}
+            else {$hijo=$hijos[2];}
+$padresjv="";
+ if (checahijo($hijo,$pfName,$padresjv,$fecha_org))
+     { 
+               $razonsocial1= "SELECT value  FROM `document_fields_link`"
+                              ." WHERE `document_field_id`= 92  AND `document_id`=".$hijo;
+               $razonsocial11 = mysql_query($razonsocial1);
+               $razonsocial21 =  mysql_fetch_row($razonsocial11);
+               $consecutivo++;
+               $hijoslegit[$consecutivo]['id']=$hijo;
+               $hijoslegit[$consecutivo]['nivel']=$nivel;
+               $hijoslegit[$consecutivo]['nombre']=$razonsocial21[0].$extra;
+               if ($nivel > $maxnivel){$maxnivel=$nivel;}
+         //pon datos
+        //llamada recursiva
+               $storender=descendencia($hijo,$hijoslegit,$consecutivo,$nivel+1,$maxnivel,$extra,$fecha_org,$pfName);
+     }
+
+             }
+
+return $hijoslegit;
+} // del else de checaciclo
+}
+
+
+
+
+
+//mientras haya elementos en el array para cada elemento
+
+//                -checa legitimidad de la paternidad del nodo que invoca
+
+//                - forma array de hijos legitimos
+
+//                -para cada hijo obtiene descendencia
+// si no hay elementos regresa nodo que invoco excepto el del nivel 0
+
+
+
+
+echo "<tr><td>";
+
+$cerradura="";
+$nivel=0;
+$maxnivel=0;
+$fecha_org="'2010-03-22'";
+$espacio="";
+$consecutivo=0;
+ $quien[$nivel]=$iddoc;
+$miarreglo = ascendencia($iddoc,$nivel,$cerradura,$consecutivo,$maxnivel," Nodo origen",$fecha_org,$quien);
+for($a=1;$a<=$consecutivo;$a++)
+{
+$espacio="";
+for ($aa=0;$aa<=$maxnivel-$cerradura[$a]['nivel'];$aa++){$espacio.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";}
+echo $espacio.$cerradura[$a]['nombre']."<br/>";
+
+}
+
+$maxnivel=0;
+$fecha_org="'2010-03-22'";
+$espacio="";
+$hijoslegit="";
+$consecutivo=0;
+$miarreglo = descendencia($iddoc,$hijoslegit,$consecutivo,$nivel, $maxnivel,"*",$fecha_org,0);
+
+for($a=1;$a<=$consecutivo;$a++)
+{
+$espacio="";
+for ($aa=0;$aa<=$hijoslegit[$a]['nivel'];$aa++){$espacio.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";}
+echo $espacio.$hijoslegit[$a]['nombre']."<br/>";
+
+}
+$padresjv="";
+ //if (checahijo(1975,1083,$padresjv,$fecha_org)){echo $padresjv." si ";}
+
+/************************** abajo para sacar los nombres del joint venture
+  $razonsocial1= "SELECT value  FROM `document_fields_link`"
+               ." WHERE `document_field_id`= 92  AND `document_id`=".$pfName;
+               $razonsocial11 = mysql_query($razonsocial1);
+               $razonsocial21=mysql_fetch_row($razonsocial11);
+             
+
+*************************/
+
+echo "</td></tr>";

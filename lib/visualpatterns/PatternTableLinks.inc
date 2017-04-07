@@ -60,7 +60,7 @@ class PatternTableLinks {
 		$this->iColumns = $iNewColumns;
 		$this->iLinkType = $iNewLinkType;
 	}	
-    
+	      
 	/**
 	* Build the HTML string used to render the object
 	*
@@ -94,7 +94,7 @@ class PatternTableLinks {
 				
 				if (strlen($sLink) > 0) {
 					$sToRender .= "<td cellspacing=\"20\" width=\"100%\">$sLink</td>";
-					$sToRender .= "</tr><tr></tr><tr/><tr/><tr/><tr><td></td>\n";					
+					$sToRender .= "</tr><tr></tr><tr/><tr/><tr/><tr><td></td>\n";		
 				}
 			}
 			$sToRender .= "</tr>\n";

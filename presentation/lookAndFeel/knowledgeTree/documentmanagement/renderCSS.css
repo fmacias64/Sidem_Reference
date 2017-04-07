@@ -1,0 +1,138 @@
+.colorTransparent{border-color:#cccccc;color:#000000;background-repeat:repeat}
+.boxColorNavigationMenu .title{background-color:#eeeeee;border-color:#666666;color:Black;background-repeat:repeat}
+.boxColorNavigationMenu .title a{color:Black}
+.boxColorNavigationMenu .body{background-color:#ffffff;border-color:#ffffff;background-repeat:repeat}
+.boxColorNavigationMenu .body ul.cpsskinsMenu li a{border-color:#8caebd}
+.boxColorNavigationMenu .body ul.cpsskinsMenu li.selected a{border-color:#8caebd #8caebd #dee7ef #8caebd}
+.boxColorNavigationMenu .body ul.cpsskinsMenu li a{background-color:#ffffff}
+.boxColorNavigationMenu .body ul.cpsskinsMenu li a:hover,.boxColorNavigationMenu .body ul.cpsskinsMenu li.selected a{background-color:#dee7ef}
+.colorPloneLightBlue{border-color:#AAAAAA;background-color:#C7C7C7;color:#000000;background-repeat:repeat}
+.shapeSolid{border-style:solid;border-width:1px;text-transform:none}
+.boxShapePlone .title{border-style:solid solid none solid;border-width:1px;padding:0em 1.2em 0em 0.9em;display:inline}
+.boxShapePlone .body{border-style:solid solid solid solid;border-width:1px;padding:0.7em 0.7em 0.7em 0.7em}
+.boxShapePlone .body ul.cpsskinsMenu li a{border-style:none;border-width:0px;padding:1px 0px 1px 3px;margin:0em}
+.boxShapePlone .body ul.cpsskinsMenu li.selected a{border-style:none;border-width:0px;padding:1px 0px 1px 3px;margin:0em}
+.shapeNoBorder{border-style:none;border-width:0px;text-transform:none}
+.boxShapeNavigation .title{border-style:none;border-width:1px;padding:0em 1.2em 0em 0.9em;display:block}
+.boxShapeNavigation .body{border-style:none none solid none;border-width:1px;padding:0px}
+.boxShapeNavigation .body ul.cpsskinsMenu li a{border-style:solid solid none solid;border-width:1px;padding:0px 18px 1px 18px;margin:0px 3px 0px 2px}
+.boxShapeNavigation .body ul.cpsskinsMenu li.selected a{border-style:solid solid solid solid;border-width:1px;padding:0px 18px 1px 18px;margin:0px 3px 0px 2px}
+.colorWhite{border-color:#8baebd;background-color:#FFFFFF;color:#000000;background-repeat:repeat}
+.boxColorPloneLightBlue .title{background-color:#AAAAAA;border-color:#999999;color:Black;background-repeat:repeat}
+.boxColorPloneLightBlue .title a{color:Black}
+.boxColorPloneLightBlue .body{background-color:#ff9933;border-color:#8caebd;background-repeat:repeat}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li a{border-color:#CDCDCD}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li.selected a{border-color:#EE8833}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li a{background-color:#CDCDCD}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li a:hover,.boxColorPloneLightBlue .body ul.cpsskinsMenu li.selected a{background-color:#EE8833}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li a{background-image:url(/portal_themes/plone/icons/blue_arrow_plone.gif);padding-left:10px !important}
+.boxColorPloneLightBlue .body ul.cpsskinsMenu li.selected a{background-image:url(/portal_themes/plone/icons/blue_arrow_plone.gif);padding-left:10px !important}
+.shapeTopBottom{border-style:solid none solid none;border-width:1px;text-transform:none}
+.boxShapeTopBottom .title{border-style:none none none none;border-width:1px;padding:0em 1.2em 0em 0.9em;display:block}
+.boxShapeTopBottom .body{border-style:solid none solid none;border-width:1px;padding:0em 0.5em 0em 0.5em}
+.boxShapeTopBottom .body ul.cpsskinsMenu li a{border-style:none;border-width:0px;padding:0px 5px 0px 5px;margin:0em}
+.boxShapeTopBottom .body ul.cpsskinsMenu li.selected a{border-style:none;border-width:0px;padding:0px 5px 0px 5px;margin:0em}
+.boxColorPloneWhite .title{background-color:#dee7ef;border-color:#8caebd;color:Black;background-repeat:repeat}
+.boxColorPloneWhite .title a{color:Black}
+.boxColorPloneWhite .body{background-color:#ffffff;border-color:#8caebd;background-repeat:repeat}
+.boxColorPloneWhite .body ul.cpsskinsMenu li a{border-color:#ffffff}
+.boxColorPloneWhite .body ul.cpsskinsMenu li.selected a{border-color:#ffffff}
+.boxColorPloneWhite .body ul.cpsskinsMenu li a{background-color:#ffffff}
+.boxColorPloneWhite .body ul.cpsskinsMenu li a:hover,.boxColorPloneWhite .body ul.cpsskinsMenu li.selected a{background-color:#ffffff}
+.boxColorPloneWhite .body ul.cpsskinsMenu li a{background-image:url(/portal_themes/plone/icons/folder_plone.gif);padding-left:18px !important}
+.boxColorPloneWhite .body ul.cpsskinsMenu li.selected a{background-image:url(/portal_themes/plone/icons/folder_plone.gif);padding-left:18px !important}
+.boxColorPloneWhite2 .title{background-color:#dee7ef;border-color:#8caedb;color:Black;background-repeat:repeat}
+.boxColorPloneWhite2 .title a{color:Black}
+.boxColorPloneWhite2 .body{background-color:#ffffff;border-color:#8caebd;background-repeat:repeat}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li a{border-color:#ff9933}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li.selected a{border-color:#ff9933}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li a{background-color:#ff9933}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li a:hover,.boxColorPloneWhite2 .body ul.cpsskinsMenu li.selected a{background-color:#ff9933}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li a{background-image:url(/portal_themes/plone/icons/arrow_out_plone.gif);padding-left:10px !important}
+.boxColorPloneWhite2 .body ul.cpsskinsMenu li.selected a{background-image:url(/portal_themes/plone/icons/arrow_out_plone.gif);padding-left:10px !important}
+.shapeBottom{border-style:none none solid none;border-width:1px;text-transform:none}
+.shapeNoBottom{border-style:solid solid none solid;border-width:1px;text-transform:none}
+.fontShapeVerdana{font:11px Verdana, Arial, Helvetica, sans-serif !important}
+.fontShapeVerdana p{font:100% Verdana, Arial, Helvetica, sans-serif !important;padding:0.2em 0em 0.2em 0em}
+.fontShapeVerdana strong{font:bold 100% Verdana, Arial, Helvetica, sans-serif !important}
+.fontShapeVerdana h1, .fontShapeVerdana .h1{font:normal 150% Verdana, Arial, Helvetica, sans-serif !important;padding:0.8em 0em 0em 0em;border-style:none none solid none;border-width:1px}
+.fontShapeVerdana h2, .fontShapeVerdana .h2{font:bold 125% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none none solid none;border-width:1px}
+.fontShapeVerdana h3, .fontShapeVerdana .h3{font:bold 120% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none none solid none;border-width:1px}
+.fontShapeVerdana h4, .fontShapeVerdana .h4,.fontShapeVerdana h5, .fontShapeVerdana .h5,.fontShapeVerdana h6, .fontShapeVerdana .h6{font:bold 115% Verdana, Arial, Helvetica, sans-serif !important;padding:0.4em 0em 0em 0em;border-style:none none solid none;border-width:1px}
+.fontShapeVerdana a,.fontShapeVerdana a div,.fontShapeVerdana a span{text-decoration:none}
+.fontShapeVerdana a:visited,.fontShapeVerdana a:visited div,.fontShapeVerdana a:visited span{text-decoration:none}
+.fontShapeVerdana a:active,.fontShapeVerdana a:active div,.fontShapeVerdana a:active span{text-decoration:none}
+.fontShapeVerdana a:hover,.fontShapeVerdana a:hover div,.fontShapeVerdana a:hover span{text-decoration:none}
+.fontColorBlack h1, .fontColorBlack .h1{border-color:#8baebd;color:Black}
+.fontColorBlack h2, .fontColorBlack .h2{border-color:#8baebd;color:Black}
+.fontColorBlack h3, .fontColorBlack .h3{border-color:#8baebd;color:Black}
+.fontColorBlack h4, .fontColorBlack .h4,.fontColorBlack h5, .fontColorBlack .h5,.fontColorBlack h6, .fontColorBlack .h6{border-color:#8baebd;color:Black}
+.fontColorBlack a,.fontColorBlack a div,.fontColorBlack a span{color:#416973}
+.fontColorBlack a:visited,.fontColorBlack a:visited div,.fontColorBlack a:visited span{color:#416973}
+.fontColorBlack a:active,.fontColorBlack a:active div,.fontColorBlack a:active span{color:#416973}
+.fontColorBlack a:hover,.fontColorBlack a:hover div,.fontColorBlack a:hover span{color:#416973}
+.fontShapeVerdanaBig{font:12px Verdana, Arial, Helvetica, sans-serif !important}
+.fontShapeVerdanaBig p{font:100% Verdana, Arial, Helvetica, sans-serif !important;padding:0.2em 0em 0.2em 0em}
+.fontShapeVerdanaBig strong{font:bold 100% Verdana, Arial, Helvetica, sans-serif !important}
+.fontShapeVerdanaBig h1, .fontShapeVerdanaBig .h1{font:normal 150% Verdana, Arial, Helvetica, sans-serif !important;padding:0.8em 0em 0em 0em;border-style:none;border-width:0px}
+.fontShapeVerdanaBig h2, .fontShapeVerdanaBig .h2{font:bold 125% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none;border-width:0px}
+.fontShapeVerdanaBig h3, .fontShapeVerdanaBig .h3{font:bold 120% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none;border-width:0px}
+.fontShapeVerdanaBig h4, .fontShapeVerdanaBig .h4,.fontShapeVerdanaBig h5, .fontShapeVerdanaBig .h5,.fontShapeVerdanaBig h6, .fontShapeVerdanaBig .h6{font:bold 115% Verdana, Arial, Helvetica, sans-serif !important;padding:0.4em 0em 0em 0em;border-style:none;border-width:0px}
+.fontShapeVerdanaBig a,.fontShapeVerdanaBig a div,.fontShapeVerdanaBig a span{text-decoration:none}
+.fontShapeVerdanaBig a:visited,.fontShapeVerdanaBig a:visited div,.fontShapeVerdanaBig a:visited span{text-decoration:none}
+.fontShapeVerdanaBig a:active,.fontShapeVerdanaBig a:active div,.fontShapeVerdanaBig a:active span{text-decoration:none}
+.fontShapeVerdanaBig a:hover,.fontShapeVerdanaBig a:hover div,.fontShapeVerdanaBig a:hover span{text-decoration:none}
+.boxColorGreen .title{background-color:#cde2a4;border-color:#73ae08;color:Black;background-repeat:repeat}
+.boxColorGreen .title a{color:Black}
+.boxColorGreen .body{background-color:#ffffff;border-color:#ffffff;background-repeat:repeat}
+.boxColorGreen .body ul.cpsskinsMenu li a{border-color:#73ae08}
+.boxColorGreen .body ul.cpsskinsMenu li.selected a{border-color:#73ae08 #73ae08 #cde2a4 #73ae08}
+.boxColorGreen .body ul.cpsskinsMenu li a{background-color:#ffffff}
+.boxColorGreen .body ul.cpsskinsMenu li a:hover,.boxColorGreen .body ul.cpsskinsMenu li.selected a{background-color:#cde2a4}
+.colorGreenBox{border-color:#73ae08;background-color:#FFFFFF;color:#000000;background-repeat:repeat}
+.colorPloneGreen{border-color:#73ae08;background-color:#cde2a4;color:#000000;background-repeat:repeat}
+.portalTabOSX{background:url(/portal_themes/plone/backgrounds/OSX-bg.gif) top repeat-x}
+.portalTabOSX ul.cpsskinsMenu li{margin:0 0px 0 0}
+.portalTabOSX ul.cpsskinsMenu li a{padding:2px 10px 2px 10px}
+.portalTabOSX ul.cpsskinsMenu li{background:url(/portal_themes/plone/backgrounds/OSX-right.png) right top no-repeat;border-bottom:1px solid #ccc}
+.portalTabOSX ul.cpsskinsMenu li a{background:url(/portal_themes/plone/backgrounds/OSX-left.png) left top no-repeat}
+.portalTabOSX ul.cpsskinsMenu li.selected{background:url(/portal_themes/plone/backgrounds/OSX-right-sel.png) right top no-repeat;border-bottom:1px solid #69c}
+.portalTabOSX ul.cpsskinsMenu li.selected a{background:url(/portal_themes/plone/backgrounds/OSX-left-sel.png) left top no-repeat}
+.collapsibleMenuCollapsibleMenuStyle .topmenu{border-width:1px;border-color:#999999;border-style:solid;font:bold 11px Verdana, Arial, sans-serif}
+.collapsibleMenuCollapsibleMenuStyle .topmenu{background-color:#c0c0c0}
+.collapsibleMenuCollapsibleMenuStyle .topmenu a{color:Black;text-decoration:none;display:block;padding:4px}
+.collapsibleMenuCollapsibleMenuStyle .topmenu a:hover,.collapsibleMenuCollapsibleMenuStyle .topmenu a.selected{background-color:#ececec;color:Black;text-decoration:none}
+.collapsibleMenuCollapsibleMenuStyle .submenu a{font:11px Verdana, Arial, sans-serif;color:Black;background-color:#e0e0e0;text-decoration:none;display:block;padding:3px 7px;border-color:#c0c0c0;border-style:none none solid solid;border-width:1px}
+.collapsibleMenuCollapsibleMenuStyle .submenumore{background-color:#e0e0e0;display:block;padding:2px 7px;border-color:#c0c0c0;border-style:none none solid solid;border-width:1px}
+.collapsibleMenuCollapsibleMenuStyle .submenu a:hover,.collapsibleMenuCollapsibleMenuStyle .submenu a.selected{color:Black;background-color:#f3f3f3;text-decoration:none}
+.collapsibleMenuCollapsibleMenuStyle1 .topmenu{border-width:1px;border-color:#999999;border-style:solid;font:bold 11px Verdana, Arial, sans-serif}
+.collapsibleMenuCollapsibleMenuStyle1 .topmenu{background-color:#c0c0c0}
+.collapsibleMenuCollapsibleMenuStyle1 .topmenu a{color:Black;text-decoration:none;display:block;padding:4px}
+.collapsibleMenuCollapsibleMenuStyle1 .topmenu a:hover,.collapsibleMenuCollapsibleMenuStyle1 .topmenu a.selected{background-color:#ececec;color:Black;text-decoration:none}
+.collapsibleMenuCollapsibleMenuStyle1 .submenu a{font:11px Verdana, Arial, sans-serif;color:Black;background-color:#e0e0e0;text-decoration:none;display:block;padding:3px 7px;border-color:#c0c0c0;border-style:none none solid solid;border-width:1px}
+.collapsibleMenuCollapsibleMenuStyle1 .submenumore{background-color:#e0e0e0;display:block;padding:2px 7px;border-color:#c0c0c0;border-style:none none solid solid;border-width:1px}
+.collapsibleMenuCollapsibleMenuStyle1 .submenu a:hover,.collapsibleMenuCollapsibleMenuStyle1 .submenu a.selected{color:Black;background-color:#f3f3f3;text-decoration:none}
+.colorWhite1{background-color:#FFFFFF;color:#000000;background-image:url(/portal_themes/plone/backgrounds/bolabaj.jpg);background-repeat:repeat-y}
+.boxColorPloneLightBlue1 .title{border-color:#FFFFFF;color:Black;background-repeat:repeat}
+.boxColorPloneLightBlue1 .title a{color:Black}
+.boxColorPloneLightBlue1 .body{border-color:#FFFFFF;background-repeat:repeat}
+.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li.selected a{border-color:#EE8833}
+.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li a{background-color:#F5F5F5}
+.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li a:hover,.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li.selected a{background-color:#EE8833}
+.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li a{background-image:url(/portal_themes/plone/icons/blue_arrow_plone.gif);padding-left:10px !important}
+.boxColorPloneLightBlue1 .body ul.cpsskinsMenu li.selected a{background-image:url(/portal_themes/plone/icons/blue_arrow_plone.gif);padding-left:10px !important}
+.colorAreaColor{border-color:#CCC;background-color:#FFF;color:#000000;background-image:url(/portal_themes/plone/backgrounds/header_gde.jpg);background-repeat:no-repeat}
+.colorGris{border-color:#cccccc;background-color:#cccccc;color:#666666}
+.colorBlanco{border-color:#FFFFFF;background-color:#FFFFFF;color:#000000}
+.colorGris4lateral{border-color:#999999;background-color:#999999;color:#000000}
+.colormenulat{border-color:#999999;background-color:#999999;color:#ffffff}
+.fontShapeentorno{font:11px Arial, Helvetica !important}
+.fontShapeentorno p{font:100% Arial, Helvetica !important}
+.fontShapeentorno h1, .fontShapeentorno .h1{font:normal 150% Verdana, Arial, Helvetica, sans-serif !important;padding:0.8em 0em 0em 0em;border-style:none;border-width:1px}
+.fontShapeentorno h2, .fontShapeentorno .h2{font:bold 125% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none;border-width:1px}
+.fontShapeentorno h3, .fontShapeentorno .h3{font:bold 120% Verdana, Arial, Helvetica, sans-serif !important;padding:0.6em 0em 0em 0em;border-style:none;border-width:1px}
+.fontShapeentorno h4, .fontShapeentorno .h4,.fontShapeentorno h5, .fontShapeentorno .h5,.fontShapeentorno h6, .fontShapeentorno .h6{font:bold 115% Verdana, Arial, Helvetica, sans-serif !important;padding:0.4em 0em 0em 0em;border-style:none;border-width:1px}
+.fontShapeentorno a,.fontShapeentorno a div,.fontShapeentorno a span{text-decoration:000000}
+.fontShapeentorno a:visited,.fontShapeentorno a:visited div,.fontShapeentorno a:visited span{text-decoration:000000}
+.fontShapeentorno a:active,.fontShapeentorno a:active div,.fontShapeentorno a:active span{text-decoration:000000}
+.fontShapeentorno a:hover,.fontShapeentorno a:hover div,.fontShapeentorno a:hover span{text-decoration:000000}

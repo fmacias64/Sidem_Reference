@@ -33,7 +33,7 @@
 function getSubmitSuccessPage($iDocumentID){	
 	global $default;
 	$sMessage = _("Your submission has been successful.");
-	$sToRender .= "$sMessage<br><br><a href=\"" . generateControllerLink("viewDiscussion", "fDocumentID=" . $iDocumentID . "&fForDiscussion=1") . "\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\" /></a>";
+	$sToRender .= "$sMessage<br><br><a href=\"" . generateControllerLink("getfmult", "letra=" . $iDocumentID . "&fForDiscussion=1") . "\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\" /></a>";
  	
 	return $sToRender;	
 }

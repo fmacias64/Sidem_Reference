@@ -148,17 +148,22 @@ class PatternMainPage {
 	/**
 	* Render the page in HTML
 	*/
+	//=======en esta parte se declaran los scrips de java para poder manejar correctamente los menus de flash =========>>
 	function render() {
         global $default;
 		$sToRender  = 	"<html>\n";
 		$sToRender .= 	"<head>\n";
-		$sToRender .=   "<title>The KnowledgeTree</title>";
+		$sToRender .=   "<title>SIDEM</title>";
+                $sToRender .=   "<script type=\"text/javascript\" src=\"$default->graphicsUrl/flashobject.js\"></script><script type=\"text/javascript\" src=\"$default->graphicsUrl/adjustmenu.js\"></script>";
+
+	$sToRender .= 	"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
+
        	$sToRender .= 	"<meta http-equiv=\"refresh\" content=\"" . ($default->sessionTimeout+3) . ($bNN4 ? ";" : "") . "\">\n" .
                             "<link rel=\"SHORTCUT ICON\" href=\"$default->graphicsUrl/tree.ico\">\n" .
                             "<link rel=\"stylesheet\" href=\"$default->uiUrl/stylesheet.php\">\n".                            
 							PatternMainPage::getJavaScript() . "\n" .							
 							"</head>\n" .
-							"<body marginleft=\"0\" marginheight=\"0\" " . (isset($this->onLoadJavaScript) ? "onload=\"$this->onLoadJavaScript\"" : "") . ">\n";							
+							"<body  marginleft=\"0\" marginheight=\"0\" " . (isset($this->onLoadJavaScript) ? "onload=\"$this->onLoadJavaScript\"" : "") . ">\n";							
         // hack to circumvent the crapness of ns 4.79
         if (!$default->bNN4 && $this->bScroll) {
             $sToRender .=       "<div id=\"divUp\">\n" .
@@ -172,7 +177,7 @@ class PatternMainPage {
 		$sToRender .= 		    "<form name=\"MainForm\" " . (isset($this->sFormEncType) ? "enctype=\"$this->sFormEncType\" " : " ") . " action=\"".$this->sFormAction."\" method=\"$this->sSubmitMethod\" " . (($this->bHasRequiredFields) ? "onsubmit=\"return validateForm(this)\" " : " ") . ">\n" .		
 								"<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"700\" height=\"$default->pageHeight\">\n " .
 									"<tr>\n".
-										"<td height=\"0\" valign=\"top\" " . (isset($this->sNorthWestPayloadBackGroundColour) ? " bgcolor=\"" . $this->sNorthWestPayloadBackGroundColour . "\"" : "") . ">\n";
+										"<td height=\"0\" valign=\"top\" " . (isset($this->sNorthWestPayloadBackGroundColour) ? " bgcolor=\"" . $this->sNorthWestPayloadBackGroundColour . "\"" : "") . ">\n ";
 										if (isset($this->oNorthWestPayload)) {											
 											$sToRender = $sToRender . "\n" . $this->oNorthWestPayload->render() . "\n";
 										} else {

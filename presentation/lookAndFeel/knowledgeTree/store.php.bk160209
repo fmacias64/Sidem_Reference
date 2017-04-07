@@ -1,0 +1,513 @@
+<?php
+/**
+ * $Id: store.php,v 1.17 2004/12/20 10:52:57 nbm Exp $
+ *
+ * Page used by all editable patterns to actually perform the db insert/updates
+ *
+ * Expected form variables
+ *	o fReturnURL
+ *
+ * Copyright (c) 2003 Jam Warehouse http://www.jamwarehouse.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * @version $Revision: 1.17 $
+ * @author Rob Cherry, Jam Warehouse (Pty) Ltd, South Africa
+ */
+
+require_once("../../../config/dmsDefaults.php");
+require_once("$default->fileSystemRoot/lib/documentmanagement/Document.inc");
+require_once("$default->fileSystemRoot/lib/foldermanagement/Folder.inc");
+require_once("store.inc");
+
+KTUtil::extractGPC('fReturnURL','fDocumentID');
+
+if (checkSession()) {
+
+//====>>>> actualizacion de tabla documents en caso individuo ========>>>
+//if docid no vacio
+$oDocument = Document::get($fDocumentID);
+
+// $dbg="update debugg set tres =" .'"'."store".$fDocumentID.'"'."where llave=1";
+//$r2 = mysql_query($dbg);
+
+$es_prom = lookupName($default->document_types_table,$oDocument->getDocumentTypeID());
+ if (strncmp($es_prom,"Individuo",8) === 0 )
+{
+
+
+
+// felipe aqui codigo de modificacion de nombre
+
+
+  reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+  if (strncmp($valor,"8",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $nnombre=$valor;}
+
+   if (strncmp($valor,"22",2) === 0)  {
+  list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+      $aappat=$valor; }
+
+ if (strncmp($valor,"21",2) === 0)  {
+  list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+      $aapmat=$valor;}
+
+
+ }
+
+
+$fName =$fDocumentID."_ ".$nnombre." ".$aapmat." ".$aappat;
+
+
+ reset($_POST);
+	$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+              
+              
+				}
+}
+//============>> EVENTOS  <<=====
+if ((strncmp($es_Tipo,"Eventos",7) === 0) && (strncmp($es_Tipo,"EventosB2B",10) != 0)) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+ if (strncmp($valor,"78",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $fech=$valor;}
+
+
+  if (strncmp($valor,"81",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $tem=$valor;}
+
+  if (strncmp($valor,"18",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $temesp=$valor;}
+
+
+
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+$oneev="SELECT `name` FROM `documents` WHERE `id` =".$temesp;
+$twoev=mysql_query($oneev);
+$threev=mysql_fetch_row($twoev);
+
+$Lug=explode(" ",$threev[0]);
+
+$fName =$fDocumentID."_ ".$fech."_".$tem."_".$Lug[1]." ".$Lug[2];
+
+
+ reset($_POST);
+	$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+if (strncmp($es_Tipo,"EventosB2B",10) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+ if (strncmp($valor,"81",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $fech=$valor;}
+
+
+
+
+
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+$elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+$elquery2=mysql_query($elId);
+$elId2= mysql_fetch_row($elquery2);
+$fName3=$elId2[0]."_".$fName3;
+
+
+
+$fName =$fDocumentID." ".$fech;
+
+
+ reset($_POST);
+}
+//============>> DOMICILIO  <<=====
+if (strncmp($es_prom,"Domicilio",9) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+ if (strncmp($valor,"133",3) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $call=$valor;}
+
+  if (strncmp($valor,"18",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $lug=$valor;}
+
+ if (strncmp($valor,"134",3) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $num=$valor;}
+
+  if (strncmp($valor,"135",3) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $col=$valor;}
+ 
+
+
+
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+$fName =$fDocumentID."_ ".$fName." ".$call." ".$num." ".$col." ".$Lug[2];
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+//============>> PREFERENCIAS  <<=====
+if (strncmp($es_prom,"Preferencias",12) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"4",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $name=$valor;}
+
+ if (strncmp($valor,"15",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $tipo=$valor;}
+
+ }
+
+$fName =$fDocumentID."_ ".$fName." ".$name." ".$tipo;
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+//============>> FINANZAS  <<=====
+if (strncmp($es_prom,"Finanzas",8) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"9",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $ntipofin=$valor;}
+
+ if (strncmp($valor,"11",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $moned=$valor;}
+
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+$fName =$fDocumentID."_ ".$fName." ".$ntipofin." ".$moned;
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+//============>> Inst/Organ  <<=====
+if (strncmp($es_prom,"Instituto/Organizacion",11) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"92",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $ninst=$valor;}
+
+ if (strncmp($valor,"18",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $lugar=$valor;}
+
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+$one="SELECT `name` FROM `documents` WHERE `id` =".$lugar;
+$two=mysql_query($one);
+$three=mysql_fetch_row($two);
+
+$Lug=explode(" ",$three[0]);
+
+$fName =$fDocumentID."_ ".$fName.$ninst." ".$Lug[1];
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+//============>> LUGARES  <<=====
+
+if (strncmp($es_prom,"Lugares",7) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+ if (strncmp($valor,"77",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $mun=$valor;}
+
+ if (strncmp($valor,"16",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $pais=$valor;}
+
+ if (strncmp($valor,"38",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $state=$valor;}
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+
+$unos="SELECT `name` FROM `documents` WHERE `id` ='".$state."'";
+$doss=mysql_query($unos);
+$tress=mysql_fetch_row($doss);
+
+$uno="SELECT `name` FROM `documents` WHERE `id` ='".$pais."'";
+$dos=mysql_query($uno);
+$tres=mysql_fetch_row($dos);
+
+$PaIs=explode("_",$tres[0]);
+
+$Muni=explode("_",$tresm[0]);
+
+$Stat=explode("_",$tress[0]);
+
+
+$fName =$fDocumentID."_ ".$mun." ".$Stat[1]." ".$PaIs[1];
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+//============>> SEGUIMIENTO <<=====
+
+if (strncmp($es_prom,"Seguimiento",11) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"4",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $nname=$valor;}
+
+ 
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+$fName =$fDocumentID."_ ".$nname;
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+//============>> PAIS <<=====
+
+if (strncmp($es_prom,"Pais",5) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"4",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $nname=$valor;}
+
+ 
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+
+$fName =$fDocumentID."_ ".$nname;
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+//============>> ESTADOS <<=====
+
+if (strncmp($es_prom,"Estado",6) === 0) {
+$mibool=1;
+   reset($_POST);
+ while (list($clave, $valor) = each($_POST))
+ {
+
+
+
+
+  if (strncmp($valor,"4",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $nname=$valor;}
+
+ if (strncmp($valor,"8",2) === 0) {
+        list($clave, $valor) = each($_POST);
+     list($clave, $valor) = each($_POST);
+    list($clave, $valor) = each($_POST);
+      $nname1=$valor;}
+ 
+ }
+
+ //========== busqueda para encontrar id del documento que se crea=========>>>
+
+
+$fName =$fDocumentID."_ ".$nname." ".$nname1;
+
+
+ reset($_POST);
+$oDocument->setName($fName);
+
+	if ($oDocument->update()) {
+}
+}
+
+
+// felipe
+
+
+    if (count($_POST) > 0) {
+        $aKeys = array_keys($_POST);
+        $aQueries = constructQuery($aKeys);
+
+        //execute the queries
+        for ($i=0; $i<count($aQueries); $i++) {
+            $sql = $default->db;
+            $sql->query($aQueries[$i]);
+        }
+        $default->log->debug("store.php redirecting to $fReturnURL");
+        redirect(strip_tags(urldecode($fReturnURL)));
+    }
+}
+
+?>

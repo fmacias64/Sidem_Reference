@@ -1,0 +1,1150 @@
+34c34
+< KTUtil::extractGPC('fFolderID', 'fStore', 'fDocumentTypeID', 'fName', 'fDependantDocumentID','arch');
+---
+> KTUtil::extractGPC('fFolderID', 'fStore', 'fDocumentTypeID', 'fName', 'fDependantDocumentID');
+40,41c40
+< require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData2.inc");
+< 
+---
+> require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");
+110d108
+< 
+113c111
+<     // no docu$arch = $_GET("arch");  ment type was selected
+---
+>     // no document type was selected
+124,140c122
+< 
+< //********************************************** aqui poner lo de adjuntos   sin adjunto = Ind
+< //=========se cambio de una busqueda especifica a una general por sql directamente en la bd tomando en cuenta el id======>>> 
+< 
+< 	$elId10 = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$elquery10 = mysql_query($elId10);
+< 	$elId20 = mysql_fetch_row($elquery10);
+< 
+< //$dbgf="update debugg set uno =" .'"'."promid ".$prom_id.'"'."where llave=1";
+< // $dbgf="update `debugg` set `uno` =".'"'.$elId10.'"'. "where `llave`=1";
+< //$result2 = mysql_query($dbgf);
+< //$es_Individuo = lookupName($default->document_types_table, $fDocumentTypeID);
+< 
+< if (!((strlen($_FILES['fFile']['name']) > 0) && $_FILES['fFile']['size'] > 0) && ($elId20[0]) )
+<    			{
+< 
+< //(strncmp($es_Individuo,"Ind",3) === 0)) {
+---
+> if (!((strlen($_FILES['fFile']['name']) > 0) && $_FILES['fFile']['size'] > 0)) {
+144c126
+<     $message = _("You did not select a valid document to upload".$elId10.$elId20[0]);
+---
+>     $message = _("You did not select a valid document to upload");
+158,160c140
+< //*************************    
+< 
+<   if ($message != _("No file was selected to be uploaded to KnowledgeTree")) {
+---
+>     
+166,609d145
+< else
+< {
+< $oPatternCustom->setHtml(getStatusPage($fFolderID,"hola1212" . "</td><td><a href=\"$default->rootUrl/control.php?actionnt&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                        
+<     $main->setCentralPayload($oPatternCustom);
+<     $main->render();
+<     exit(0);
+<     }
+< }
+< 
+< 
+< //============================================================
+< //busqueda de sql trabajando directo con la bd
+< // aqui va unas lineas de codigo por cada caso de tipo de documento y uno de default para tipos documentos sin interes
+< 
+< 	$ElId = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$Elquery = mysql_query($ElId);
+< 	$ELId2 = mysql_fetch_row($Elquery);
+< 
+<  
+< 
+< // $es_Individuo = lookupName($default->document_types_table, $fDocumentTypeID);
+< //if (strncmp($es_Individuo,"Ind",3) === 0) {
+< 
+< 
+< //===========despues de la busqueda se toman ciertos aspectos o valores como nombre, ap. paterno, ap. materno y ID ========>>>
+< //============>> INDIVIDUO  <<=====
+< if (!$ELId2[0]){
+< 
+<   //if es individuo
+< $es_Tipo = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Individuo",9) === 0) {
+< 
+< 
+<   /**  $dbg="update debugg set dos =" .'"'."ID".$ELId2[0].'"'."where llave=1";
+< $r2 = mysql_query($dbg); */
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+<   if (strncmp($valor,"8",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre=$valor;}
+< 
+<    if (strncmp($valor,"22",2) === 0)  {
+<   list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<       $aappat=$valor; }
+< 
+<  if (strncmp($valor,"21",2) === 0)  {
+<   list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<       $aapmat=$valor;}
+< 
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre." ".$aapmat." ".$aappat;
+< 
+< 
+<  reset($_POST);
+< }
+<  //aqui el if
+< 
+< //============>> EVENTOS  <<=====
+< //if (!$ELId2[0]){
+< 
+<   //if es individuo
+< //$es_actv = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Eventos",7) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre1=$valor;}
+< 
+<   if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lugar=$valor;}
+< 
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre1." ".$lugar;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< //============>> DOMICILIO  <<=====
+< //if (!$ELId2[0]){
+< 
+<   //if es individuo
+< //$es_dom = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Domicilio",9) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"14",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $dom=$valor;}
+< 
+<   if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lug=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$dom." ".$lug;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> EMPRESA MATRIZ  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_empr = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Empresa Matriz",15) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"8",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre=$valor;}
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre1=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre." ".$nnombre1;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> PREFERENCIAS  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_hobb = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Preferencias",12) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $name=$valor;}
+< 
+<  if (strncmp($valor,"15",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $cathob=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$name." ".$cathobb;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> FINANZAS  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_fin = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Finanzas",8) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"9",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $ntipofin=$valor;}
+< 
+<  if (strncmp($valor,"11",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $moned=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$ntipofin." ".$moned;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< 
+< 
+< //============>> Inst/Organ  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_inst = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Instituto/Organizacion",11) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"32",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $ninst=$valor;}
+< 
+<  if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lugar=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$ninst." ".$lugar;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< 
+< //============>> LUGARES  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_lug = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Lugares",7) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+<  if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nname1=$valor;}
+< 
+< 
+<  
+< 
+<  if (strncmp($valor,"16",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $pais=$valor;}
+< 
+<  if (strncmp($valor,"17",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $state=$valor;}
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nname1." ".$pais." ".$state;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< //============>> SEGUIMIENTO <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_seg = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Seguimiento",11) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nname=$valor;}
+< 
+<  
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nname;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+<  //========= el resultado es creado como un documento ===========>>>>
+< 
+<   // $fName="prueba.txt";
+<   $_FILES['fFile']['name']=$fName;
+<   $_FILES['fFile']['size']=1;
+<   $_FILES['fFile']['type']="txt";
+< 
+< }
+< 
+< 
+< //==========================
+< 
+< 
+635,667c171
+<     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("$fName vv An error occured while storing the document in the database, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocument&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                                
+<     $main->setCentralPayload($oPatternCustom);
+<     $main->render();
+<     exit(0);
+< }
+< 
+< //*********************************************insertar if para comentario -->
+< /*if insertado, si es comentario seguir procedimiento alterado , si no seguir el usual */
+< 
+< 
+< // para adjuntos =====================  busqueda de sql para archivos adjuntos   ====>
+< //======= se realiza el mismo tipo de busqueda por sql para desplegar los comentarios de error =======>>>>>
+< 
+< 	$elID = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$elQuery = mysql_query($elID);
+< 	$elID1 = mysql_fetch_row($elQuery);
+< 
+< 
+< 
+< //if (strncmp($es_Individuo,"Ind",3) === 0)
+< 
+< if(!$elID1[0])
+< {
+< 
+< //if the document was successfully created in the db, then store it on the file system
+< if (!PhysicalDocumentManager::uploadPhysicalDocument_felipe($oDocument, $fFolderID, "None", $_FILES['fFile']['tmp_name'])) {
+<     // couldn't store document on filesystem
+<     $default->log->error("addDocumentBL.php Filesystem error attempting to store document " . $oDocument->getFileName() . " in folder " . Folder::getFolderPath($fFolderID) . "; id=$fFolderID");                                	
+<     require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+<     // delete the document from the database
+<     $oDocument->delete();
+<     $oPatternCustom = & new PatternCustom();
+<     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the document on the file system, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=browse&fFolderID=$fFolderID\"><img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"></a>"));                                    
+---
+>     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the document in the database, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocument&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                                
+673,677d176
+< }
+< else{
+< 
+< 
+< 
+691,692c190
+< }
+< //***********************      <-- <--
+---
+> 
+740,745d237
+< 
+< 
+< 
+< 
+< 
+< 
+747,748d238
+< 
+< 
+750,758d239
+< //======================================
+< 
+< //$arch = $_GET["arch"];  
+< /**
+< $db0="update debugg set tres =" .'"'."ARCH".$aQuery[0].'"'."where llave=3";
+< $res0 = mysql_query($db0);
+< */
+< //==================
+< 
+765,767c246
+<  
+<    }										
+< 
+---
+>     }										
+769,777c248
+< 
+< //exit(0);
+< 
+< // or $default->log->info("error del mysql".mysql_error());
+< 
+< 
+< 
+< 
+< 
+---
+>                                     
+34c34
+< KTUtil::extractGPC('fFolderID', 'fStore', 'fDocumentTypeID', 'fName', 'fDependantDocumentID','arch');
+---
+> KTUtil::extractGPC('fFolderID', 'fStore', 'fDocumentTypeID', 'fName', 'fDependantDocumentID');
+40,41c40
+< require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData2.inc");
+< 
+---
+> require_once("$default->fileSystemRoot/lib/visualpatterns/PatternMetaData.inc");
+110d108
+< 
+113c111
+<     // no docu$arch = $_GET("arch");  ment type was selected
+---
+>     // no document type was selected
+124,140c122
+< 
+< //********************************************** aqui poner lo de adjuntos   sin adjunto = Ind
+< //=========se cambio de una busqueda especifica a una general por sql directamente en la bd tomando en cuenta el id======>>> 
+< 
+< 	$elId10 = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$elquery10 = mysql_query($elId10);
+< 	$elId20 = mysql_fetch_row($elquery10);
+< 
+< //$dbgf="update debugg set uno =" .'"'."promid ".$prom_id.'"'."where llave=1";
+< // $dbgf="update `debugg` set `uno` =".'"'.$elId10.'"'. "where `llave`=1";
+< //$result2 = mysql_query($dbgf);
+< //$es_Individuo = lookupName($default->document_types_table, $fDocumentTypeID);
+< 
+< if (!((strlen($_FILES['fFile']['name']) > 0) && $_FILES['fFile']['size'] > 0) && ($elId20[0]) )
+<    			{
+< 
+< //(strncmp($es_Individuo,"Ind",3) === 0)) {
+---
+> if (!((strlen($_FILES['fFile']['name']) > 0) && $_FILES['fFile']['size'] > 0)) {
+144c126
+<     $message = _("You did not select a valid document to upload".$elId10.$elId20[0]);
+---
+>     $message = _("You did not select a valid document to upload");
+158,160c140
+< //*************************    
+< 
+<   if ($message != _("No file was selected to be uploaded to KnowledgeTree")) {
+---
+>     
+166,609d145
+< else
+< {
+< $oPatternCustom->setHtml(getStatusPage($fFolderID,"hola1212" . "</td><td><a href=\"$default->rootUrl/control.php?actionnt&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                        
+<     $main->setCentralPayload($oPatternCustom);
+<     $main->render();
+<     exit(0);
+<     }
+< }
+< 
+< 
+< //============================================================
+< //busqueda de sql trabajando directo con la bd
+< // aqui va unas lineas de codigo por cada caso de tipo de documento y uno de default para tipos documentos sin interes
+< 
+< 	$ElId = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$Elquery = mysql_query($ElId);
+< 	$ELId2 = mysql_fetch_row($Elquery);
+< 
+<  
+< 
+< // $es_Individuo = lookupName($default->document_types_table, $fDocumentTypeID);
+< //if (strncmp($es_Individuo,"Ind",3) === 0) {
+< 
+< 
+< //===========despues de la busqueda se toman ciertos aspectos o valores como nombre, ap. paterno, ap. materno y ID ========>>>
+< //============>> INDIVIDUO  <<=====
+< if (!$ELId2[0]){
+< 
+<   //if es individuo
+< $es_Tipo = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Individuo",9) === 0) {
+< 
+< 
+<   /**  $dbg="update debugg set dos =" .'"'."ID".$ELId2[0].'"'."where llave=1";
+< $r2 = mysql_query($dbg); */
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+<   if (strncmp($valor,"8",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre=$valor;}
+< 
+<    if (strncmp($valor,"22",2) === 0)  {
+<   list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<       $aappat=$valor; }
+< 
+<  if (strncmp($valor,"21",2) === 0)  {
+<   list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<       $aapmat=$valor;}
+< 
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre." ".$aapmat." ".$aappat;
+< 
+< 
+<  reset($_POST);
+< }
+<  //aqui el if
+< 
+< //============>> EVENTOS  <<=====
+< //if (!$ELId2[0]){
+< 
+<   //if es individuo
+< //$es_actv = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Eventos",7) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre1=$valor;}
+< 
+<   if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lugar=$valor;}
+< 
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre1." ".$lugar;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< //============>> DOMICILIO  <<=====
+< //if (!$ELId2[0]){
+< 
+<   //if es individuo
+< //$es_dom = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Domicilio",9) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"14",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $dom=$valor;}
+< 
+<   if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lug=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$dom." ".$lug;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> EMPRESA MATRIZ  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_empr = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Empresa Matriz",15) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"8",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre=$valor;}
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nnombre1=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nnombre." ".$nnombre1;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> PREFERENCIAS  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_hobb = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Preferencias",12) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $name=$valor;}
+< 
+<  if (strncmp($valor,"15",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $cathob=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$name." ".$cathobb;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< //============>> FINANZAS  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_fin = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Finanzas",8) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"9",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $ntipofin=$valor;}
+< 
+<  if (strncmp($valor,"11",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $moned=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$ntipofin." ".$moned;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< 
+< 
+< //============>> Inst/Organ  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_inst = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Instituto/Organizacion",11) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"32",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $ninst=$valor;}
+< 
+<  if (strncmp($valor,"18",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $lugar=$valor;}
+< 
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$ninst." ".$lugar;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< 
+< //============>> LUGARES  <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_lug = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Lugares",7) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+<  if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nname1=$valor;}
+< 
+< 
+<  
+< 
+<  if (strncmp($valor,"16",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $pais=$valor;}
+< 
+<  if (strncmp($valor,"17",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $state=$valor;}
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nname1." ".$pais." ".$state;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+< //============>> SEGUIMIENTO <<=====
+< //if (!$ELId2[0]){
+< 
+<  
+< //$es_seg = lookupName($default->document_types_table, $fDocumentTypeID);
+< if (strncmp($es_Tipo,"Seguimiento",11) === 0) {
+< 
+<    reset($_POST);
+<  while (list($clave, $valor) = each($_POST))
+<  {
+< 
+< 
+< 
+< 
+<   if (strncmp($valor,"4",2) === 0) {
+<         list($clave, $valor) = each($_POST);
+<      list($clave, $valor) = each($_POST);
+<     list($clave, $valor) = each($_POST);
+<       $nname=$valor;}
+< 
+<  
+<  }
+< 
+<  //========== busqueda para encontrar id del documento que se crea=========>>>
+< 
+< $elId= "SELECT MAX(`id`+ 1) FROM `documents`";
+< $elquery2=mysql_query($elId);
+< $elId2= mysql_fetch_row($elquery2);
+< $fName3=$elId2[0]."_".$fName3;
+< 
+< 
+< $fName =$fName3." ".$nname;
+< 
+< 
+<  reset($_POST);
+< }
+< //}
+< 
+< 
+<  //========= el resultado es creado como un documento ===========>>>>
+< 
+<   // $fName="prueba.txt";
+<   $_FILES['fFile']['name']=$fName;
+<   $_FILES['fFile']['size']=1;
+<   $_FILES['fFile']['type']="txt";
+< 
+< }
+< 
+< 
+< //==========================
+< 
+< 
+635,667c171
+<     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("$fName vv An error occured while storing the document in the database, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocument&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                                
+<     $main->setCentralPayload($oPatternCustom);
+<     $main->render();
+<     exit(0);
+< }
+< 
+< //*********************************************insertar if para comentario -->
+< /*if insertado, si es comentario seguir procedimiento alterado , si no seguir el usual */
+< 
+< 
+< // para adjuntos =====================  busqueda de sql para archivos adjuntos   ====>
+< //======= se realiza el mismo tipo de busqueda por sql para desplegar los comentarios de error =======>>>>>
+< 
+< 	$elID = "SELECT  `adjuntos` FROM `document_types_lookup` WHERE `id` =".$fDocumentTypeID;
+< 	$elQuery = mysql_query($elID);
+< 	$elID1 = mysql_fetch_row($elQuery);
+< 
+< 
+< 
+< //if (strncmp($es_Individuo,"Ind",3) === 0)
+< 
+< if(!$elID1[0])
+< {
+< 
+< //if the document was successfully created in the db, then store it on the file system
+< if (!PhysicalDocumentManager::uploadPhysicalDocument_felipe($oDocument, $fFolderID, "None", $_FILES['fFile']['tmp_name'])) {
+<     // couldn't store document on filesystem
+<     $default->log->error("addDocumentBL.php Filesystem error attempting to store document " . $oDocument->getFileName() . " in folder " . Folder::getFolderPath($fFolderID) . "; id=$fFolderID");                                	
+<     require_once("$default->fileSystemRoot/presentation/webpageTemplate.inc");
+<     // delete the document from the database
+<     $oDocument->delete();
+<     $oPatternCustom = & new PatternCustom();
+<     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the document on the file system, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=browse&fFolderID=$fFolderID\"><img src=\"" . KTHtml::getCancelButton() . "\" border=\"0\"></a>"));                                    
+---
+>     $oPatternCustom->setHtml(getStatusPage($fFolderID, _("An error occured while storing the document in the database, please try again.") . "</td><td><a href=\"$default->rootUrl/control.php?action=addDocument&fFolderID=$fFolderID&fDocumentTypeID=$fDocumentTypeID\"><img src=\"" . KTHtml::getBackButton() . "\" border=\"0\"></a>"));                                
+673,677d176
+< }
+< else{
+< 
+< 
+< 
+691,692c190
+< }
+< //***********************      <-- <--
+---
+> 
+740,745d237
+< 
+< 
+< 
+< 
+< 
+< 
+747,748d238
+< 
+< 
+750,758d239
+< //======================================
+< 
+< //$arch = $_GET["arch"];  
+< /**
+< $db0="update debugg set tres =" .'"'."ARCH".$aQuery[0].'"'."where llave=3";
+< $res0 = mysql_query($db0);
+< */
+< //==================
+< 
+765,767c246
+<  
+<    }										
+< 
+---
+>     }										
+769,777c248
+< 
+< //exit(0);
+< 
+< // or $default->log->info("error del mysql".mysql_error());
+< 
+< 
+< 
+< 
+< 
+---
+>                                     

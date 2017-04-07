@@ -71,6 +71,20 @@ function generateLink($sTargetPage, $sQueryString, $sLinkText = "") {
     return (strlen($sLinkText) > 0) ? "<a href=\"$sLink\">$sLinkText</a>" : $sLink;
 }
 
+//============ MIKE ===============//
+
+function generateLink2($elframe,$sTargetPage, $sQueryString, $sLinkText = "") {
+    global $default;
+
+    $sQueryStringDelimiter = strlen($sQueryString) > 0 ? (strstr($sTargetPage, "?") ? "&" : "?") : "";
+
+    $sLink = "http" . ($default->sslEnabled ? "s" : "") . "://" . $default->serverName . 
+             ((substr($sTargetPage, 0, strlen($default->rootUrl)) != $default->rootUrl) ? $default->rootUrl : "") .
+             (substr($sTargetPage, 0, 1) == "/" ? "" : "/") . 
+             $sTargetPage . $sQueryStringDelimiter . $sQueryString;
+
+    return (strlen($sLinkText) > 0) ? "<a target=\"$elframe\" href=\"$sLink\">$sLinkText</a>" : $sLink;
+}
 /**
  * Generates a link used when setting up template documents for document linking in folder
  * collaboration.  Formatted to send document name and id back to parent window 
@@ -126,6 +140,11 @@ function generateControllerLink($sAction, $sQueryString, $sLinkText = "") {
     return generateLink("/control.php?action=$sAction", $sQueryString, $sLinkText);
 }
 
+//============MIKE============///
+
+function generateControllerLink2($elframe,$sAction, $sQueryString, $sLinkText = "") {
+    return generateLink2($elframe,"/control.php?action=$sAction", $sQueryString, $sLinkText);
+}
 /**
  * Checks the current session and redirects to the login page
  * if the redirect parameter is true.
@@ -169,6 +188,14 @@ function checkSessionAndRedirect($bRedirect, $bDownload = false) {
         return true;
     }
 }
+// felipe
+
+
+
+
+
+
+
 
 /**
  * Verifies the current session
@@ -191,5 +218,21 @@ function checkSession($bDownload = false, $bHandleNoAccess = true) {
             return false;
         }
     }
+    // if the check session fails, we'll be redirected to the login page
+}
+
+function checkSession2($bDownload = false, $bHandleNoAccess = true) {
+    global $default;
+    //if (checkSessionAndRedirect(false, $bDownload)) {
+    //  $default->log->debug("control.inc: print the session variables: " . arrayToString($_SESSION));
+        // the session is cool, now check if we access to this page
+    //  $default->log->debug("control.inc: page=" . $_SERVER['PHP_SELF'] . " ? " . $_SESSION["pageAccess"][$_SERVER['PHP_SELF']]);
+        if ($_SESSION["pageAccess"][$_SERVER['PHP_SELF']]) {
+            return true;
+        } else {
+         
+            return false;
+        }
+	//}
     // if the check session fails, we'll be redirected to the login page
 }

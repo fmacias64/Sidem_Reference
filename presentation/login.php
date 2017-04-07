@@ -43,7 +43,9 @@ if ($_REQUEST['loginAction'] == "loginForm") {
     <head>
     <link rel=\"stylesheet\" href=\"$default->uiUrl/stylesheet.php\">
     <link rel=\"SHORTCUT ICON\" href=\"$default->graphicsUrl/tree.ico\">
-    <title>The KnowledgeTree</title>
+    <title>SIDEM</title>
+
+
 
 	<SCRIPT TYPE=\"text/javascript\">
 	<!--
@@ -70,7 +72,9 @@ if ($_REQUEST['loginAction'] == "loginForm") {
     </head>
     <body onload=\"javascript:document.loginForm.fUserName.focus()\">
     <center>
-    <img src=\"$default->graphicsUrl/ktLogin.jpg\">
+    <img src=\"$default->graphicsUrl/estanque.jpg\" width='200' height='150'>
+
+
     <br><br>
     <table>\n
     <form name=\"loginForm\" action=\"" . $_SERVER["PHP_SELF"] . "\" method=\"post\">
@@ -85,7 +89,7 @@ if ($_REQUEST['loginAction'] == "loginForm") {
     <input type=\"hidden\" name=\"redirect\" value=\"$redirect\"/>
     <input type=\"hidden\" name=\"loginAction\" value=\"login\">\n
     <input type=\"hidden\" name=\"cookietestinput\" value=\"$cookietest\">\n
-    <tr align=\"right\"><td><input type=\"image\" src=\"" . KTHtml::getLoginButton() . "\" border=\"0\"></td></tr>\n
+    <tr align=\"right\"><td><input type=\"image\" src=\"" . KTHtml::getLoginButton() . "\" border=\"1\"></td></tr>\n
     <tr><td><font size=\"1\">" . _("System Version") . ": " . $default->systemVersion . "</font></td></tr>
     </table>
     </center>
@@ -154,14 +158,14 @@ if ($_REQUEST['loginAction'] == "loginForm") {
             break;
             // too many sessions
         case 3 :
-            $url = $url . "&errorMessage=" . urlencode(_("Maximum sessions for user reached.<br>Contact the System Administrator"));
+            $url = $url . "&errorMessage=" . urlencode(_("<b>Maximum sessions for user reached.<br>Contact the System Administrator"));
             break;
             // not a unit user
         case 4 :
             $url = $url . "&errorMessage=" . urlencode(_("This user does not belong to a group and is therefore not allowed to log in."));
             break;            
         default :
-            $url = $url . "&errorMessage=" . urlencode(_("Login failure"));
+            $url = $url . "&errorMessage=" . urlencode(_("LOGIN FALLO"));
         }
     } else {
         // didn't receive any login parameters, so redirect login form

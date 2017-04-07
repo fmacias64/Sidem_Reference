@@ -35,7 +35,7 @@ function renderCheckInPage($oDocument) {
 	
 	$sToRender  = "<table>\n";
 	$sToRender .= "<tr><td>" . _("Select the file to check in") . ":</td></tr>\n";
-	$sToRender .= "<tr><td><input type=\"file\" name=\"fFile\">";
+	$sToRender .= "<tr><td><script type=\"text/javascript\" src=\"valimg.js\"></script><input type=\"file\" name=\"fFile\" onBlur=\"LimitAttach(this,1);\">";
     /*
 	$sToRender .= "<tr><td><input type=\"file\" name=\"browse\" style=\"display:none\">";
     $sToRender .= "<input type=\"text\" name=\"fFile\"\>\n";
@@ -87,7 +87,7 @@ function renderCheckInPage($oDocument) {
 	$sToRender .= "      directoryTokensArray = document.MainForm.fComment.split('/');\n";
 	$sToRender .= "    }\n";
     //$sToRender .= "alert('filename=' + directoryTokensArray[directoryTokensArray.length-1]);\n";	
-	$sToRender .= "    if ('" . $oDocument->getFileName() . "' <> directoryTokensArray[directoryTokensArray.length-1]) {\n";
+	$sToRender .= "    if (0 &&('" . $oDocument->getFileName() . "' <> directoryTokensArray[directoryTokensArray.length-1])) {\n";
     $sToRender .= "      alert('Please check in the same file, you attempted to check in ' + document.MainForm.fComment + '!');\n";
     $sToRender .= "      return false;\n";
 	$sToRender .= "    } else {\n";    

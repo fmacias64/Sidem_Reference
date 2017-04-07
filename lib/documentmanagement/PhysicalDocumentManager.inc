@@ -31,6 +31,196 @@ if (!extension_loaded('fileinfo')) {
     @dl('fileinfo.' . PHP_SHLIB_SUFFIX);
 }
 
+	/****
+Funcion creadora de mapa individuo
+	 **/
+	function yeah(){echo "yeah";}
+	////////////////////
+
+function findividuo($ppath,$oDocument,$que,$docllama ) {
+  global $default;
+ $gestor = fopen($ppath, $que);
+
+$iddoc= $docllama;
+$oDocument = & Document::get($iddoc);
+$indv_rel= "SELECT * FROM `document_fields_link` WHERE `document_field_id`<> 1  AND `document_id`=".$iddoc;
+$indv_rel1 = mysql_query($indv_rel);
+
+
+ while($indv_rel2 = mysql_fetch_row($indv_rel1))
+{
+$bandtipo=1;
+ 
+
+ 
+ if ($indv_rel2[2]==8) {
+    $nam=$indv_rel2[3];
+    $bandtipo=0;
+}
+ if ($indv_rel2[2]==21 ){
+   $appat=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==22){
+   $apmat=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==23 ){
+    $fech=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==58 ){
+    $mail=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==96 ){
+    $resum=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==57 ){
+    $tel=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==63 ){
+    $rel1=$indv_rel2[3];
+$bandtipo=0;
+}
+
+if ($indv_rel2[2]==64 ){
+    $rel2=$indv_rel2[3];
+$bandtipo=0;
+}
+
+if ($indv_rel2[2]==65 ){
+    $rel3=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==69 ){
+    $gen=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==54 ){
+    $cit=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==100 ){
+    $cit1=$indv_rel2[3];
+$bandtipo=0;
+}
+if ($indv_rel2[2]==101 ){
+    $cit2=$indv_rel2[3];
+$bandtipo=0;
+}
+}
+
+ 
+ $docs= "img/".$oDocument->getFileName();
+   
+  $tama=filesize($docs);
+
+$genero0= "SELECT value FROM `document_fields_link` WHERE `document_field_id`=69  AND `document_id`=".$iddoc;
+$genero1 = mysql_query($genero0);
+$genero2 = mysql_fetch_row($genero1);
+
+//$Nom = "http://proveedores.intelect.com.mx/FichasBD/branches/Sidem/Documents/Root%20Folder/Default%20Unit/SIDEM/Individuo/".$oDocument->getFileName();
+
+ $Nom = " http://proveedores.intelect.com.mx/FichasBD/branches/Sidem/Documents". $oDocument->generateFullFolderPath($oDocument->getFolderID())."/".$oDocument->getFileName();
+
+           fwrite($gestor, '<map version="0.8.1" >');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net --> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274726484516" ID="Freemind_Link_1266442485" MODIFIED="1274726484516" TEXT="'.$nam.'&nbsp; '.$appat.'&nbsp; '.$apmat.'"> ');
+fwrite($gestor, "\n");
+
+//=============>> INSERTAR IMAGEN INDIVIDUO =========>>>>
+ if ($tama >= 10){
+
+fwrite($gestor, '<node CREATED="1274726560189" ID="Freemind_Link_1279689037" MODIFIED="1274731872010" POSITION="left" TEXT="&lt;html&gt;&lt;img src=&quot;'.$Nom.'&quot;&gt; "/> ');
+ }
+ else
+if ($genero2[0]=="Femenino")
+{
+fwrite($gestor, '<node CREATED="1274726560189" ID="Freemind_Link_1279689037" MODIFIED="1274731872010" POSITION="left" TEXT="&lt;html&gt;&lt;img src=&quot;http://proveedores.intelect.com.mx/FichasBD/branches/Sidem/presentation/lookAndFeel/knowledgeTree/documentmanagement/nofotof.jpg&quot;&gt; "/> ');
+ }
+ else
+   {
+fwrite($gestor, '<node CREATED="1274726560189" ID="Freemind_Link_1279689037" MODIFIED="1274731872010" POSITION="left" TEXT="&lt;html&gt;&lt;img src=&quot;http://proveedores.intelect.com.mx/FichasBD/branches/Sidem/Documents/Root Folder/Default Unit/SIDEM/Individuo/nofoto.jpg&quot;&gt; "/> ');
+}
+
+//fwrite($gestor, '<node CREATED="1274726560189" ID="Freemind_Link_1279689037" MODIFIED="1274731872010" POSITION="left" TEXT="&lt;html&gt;&lt;img src=&quot;http://www.arrolladoscaseros.com.ar/v1/images/16.jpg&quot;&gt; "/> ');
+
+//"http://proveedores.intelect.com.mx/FichasBD/branches/Sidem/Documents". $oDocument->generateFullFolderPath($oDocument->getFolderID())."/".$oDocument->getFileName()
+//========================<<<< TERMINA INSERTAR IMAGEN <<<=================
+fwrite($gestor, "\n");
+
+ fwrite($gestor, '<node CREATED="1274726544449" ID="_" MODIFIED="1274726552543" POSITION="left" TEXT="Datos Personales"> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727244482" ID="Freemind_Link_1898276060" MODIFIED="1274727255598" TEXT="Fecha de Nacimiento: '.$fech.'"/> ');
+ fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727259629" ID="Freemind_Link_1365853795" MODIFIED="1274727274490" TEXT="Nacionalidad: '.$cit.'"> ');
+
+fwrite($gestor, "\n");
+
+ fwrite($gestor, '<node CREATED="1274731484668" ID="Freemind_Link_143094117" MODIFIED="1274731493223" TEXT="Nacionalidad 1: '.$cit1.'"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274731499027" ID="Freemind_Link_231161259" MODIFIED="1274731504715" TEXT="Nacionalidad 2: '.$cit2.'"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '</node> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727277041" ID="Freemind_Link_523770694" MODIFIED="1274727284185" TEXT="Tel&#xe9;fono: '.$tel.'"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727286487" ID="Freemind_Link_1871153717" MODIFIED="1274727292060" TEXT="E-mail: '.$mail.'"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727293821" ID="Freemind_Link_835127681" MODIFIED="1274727298847" TEXT="Genero: '.$gen.'"/> ');
+fwrite($gestor, "\n");
+ $resum=str_replace('"', "''", $resum);
+ $resumen_html=utf8_encode($resum);
+ fwrite($gestor, '<node CREATED="1274727301428" FOLDED="true" ID="Freemind_Link_63763403" MODIFIED="1274727311168" TEXT="Resumen Ejecutivo: "> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727320886" ID="Freemind_Link_1164883218" MODIFIED="1274727325890" TEXT="'.$resumen_html.'"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '</node> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '</node> ');
+fwrite($gestor, "\n");
+//----------------------------
+// id doc tipo 18 (individuo), del nodo anterior , el tipo 4 (trayectoria), el id del mapa, y el numero random
+ $numrr=rand(100000,200000);
+ $nom_mapa=explode("/",$ppath);
+ $posNombre=count($nom_mapa)-1;
+ 
+ 
+ $nombre_nodo="NTRAY_".$iddoc."_4_".$nom_mapa[$posNombre].$numrr;
+$enlace= "http://".$default->serverName.$default->rootUrl."/control.php?action=modifymindmap&idd=".$iddoc."&tipo= 4&numinstr=1&elmapa=".$nom_mapa[$posNombre]."&idnodo=".$nombre_nodo;
+//fwrite($gestor, '<!---'.print_r($nom_mapa,true)." ### ".count($nom_mapa).'--> ');
+fwrite($gestor, '<node CREATED="1274726578281" ID="'.$nombre_nodo.'" LINK="'.$enlace.'" MODIFIED="1274731944034" POSITION="right" TEXT="&lt;html&gt;&lt;a href=&quot;#&quot;&gt;Trayectoria &lt;/a&gt;"/> ');
+fwrite($gestor, "\n");
+
+$nombre_nodo="NREL_".$iddoc."_20_".$nom_mapa[$posNombre].$numrr;
+$enlace= "http://".$default->serverName.$default->rootUrl."/control.php?action=modifymindmap&idd=".$iddoc."&tipo=20&numinstr=5&elmapa=".$nom_mapa[$posNombre]."&idnodo=".$nombre_nodo;
+
+
+
+ fwrite($gestor, '<node CREATED="1274726656461" ID="'.$nombre_nodo.'" LINK="'.$enlace.'" MODIFIED="1274731740381" POSITION="right" TEXT="Relaciones"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274726769137" ID="Freemind_Link_316879233" LINK="http://www.google.com/" MODIFIED="1274731788162" POSITION="right" TEXT="Domicilios"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274726805198" ID="Freemind_Link_1876460424" LINK="http://www.google.com/" MODIFIED="1274731802458" POSITION="right" TEXT="Eventos"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274726819714" ID="Freemind_Link_1766366765" LINK="http://www.google.com/" MODIFIED="1274731812289" POSITION="right" TEXT="Preferencias"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '<node CREATED="1274727040921" ID="Freemind_Link_878549994" LINK="http://www.google.com/" MODIFIED="1274731829310" POSITION="right" TEXT="Multimedia"/> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '</node> ');
+fwrite($gestor, "\n");
+ fwrite($gestor, '</map> ');
+
+
+           fclose($gestor);
+	   return true;
+}
+
 class PhysicalDocumentManager {
 	
 	/**
@@ -48,7 +238,9 @@ class PhysicalDocumentManager {
 	function uploadPhysicalDocument($oDocument, $iFolderID, $sDescription, $sTmpFilePath) {
 		global $lang_fileexists, $lang_err_upload, $lang_err_database;				
 		//find the path on the system where the document should be stored
-        $sDocumentFileSystemPath = $oDocument->getPath();		
+        $sDocumentFileSystemPath = $oDocument->getPath();
+		//$dbg="update debugg set uno =" .'"'."ARCH  ".$sTmpFilePath.'"'."where llave=1";
+		//$r2 = mysql_query($dbg); 
 		//copy the file accross
 		if (copy($sTmpFilePath, $sDocumentFileSystemPath)) {						
 			//remove the temporary file
@@ -63,7 +255,45 @@ class PhysicalDocumentManager {
 			return false;
 		}
 	}
+
+// udf    
+
+
+
+	function uploadPhysicalDocument_felipe($oDocument, $iFolderID, $sDescription, $sTmpFilePath,$docllama) {
+		global $lang_fileexists, $lang_err_upload, $lang_err_database;				
+		//find the path on the system where the document should be stored
+        $sDocumentFileSystemPath = $oDocument->getPath();
+	$raizArchivos="/home/graciela/public_html/";
+		
+		//copy the file accross
+	if($oDocument->getDocumentTypeID()==52){
+	 
+	  findividuo($sDocumentFileSystemPath,$oDocument,"w",$docllama);
+         
+	   if (file_exists($sDocumentFileSystemPath)) {
+				return true;
+			} else {
+				return false;
+	   }		
+	
+	} else if (touch( $sDocumentFileSystemPath)) {						
+			//remove the temporary file
+			//unlink($sTmpFilePath);
+			if (file_exists($sDocumentFileSystemPath)) {
+				return true;
+			} else {
+				return false;
+			}		
+		} else {
+			$_SESSION["errorMessage"] = $lang_err_upload;
+			return false;
+		}
+	}
     
+
+
+
     /**
      * Renames a document on the filesystem
      *
@@ -191,6 +421,7 @@ class PhysicalDocumentManager {
 		}
 	}
 	
+
 	/**
 	 * Move a file
 	 *

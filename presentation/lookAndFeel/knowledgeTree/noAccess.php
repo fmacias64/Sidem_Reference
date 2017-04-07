@@ -25,7 +25,8 @@
  */
  
 require_once("../../../config/dmsDefaults.php");
-echo "<center><b>" . _("You do not have permission to access this page.") . "<br>";
-echo "<a href=\"javascript:history.go(-1)\">" . _("Back") . "</a> OR " . generateControllerLink("logout", "", _("logout"));
+echo "<center><b><color=\"blue\">"."DE AQUI NO PASAS"."<br>";
+echo "<a href=\"javascript:history.go(-1)\">" . _("Back") ;
+echo  "</a> OR " . generateControllerLink("logout", "", _("logout"));
 echo "</b></center>";
 ?>

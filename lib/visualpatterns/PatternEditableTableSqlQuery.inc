@@ -38,6 +38,12 @@
  * @todo - add client side validation stuff
  * @todo - add column type 3 -> select field stuff 
  */
+
+//require_once("../../../../calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css");
+
+
+require_once("PatternListBox3.inc");
+
 class PatternEditableTableSqlQuery {
 	
 	/** query to execute*/
@@ -67,7 +73,7 @@ class PatternEditableTableSqlQuery {
 	
 	var $aRequiredColumnNames;
 	var $aRequiredFieldNames;
-	var $aMetaDataFields;	
+	var $aMetaDataields;	
 	
 	function PatternEditableTableSqlQuery($sTmpQuery, $sTmpTableName, $aTmpStoreColumnNames, $aTmpDisplayColumnNames, $aTmpColumnsEditable, $aTmpColumnsVisible, $aTmpColumnDisplayTypes, $aTmpColumnDatabaseTypes) {
 		$this->sQuery = $sTmpQuery;
@@ -117,6 +123,8 @@ class PatternEditableTableSqlQuery {
 		$this->bRenderJavascriptValidation = $bNewValue;
 	}
 	
+
+
 	function & render() {
         global $default;
         
@@ -172,7 +180,7 @@ class PatternEditableTableSqlQuery {
 					//generate the right kind of editable field
 					$sToRender .= "\t<td>\n";
 					switch ($this->aColumnDisplayTypes[$i]) {
-						case 1:
+						case 1: 
 							//output the table column name
 							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
 							//output the column type
@@ -182,9 +190,185 @@ class PatternEditableTableSqlQuery {
 								if ($this->aColumnsEditable[$i]) {
 									$sToRender .= "\t<input type=\"text\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
 								} else {
-									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $sql->f($this->aDisplayColumnNames[$i])."\n";
+								   $nombre=$sql->f($this->aDisplayColumnNames[$i]);
+								  $partes=explode(" ",$nombre);
 								}
-							} else {
+ 
+		
+				 //============ if insertado para desaparecer category ===========>>
+				//======== en esta parte se desaparece la parte Category del sistema =========>>>>>
+
+								  if  (!strcmp($partes[0],"Category")){
+								    $sToRender .= "\t<input type=\"hidden\" name=\"77777" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />";
+								  }else{
+
+  //====aqui seguimos un procedimiento si dice k_ y otro para el resto <<====//
+ //==========>> manipulacion de nombres de campos para desaparecer la "k" de los campos llave <<==================//
+
+
+  $partes2=explode("_",$nombre);
+
+
+  if  (strncmp($partes2[0],"k",1)===0)
+   {
+$lak=$partes2[0];
+$zcampo=$partes2[1];
+if (count($partes2)> 2)
+{
+$partes2[1]=$partes2[2];
+}
+
+$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $partes2[1]."\n"; 
+
+
+/***** aqui poner campos unique exception ****/
+
+ if  (!(strncmp($zcampo,"zLugares",8)===0) && (strncmp($lak,"k",1)===0))
+{
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax.js"></script>';
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/ajax-dynamic-list2.js"></script>';
+$sToRender .= '<script type="text/javascript" src="'.$default->rootUrl.'/lib/visualpatterns/validacion.js"></script>';
+
+
+$sToRender .= "<input type=\"hidden\" name=\"unique_exception_" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+$nombres1=$this->sUniqueName . "_" . $iRowCount . $i."_ignorar";
+$nombres2=$this->sUniqueName . "_" . $iRowCount . ($i+1)."_value";
+$TipoDoc = "SELECT id FROM  `document_types_lookup` WHERE name='".$zcampo."'";
+$TipoDoc2 = mysql_query($TipoDoc);
+$TipoDoc3=mysql_fetch_row($TipoDoc2);       
+
+$sToRender .= "\n<input type=\"text\" size=\"50\" id=\"$nombres1\" name=\"$nombres1\" onclick=\"clickBorra(this,'$nombres2');\" onkeyup=\"ajax_showOptions(this,'action=dynlist&tipo=".$TipoDoc3[0]."&getCountriesByLetters', ";
+$sToRender .= " '$default->rootUrl/control.php' ,event)\" />";
+}
+
+// fin instituto organizacion , poner abajo de %partes2[1]
+
+if  (strncmp($zcampo,"zLugares",8)===0)
+{    
+        $sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/ajax.js\"></script>\n";
+	$sToRender .= "<script type=\"text/javascript\">\n";
+
+	$sToRender .= "var ajax2 = new Array();\n";
+
+	$sToRender .= "function opta(sel,nom,nom2,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "getLugaresList(sel,nom,iddoc)\n";
+	$sToRender .= "getLugaresList(sel,nom2,iddoc)\n";
+	$sToRender .= "}\n";
+
+
+	$sToRender .= "function getLugaresList(sel,nombr,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var countryCode = sel.options[sel.selectedIndex].value;\n";
+        $sToRender .= "countryCode2 = 'us';\n";
+	$sToRender .= "	document.getElementById(nombr).options.length = 0;	// Empty city select box\n";
+	$sToRender .= "	if(countryCode.length>0){\n";
+	$sToRender .= "		var index = ajax2.length;\n";
+	$sToRender .= "		ajax2[index] = new sack();\n";
+	$sToRender .= "	ajax2[index].requestFile = '$default->rootUrl/control.php?action=GetLugaresList&countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;\n";
+        $sToRender .= "		ajax2[index].onCompletion = function(){ createLugar(index,nombr) };     \n";
+	$sToRender .= "		ajax2[index].runAJAX();	       \n";
+	$sToRender .= "	}\n";
+	$sToRender .= "}\n";
+
+	$sToRender .= "function createLugar(index,nombr)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var obj = document.getElementById(nombr);\n";
+	$sToRender .= "	eval(ajax2[index].response);	\n";
+	$sToRender .= "}\n";
+
+		
+	$sToRender .= "</script>\n";
+
+
+
+
+ 
+
+//asas
+$sToRender .= "<input type=\"hidden\" name=\"unique_exception_" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+
+
+	//output the table column name
+        $nombresel= $this->sUniqueName . "_a" . $iRowCount . $i."_ignorar";
+
+	$oPatternListBox3 = & new PatternListBox3("$default->document_table", "ST.name", "id","$nombresel" );
+	$elqueriux = "SELECT dos AS display, id AS value from  `Lugares`.Pais order by dos";
+        $oPatternListBox3-> setQuery($elqueriux);
+        $nombres1=$this->sUniqueName . "_b" . $iRowCount . $i."_ignorar";
+        $selenforma.= $this->sUniqueName . "_" . $iRowCount; 
+        $imas3=$i+1;
+        $selenforma.= $imas3."_value"; 
+        //$elonchange="getLugaresList(this,'".$nombres1."','Estado')";
+        $elonchange="opta(this,'".$nombres1."','".$selenforma."','Estado')";
+        $nombre3=$this->sUniqueName . "_a" . $iRowCount . $i."_ignorar";
+        $oPatternListBox3->setSelectName($nombre3);
+      $oPatternListBox3->setPostBackOnChange(true);
+        $oPatternListBox3-> setOnChangeAction($elonchange);	
+	$sToRender.= $oPatternListBox3->render();
+
+         $sToRender .= "<input type=\"hidden\" name=\"unique_exception_b" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+
+
+	//output the table column name
+
+$onchange="onChange=\"getLugaresList(this,'".$this->sUniqueName . "_c" . $iRowCount . $i."_ignorar"."','Lugares_0')\"";
+//$onchange="onChange=\"opta(this,'".$this->sUniqueName . "_c" . $iRowCount . $i."_ignorar"."','".$selenforma."','Lugares_0')\"";
+ 
+ 
+$sToRender .= "<SELECT ID = \"" . $this->sUniqueName . "_b" . $iRowCount . $i."_ignorar\" ".$onchange."  NAME=\"" . $this->sUniqueName . "_b" . $iRowCount . $i."_ignorar\" ".$onchange."   SIZE=\"1\">";
+ $sToRender .= "<OPTION VALUE=\"\">Elija un Pais primero </OPTION></SELECT>";
+
+$sToRender .= "<input type=\"hidden\" name=\"unique_exception_c" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+
+
+//  selector alfabetico 2
+
+  $sToRender .= "<input type=\"hidden\" name=\"unique_exception_c" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+
+
+	//output the table column name
+
+$onchange="onChange=\"getLugaresList(this,'".$this->sUniqueName . "_d" . $iRowCount . $i."_ignorar"."','Lugares_1')\"";
+//$onchange="onChange=\"opta(this,'".$this->sUniqueName . "_d" . $iRowCount . $i."_ignorar"."','".$selenforma."','Lugares_1')\"";
+ 
+ 
+$sToRender .= "<SELECT ID = \"" . $this->sUniqueName . "_c" . $iRowCount . $i."_ignorar\" ".$onchange."  NAME=\"" . $this->sUniqueName . "_c" . $iRowCount . $i."_ignorar\" ".$onchange."   SIZE=\"1\">";
+ $sToRender .= "<OPTION VALUE=\"\">Elija apartado primero </OPTION></SELECT>";
+
+$sToRender .= "<input type=\"hidden\" name=\"unique_exception_d" . $this->sUniqueName . $iRowCount . "\" value=\"\" />\n";
+
+//Selector alfabetico 2
+
+
+
+
+	//output the table column name
+
+$onchange = "onChange=\"getLugaresList(this,'";
+$onchange.= $this->sUniqueName . "_" . $iRowCount; 
+$imas=$i+1;
+$onchange.= $imas."_value"; 
+$onchange.="','Lugares')\" ";
+ 
+$sToRender .= "<SELECT  ID=\"" . $this->sUniqueName . "_d" . $iRowCount . $i."_ignorar\" ".$onchange." NAME=\"" . $this->sUniqueName . "_d" . $iRowCount . $i."_ignorar\" ".$onchange."   SIZE=\"1\">";
+ $sToRender .= "<OPTION VALUE=\"\">Elija un Pais y Estado primero</OPTION></SELECT>";
+
+}
+
+}
+
+  else{
+
+    $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />" . $sql->f($this->aDisplayColumnNames[$i])."\n"; }
+								}
+							}
+
+
+				//=========================	<<==========
+
+						
+							 else {
 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
 							}
 							break;
@@ -196,18 +380,202 @@ class PatternEditableTableSqlQuery {
 							//output the value
 							if ($this->aColumnsVisible[$i]) {
 								if ($this->aColumnsEditable[$i]) {
-									$sToRender .= "\t<input type=\"checkbox\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . ($sql->f($this->aStoreColumnNames[$i] ? "1\" checked" : "0\"")) . " />\n";
+									$sToRender .= "\t<input type=\"checkbox\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"". ($sql->f($this->aStoreColumnNames[$i] ? "\" checked" : "0\"")) . " />\n";
 								} else {
 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
 								}
 							} else {
-								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" .$sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
 							}							
 							break;
 						case 3:
 							$sToRender .= "<b>" . _("The column type for drop downs is not implemented yet") . "</b>\n";
 							break;
 						case 4:
+
+						  // Codigo uno a muchos
+
+ if (!strcmp($partes[0],"Count")){
+
+								    $sToRender .= "HOLA Febrero 22<br>";
+
+}
+
+
+
+		      // $nombre2=$sql->f($this->aDisplayColumnNames[$i]);
+	 
+
+
+
+
+  $partes2=explode("_",$nombre);
+
+//=============>>> Codigo creado para ubicar ap.Paterno y generarle la lista dinamica =====>>>>
+
+ $partes22=explode("(",$nombre);
+ if (!strcmp($partes22[1],"FATHER)")){
+
+ //=======repeticion del codigo para el caso 4 pero personalizado al caso de apellido paterno======>>>>
+
+	$sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/lib/visualpatterns/validacion.js\"></script>";
+                            $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
+							//output the column type
+							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+							if ($this->aColumnsVisible[$i]) {
+								if ($this->aColumnsEditable[$i]) {
+									$oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),"Paterno");
+									$sToRender .= $oPattern->render("Paterno");
+								} else {
+									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
+								}
+							} else {
+								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+							}
+ //arriba va el codigo de dynamic list
+ }
+ //===============<<<< ============<<<
+
+
+
+
+
+ 
+
+
+//==========>>> Inicia caso k_ o caso uno a muchos ===========>>>>
+	   elseif  (strncmp($partes2[0],"k",1)===0){
+	     
+if(strncmp($partes2[1],"Estados",7)===0 || strncmp($partes2[1],"Pais",4)===0){
+	   
+
+  if(strncmp($partes2[1],"Pais",4)===0){
+/***
+    //$sToRender .="HOLA Pais";
+ $sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/ajax.js\"></script>\n";
+	$sToRender .= "<script type=\"text/javascript\">\n";
+
+	$sToRender .= "var ajax = new Array();\n";
+
+	$sToRender .= "function getEstadosList(sel,nom,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var countryCode = sel.options[sel.selectedIndex].value;\n";
+        $sToRender .= "countryCode2 = 'us';\n";
+	$sToRender .= "	document.getElementById(nom).options.length = 0;	// Empty city select box\n";
+	$sToRender .= "	if(countryCode.length>0){\n";
+	$sToRender .= "		var index = ajax.length;\n";
+	$sToRender .= "		ajax[index] = new sack();\n";
+		
+	//	$sToRender .= "		ajax[index].requestFile = '$default->rootUrl/presentation/lookAndFeel/knowledgeTree/documentmanagement/getCities.php?countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;	// Specifying which file to get\n";
+
+	$sToRender .= "	ajax[index].requestFile = '$default->rootUrl/control.php?action=getCities&countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;\n";
+
+	$sToRender .= "		ajax[index].onCompletion = function(){ createCities(index,nom) };     \n";
+	$sToRender .= "		ajax[index].runAJAX();	       \n";
+	$sToRender .= "	}\n";
+	$sToRender .= "}\n";
+
+	$sToRender .= "function createCities(index,nom)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var obj = document.getElementById(nom);\n";
+	$sToRender .= "	eval(ajax[index].response);	\n";
+	$sToRender .= "}\n";
+
+		
+	$sToRender .= "</script>\n";
+**/
+
+
+
+}
+if(strncmp($partes2[1],"Estados",7)===0){
+
+  // $sToRender .="HOLA ESTADOS";
+/***
+ $sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/ajax.js\"></script>\n";
+	$sToRender .= "<script type=\"text/javascript\">\n";
+
+	$sToRender .= "var ajax = new Array();\n";
+
+	$sToRender .= "function getLugaresList(sel,nom,iddoc)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var countryCode = sel.options[sel.selectedIndex].value;\n";
+        $sToRender .= "countryCode2 = 'us';\n";
+	$sToRender .= "	document.getElementById(nom).options.length = 0;	// Empty city select box\n";
+	$sToRender .= "	if(countryCode.length>0){\n";
+	$sToRender .= "		var index = ajax.length;\n";
+	$sToRender .= "		ajax[index] = new sack();\n";
+		
+	//	$sToRender .= "		ajax[index].requestFile = '$default->rootUrl/presentation/lookAndFeel/knowledgeTree/documentmanagement/getCities.php?countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;	// Specifying which file to get\n";
+
+	$sToRender .= "	ajax[index].requestFile = '$default->rootUrl/control.php?action=getCities&countryCode='+countryCode2+'&idd='+iddoc+'&cc='+countryCode;\n";
+
+	$sToRender .= "		ajax[index].onCompletion = function(){ createCities(index,nom) };     \n";
+	$sToRender .= "		ajax[index].runAJAX();	       \n";
+	$sToRender .= "	}\n";
+	$sToRender .= "}\n";
+
+	$sToRender .= "function createCities(index,nom)\n";
+	$sToRender .= "{\n";
+	$sToRender .= "	var obj = document.getElementById(nom);\n";
+	$sToRender .= "	eval(ajax[index].response);	\n";
+	$sToRender .= "}\n";
+
+		
+	$sToRender .= "</script>\n";
+**/
+
+
+}}
+/**
+             $ONE="update debugg set tres =" .'"'."NET_".$partes2[1].'"'."where llave=0";
+	     $TWO = mysql_query($ONE);
+*/     
+	   
+
+	$elIddeMetadata2 = "SELECT  `id` FROM `document_types_lookup` WHERE `name`=\"$partes2[1]\"";
+     	$elquerydeMetadata2 = mysql_query($elIddeMetadata2);
+	$elId201 = mysql_fetch_row($elquerydeMetadata2);
+	
+	/**	$ONE1="update debugg set tres =" .'"'."SQL_".$elId201[0].$partes2[1].'"'."where llave=5";
+	   $TWO1 = mysql_query($ONE1);
+       
+	*/					  
+	   //if para checar si el nombre trae la primer letra k, despues de un explode			
+	
+
+	   //$partes2[0] debe valer 'k'
+	   //si vale k entonces 
+
+
+							//output the table column name
+                            $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
+							//output the column type
+							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+							if ($this->aColumnsVisible[$i]) {
+								if ($this->aColumnsEditable[$i]) {
+
+					  //**********************aqui hacer un if else ="" si es vacio elid201[0],***>>
+
+									$oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"nada");									$sToRender .= $oPattern->render("$nombre");
+								} else {
+									$sToRender .= "\t HOLA <input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i]). "\n";
+								}
+							} else {
+								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
+							}	
+	} 
+//=============<<< Termina el caso K_   <<<============
+
+
+							//abajo ( hasta el break del case ) esta dentro de un else 
+                                                     
+	   else{
+						
+	 					
+						  //Fin de codigo uno a muchos
+
+
 							//meta data
 							//could either be a drop down or a text field, depending
 							
@@ -215,16 +583,119 @@ class PatternEditableTableSqlQuery {
                             $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_tc\" value=\"" . $this->aStoreColumnNames[$i] . "\" />\n";
 							//output the column type
 							$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_type\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+							
 							if ($this->aColumnsVisible[$i]) {
 								if ($this->aColumnsEditable[$i]) {
-									$oPattern = & new PatternMetaData($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]));
-									$sToRender .= $oPattern->render();
-								} else {
+
+                  		 //=============== if para category ===============>>
+//=============>> en esta parte lo que se realiza con el if es quitar la parte de Category de la parte de AddDoc ======>>
+
+
+
+								  if (!strcmp($partes[0],"Category")){
+								    $sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $this->aColumnDatabaseTypes[$i] . "\" />\n";
+						} 
+
+
+else{	
+
+
+
+
+	//=============>>>> CASO PARA FECHA CALENDARIO ================>>>				 
+
+	if (!strcmp($partes[0],"Fecha") || !strcmp($partes[0],"DATE") || !strcmp($partes[0],"BIRTHDATE") || !strcmp($partes[1],"DATE")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Fecha");
+						  $sToRender .= $oPattern->render("Fecha");
+} 
+
+//=============>>>> TERMINA CASO PARA FECHA CALENDARIO ================>>>
+
+//=============>>>> CASO PARA NOMBRE VALIDACION ================>>>
+	elseif (!strcmp($partes[0],"Nombre") || !strcmp($partes[0],"NAME") ){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Nombre");
+						  $sToRender .= $oPattern->render("Nombre");
+} 
+
+	else if (!strcmp($partes23[1],"Materno")||!strcmp($partes22[1],"MOTHER)")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Materno");
+						  $sToRender .= $oPattern->render("Materno");
+	}
+
+	else if (!strcmp($partes[0],"Organizacion")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Organizacion");
+						  $sToRender .= $oPattern->render("Organizacion");
+	}
+
+	else if (!strcmp($partes[0],"Puesto")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Puesto");
+						  $sToRender .= $oPattern->render("Puesto");
+	}
+ 
+/**
+	elseif (!strcmp($partes[0],"Telefono")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"Telefono");
+						  $sToRender .= $oPattern->render("Telefono");
+} 
+*/
+	
+	else if (!strcmp($partes[0],"E-MAIL")){
+	  $oPattern = & new PatternMetaData2($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]),$elId201[0],"E-MAIL");
+						  $sToRender .= $oPattern->render("E-MAIL");
+	}
+	//=============>>>>TERMINA CASO PARA NOMBRE VALIDACION ================>>>
+
+
+else {
+
+					 
+						  $oPattern = & new PatternMetaData($sql->f($this->aMetaDataFields[$i]), $this->sUniqueName . "_" . $iRowCount . $i . "_value", $sql->f($this->aStoreColumnNames[$i]));
+						  $sToRender .= $oPattern->render();
+}
+
+
+
+}
+ 							
+					
+								
+
+	//*******************************					************************************//
+		/*codigo FElipe */		      
+ //========== en esta parte se le integra al campo fecha una accion con calendario  ===========>>
+ 
+
+							 
+ if (!strcmp($partes[0],"Fecha")){
+
+   /**   
+   echo "
+<script type='text/JavaScript' src='$default->rootUrl/lib/visualpatterns/calendario.js'></script>
+<input onclick='scwShow(this,event);' value='---' /><img src=\"$default->graphicsUrl/calendar/calendar.gif\" name=\"imgCalendar\" width=\"34\" height=\"21\" border=\"0\" alt=\"\">$this->sUniqueName</a>
+ ";
+*/
+   //<a href='#' onclick='scwShow(this,event);return false;'>
+
+
+
+
+$sToRender .= "<script type=\"text/javascript\" src=\"$default->rootUrl/lib/visualpatterns/calendario.js\"></script>";
+/**
+$sToRender .="<a href='#' onMouseOver='scwShow(this, event);'><img src=\"$default->graphicsUrl/calendar/calendar.gif\" name=\"imgCalendar\" width=\"34\" height=\"21\" border=\"0\" alt=\"\"></a>";
+**/
+  // $sToRender .= "&nbsp;&nbsp;<a href='javascript:scwShow(this,event);return false;'><img src=\"$default->graphicsUrl/calendar/calendar.gif\" name=\"imgCalendar\" width=\"34\" height=\"21\" bor der=\"0\" alt=\"\"></a>";
+   
+ /**
+ $sToRender .= "&nbsp;&nbsp;<a href=\"javascript:show_calendar('MainForm." . $this->sUniqueName . "_" . $iRowCount . $i . "_value"  . "',null,null,'YYYY-MM-DD', false);\" onmouseover=\"window.status='Date Picker';return true;\" onmouseout=\"window.status='';return true;\"><img src=\"$default->graphicsUrl/calendar/calendar.gif\" name=\"imgCalendar\" width=\"34\" height=\"21\" border=\"0\" alt=\"\"></a>";
+ */
+
+//*****************************
+						}	}	 else {
 									$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />".$sql->f($this->aDisplayColumnNames[$i])."\n";
 								}
 							} else {
 								$sToRender .= "\t<input type=\"hidden\" name=\"" . $this->sUniqueName . "_" . $iRowCount . $i . "_value\" value=\"" . $sql->f($this->aStoreColumnNames[$i]) . "\" />\n";
-							}							
+							} }							
 							break;
 							
 							break;
@@ -244,6 +715,7 @@ class PatternEditableTableSqlQuery {
 			}
 		}
 		$sToRender .= "</table>";
+		//$sToRender .= $partes2[0]
 		if (isset($this->aRequiredVariables)) {
 			if ($this->bRenderJavascriptValidation) {
 				$sToRender .= $this->generateRequiredFieldValidation($this->aRequiredVariables);
